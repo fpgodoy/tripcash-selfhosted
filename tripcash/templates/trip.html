@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Trip{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <label for="trip">Title</label>
+    <input autocomplete="off" autofocus name="trip_name" id="trip_name" required type="text">
+    
+    <input type="submit" value="Create Trip">
+  </form>
+{% endblock %}

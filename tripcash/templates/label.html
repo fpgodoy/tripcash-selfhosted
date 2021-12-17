@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Label{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <label for="label">Title</label>
+    <input autocomplete="off" autofocus name="label" id="label" required type="text">
+    
+    <input type="submit" value="Create Label">
+  </form>
+{% endblock %}

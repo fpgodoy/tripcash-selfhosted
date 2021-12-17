@@ -1,6 +1,7 @@
 import os
 
 from flask import Flask
+from flask.templating import render_template
 
 def create_app(test_config=None):
     # create and configure the app
@@ -23,9 +24,10 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    @app.route('/starting')
-    def starting():
-        return 'TripCash'
+    @app.route('/index')
+    @app.route('/')
+    def index():
+        return render_template("index.html")
     
     from . import db
     db.init_app(app)
@@ -35,5 +37,11 @@ def create_app(test_config=None):
 
     from . import post
     app.register_blueprint(post.bp)
+
+    from . import trip
+    app.register_blueprint(trip.bp)
+
+    from . import label
+    app.register_blueprint(label.bp)
     
     return app

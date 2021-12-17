@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}Log In{% endblock %}</h1>
+  <h1>{% block title %}Post{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
@@ -9,7 +9,7 @@
     <label for="trip">Trip</label>
     <select name="trip">
         {% for trip in trip_list %}
-            <option value={{ trip }}>{{ trip }}</option>
+            <option value={{ trip[0] }}>{{ trip[0] }}</option>
         {% endfor %}
     </select>    
     <label for="date">Date</label>
@@ -17,7 +17,7 @@
     <label for="currency">Currency</label> 
     <select name="currency">
         {% for currency in currency_list %}
-            <option value={{ currency }}>{{ currency }}</option>
+            <option value={{ currency[0] }}>{{ currency[0] }}</option>
         {% endfor %}
     </select>
     <label for="amount">Amount</label>
@@ -27,7 +27,7 @@
     <label for="label">Label</label>
     <select name="label">
         {% for label in label_list %}
-            <option value={{ label }}>{{ label }}</option>
+            <option value={{ label[0] }}>{{ label[0] }}</option>
         {% endfor %}
     </select>
     <input type="submit" value="Post">

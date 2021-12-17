@@ -27,18 +27,22 @@ CREATE TABLE post (
 
 CREATE TABLE labels (
     label_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    label_name TEXT NOT NULL
+    label_name TEXT UNIQUE NOT NULL
 );
 
 CREATE TABLE trip (
     trip_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    trip_name TEXT NOT NULL,
+    trip_name TEXT UNIQUE NOT NULL,
     user INTEGER NO NULL,
     FOREIGN KEY (user) REFERENCES user (id)
 );
 
 CREATE TABLE currency (
     currency_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    currency_name TEXT NOT NULL,
+    currency_name TEXT UNIQUE NOT NULL,
     symbol TEXT NOT NULL
 );
+
+INSERT INTO currency (currency_name, symbol) VALUES ('Dolar', 'U$');
+INSERT INTO currency (currency_name, symbol) VALUES ('Euro', '€');
+INSERT INTO currency (currency_name, symbol) VALUES ('Real', 'R$');

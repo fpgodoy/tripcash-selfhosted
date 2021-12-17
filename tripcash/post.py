@@ -1,5 +1,3 @@
-import functools
-
 from flask import (
     Blueprint, blueprints, flash, g, redirect, render_template, request, session, url_for
 )
@@ -13,18 +11,18 @@ def post():
     # Access DB data
     db = get_db()
     trip_list = db.execute(
-        "SELECT trip_name FROM trip"
+        'SELECT trip_name FROM trip'
     ).fetchall()
     currency_list = db.execute(
-        "SELECT currency_name FROM currency"
+        'SELECT currency_name FROM currency'
     ).fetchall()
     label_list = db.execute(
-        "SELECT label_name FROM labels"
+        'SELECT label_name FROM labels'
     ).fetchall()
     
     
-    if request.method == 'POST':
-        author = session['user_id']
+    if request.method == 'POST':       
+        author = g.user['id']
         trip = request.form['trip']
         date = request.form['date']
         currency = request.form['currency']
@@ -35,6 +33,15 @@ def post():
 
         if not trip or not date or not currency or not amount or not title or not label:
             error = 'All the fields should be filled.'
+        
+        if trip not in trip_list[0]:
+            error = 'Invalid trip.'
+
+        #if currency not in currency_list[0]:
+            error = 'Invalid currency.'
+        
+        if label not in label_list[0]:
+            error = 'Invalid label.'
         
         if error is None:
             db.execute(

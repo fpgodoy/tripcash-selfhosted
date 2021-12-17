@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Index{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+    {% if g.user %}
+        <ul>
+            <li><a href=/post>Post</a></li>
+            <li><a href=/trip>Add a Trip</a></li>
+            <li><a href=/label>Add a Label</a></li>
+        </ul>
+    {% else %}
+        Login to use Tripcash
+    {% endif %}
+{% endblock %}
