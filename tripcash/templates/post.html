@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Log In{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <label for="trip">Trip</label>
+    <select name="trip">
+        {% for trip in trip_list %}
+            <option value={{ trip }}>{{ trip }}</option>
+        {% endfor %}
+    </select>    
+    <label for="date">Date</label>
+    <input autocomplete="off" name="date" id="date" required type="date">   
+    <label for="currency">Currency</label> 
+    <select name="currency">
+        {% for currency in currency_list %}
+            <option value={{ currency }}>{{ currency }}</option>
+        {% endfor %}
+    </select>
+    <label for="amount">Amount</label>
+    <input autocomplete="off" name="amount" required type="number" min="0.00" step="0.01">
+    <label for="title">Title</label>
+    <input autocomplete="off" name="title" required type="text">
+    <label for="label">Label</label>
+    <select name="label">
+        {% for label in label_list %}
+            <option value={{ label }}>{{ label }}</option>
+        {% endfor %}
+    </select>
+    <input type="submit" value="Post">
+  </form>
+{% endblock %}

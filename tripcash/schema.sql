@@ -32,7 +32,9 @@ CREATE TABLE labels (
 
 CREATE TABLE trip (
     trip_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    trip_name TEXT NOT NULL
+    trip_name TEXT NOT NULL,
+    user INTEGER NO NULL,
+    FOREIGN KEY (user) REFERENCES user (id)
 );
 
 CREATE TABLE currency (
