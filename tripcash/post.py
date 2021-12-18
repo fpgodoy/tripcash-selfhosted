@@ -1,23 +1,25 @@
 from flask import (
     Blueprint, blueprints, flash, g, redirect, render_template, request, session, url_for
 )
+from tripcash.auth import login_required
 
 from tripcash.db import get_db
 
 bp = Blueprint('post', __name__)
 
 @bp.route('/post', methods=('GET', 'POST'))
+@login_required
 def post():
     # Access DB data
     db = get_db()
     trip_list = db.execute(
-        'SELECT trip_name FROM trip'
+        'SELECT trip_id, trip_name FROM trip WHERE user=?', (g.user['id'],)
     ).fetchall()
     currency_list = db.execute(
         'SELECT currency_name FROM currency'
     ).fetchall()
     label_list = db.execute(
-        'SELECT label_name FROM labels'
+        'SELECT label_id, label_name FROM labels'
     ).fetchall()
     
     
@@ -34,14 +36,14 @@ def post():
         if not trip or not date or not currency or not amount or not title or not label:
             error = 'All the fields should be filled.'
         
-        if trip not in trip_list[0]:
-            error = 'Invalid trip.'
+        # if trip not in trip_list[0]:
+        #     error = 'Invalid trip.'
 
-        #if currency not in currency_list[0]:
-            error = 'Invalid currency.'
+        # if currency not in currency_list[0]:
+        #     error = 'Invalid currency.'
         
-        if label not in label_list[0]:
-            error = 'Invalid label.'
+        # if label not in label_list[0]:
+        #     error = 'Invalid label.'
         
         if error is None:
             db.execute(
@@ -49,7 +51,7 @@ def post():
                 (author, trip, date, currency, amount, title, label)
             )
             db.commit()
-            return redirect(url_for("index"))
+            return redirect(url_for('list.list'))
         
         flash(error)
 

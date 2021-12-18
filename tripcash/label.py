@@ -4,9 +4,12 @@ from flask import (
 
 from tripcash.db import get_db
 
+from tripcash.auth import login_required
+
 bp = Blueprint('label', __name__)
 
 @bp.route('/label', methods=('GET', 'POST'))
+@login_required
 def trip():
     db = get_db()
 

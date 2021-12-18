@@ -23,12 +23,7 @@ def create_app(test_config=None):
         os.makedirs(app.instance_path)
     except OSError:
         pass
-
-    @app.route('/index')
-    @app.route('/')
-    def index():
-        return render_template("index.html")
-    
+   
     from . import db
     db.init_app(app)
 
@@ -43,5 +38,12 @@ def create_app(test_config=None):
 
     from . import label
     app.register_blueprint(label.bp)
+
+    from . import list
+    app.register_blueprint(list.bp)
+
+    from . import home
+    app.register_blueprint(home.bp)
+    app.add_url_rule('/', endpoint='index')
     
     return app

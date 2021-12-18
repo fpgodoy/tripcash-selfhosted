@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}List{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+    <table>
+        <thead>
+            <tr>
+                <th>Trip</th>
+                <th>Date</th>
+                <th>Title</th>
+                <th>Amount</th>
+                <th>Label</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for post in list %}
+                <tr>
+                    <td>{{ post.trip }}</td>
+                    <td>{{ post.date }}</td>
+                    <td>{{ post.title }}</td>
+                    <td>{{ post.amount }}</td>
+                    <td>{{ post.label }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
