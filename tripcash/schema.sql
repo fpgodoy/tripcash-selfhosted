@@ -21,13 +21,15 @@ CREATE TABLE post (
     label INTEGER NOT NULL,
     FOREIGN KEY (author_id) REFERENCES user (id),
     FOREIGN KEY (label) REFERENCES labels (label_id),
-    FOREIGN KEY (currency) REFERENCES currency (currency_id)
+    FOREIGN KEY (currency) REFERENCES currency (currency_id),
     FOREIGN KEY (trip) REFERENCES currency (trip_id)
 );
 
 CREATE TABLE labels (
     label_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    label_name TEXT UNIQUE NOT NULL
+    label_name TEXT UNIQUE NOT NULL,
+    user INTEGER NO NULL,
+    FOREIGN KEY (user) REFERENCES user (id)
 );
 
 CREATE TABLE trip (

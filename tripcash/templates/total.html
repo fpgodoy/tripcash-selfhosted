@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Total{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+    <table>
+        <thead>
+            <tr>
+                <th>Label</th>
+                <th>Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for total in totals %}
+                <tr>
+                    <td>{{ total.label }}</td>
+                    <td>{{ total.amount }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
