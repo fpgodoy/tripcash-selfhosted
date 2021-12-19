@@ -18,10 +18,18 @@ def post():
     currency_list = db.execute(
         'SELECT currency_name FROM currency'
     ).fetchall()
-    label_list = db.execute(
-        'SELECT label_id, label_name FROM labels'
-    ).fetchall()
+    label_list = db.execute(        
+            "SELECT label_id, label_name FROM labels WHERE user = ?", (g.user['id'],)
+        ).fetchall()
     
+    checkcurrency = []
+    for row in currency_list:
+        checkcurrency.append(row[0])    
+    
+    checklabel = []
+    for row in label_list:
+        checklabel.append(row[0])
+
     
     if request.method == 'POST':       
         author = g.user['id']
@@ -30,17 +38,17 @@ def post():
         currency = request.form['currency']
         amount = request.form['amount']
         title = request.form['title']
-        label = request.form['label']
+        label = int(request.form['label'])
         error = None
 
         if not date or not currency or not amount or not title or not label:
             error = 'All the fields should be filled.'
         
-        # if currency not in currency_list[0]:
-        #     error = 'Invalid currency.'
+        if currency not in checkcurrency:
+            error = 'Invalid currency.'
         
-        # if label not in label_list[0]:
-        #     error = 'Invalid label.'
+        if label not in checklabel:
+            error = 'Invalid label.'
         
         if error is None:
             db.execute(
