@@ -13,10 +13,13 @@ def list():
     # Access DB data
     db = get_db()
     user = g.user['id']
+    g.trip = db.execute(
+            "SELECT user.current_trip AS trip_id, trip.trip_name AS trip_name FROM user INNER JOIN trip on trip.trip_id=user.current_trip WHERE user.id=?", (g.user['id'],)
+        ).fetchone()
 
     list = db.execute(
-        "SELECT trip.trip_name AS trip, post.post_date AS date, post.currency, post.amount, post.title, labels.label_name FROM post INNER JOIN trip ON post.trip=trip.trip_id INNER JOIN labels ON post.label=labels.label_id WHERE author_id = ?"
-        , (user,)
+        "SELECT post.post_date AS date, post.currency, post.amount, post.title, labels.label_name AS label FROM post INNER JOIN labels ON post.label=labels.label_id WHERE post.author_id = ? AND post.trip = ?"
+        , (user, g.trip[0])
     ).fetchall()
 
     return render_template('list.html', list=list)
@@ -27,10 +30,13 @@ def total():
     # Access DB data
     db = get_db()
     user = g.user['id']
+    g.trip = db.execute(
+            "SELECT user.current_trip AS trip_id, trip.trip_name AS trip_name FROM user INNER JOIN trip on trip.trip_id=user.current_trip WHERE user.id=?", (g.user['id'],)
+        ).fetchone()
 
     totals = db.execute(
-        "SELECT SUM(post.amount) AS amount, labels.label_name AS label FROM post INNER JOIN labels ON post.label=labels.label_id  WHERE author_id = ? GROUP BY label"
-        , (user,)
+        "SELECT SUM(post.amount) AS amount, labels.label_name AS label FROM post INNER JOIN labels ON post.label=labels.label_id  WHERE post.trip = ? AND post.author_id = ? GROUP BY label"
+        , (user, g.trip[0])
     ).fetchall()
 
     return render_template('total.html', totals=totals)

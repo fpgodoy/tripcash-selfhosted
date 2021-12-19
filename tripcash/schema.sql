@@ -7,7 +7,9 @@ DROP TABLE IF EXISTS currency;
 CREATE TABLE user (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT UNIQUE NOT NULL,
-    password TEXT NOT NULL
+    current_trip INTEGER,
+    password TEXT NOT NULL,
+    FOREIGN KEY (trip) REFERENCES currency (trip_id)
 );
 
 CREATE TABLE post (
@@ -34,7 +36,7 @@ CREATE TABLE labels (
 
 CREATE TABLE trip (
     trip_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    trip_name TEXT UNIQUE NOT NULL,
+    trip_name TEXT NOT NULL,
     user INTEGER NO NULL,
     FOREIGN KEY (user) REFERENCES user (id)
 );

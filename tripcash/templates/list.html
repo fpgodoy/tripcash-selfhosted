@@ -1,14 +1,13 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}List{% endblock %}</h1>
+  <h1>{% block title %}List - {{ g.trip[1] }} {% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
     <table>
         <thead>
             <tr>
-                <th>Trip</th>
                 <th>Date</th>
                 <th>Title</th>
                 <th>Amount</th>
@@ -18,7 +17,6 @@
         <tbody>
             {% for post in list %}
                 <tr>
-                    <td>{{ post.trip }}</td>
                     <td>{{ post.date }}</td>
                     <td>{{ post.title }}</td>
                     <td>{{ post.amount }}</td>

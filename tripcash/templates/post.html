@@ -6,12 +6,6 @@
 
 {% block content %}
   <form method="post">
-    <label for="trip">Trip</label>
-    <select name="trip">
-        {% for trip in trip_list %}
-            <option value={{ trip[0] }}>{{ trip[1] }}</option>
-        {% endfor %}
-    </select>    
     <label for="date">Date</label>
     <input autocomplete="off" name="date" id="date" required type="date">   
     <label for="currency">Currency</label> 

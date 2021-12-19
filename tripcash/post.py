@@ -12,9 +12,9 @@ bp = Blueprint('post', __name__)
 def post():
     # Access DB data
     db = get_db()
-    trip_list = db.execute(
-        'SELECT trip_id, trip_name FROM trip WHERE user=?', (g.user['id'],)
-    ).fetchall()
+    g.trip = db.execute(
+            "SELECT user.current_trip AS trip_id, trip.trip_name AS trip_name FROM user INNER JOIN trip on trip.trip_id=user.current_trip WHERE user.id=?", (g.user['id'],)
+        ).fetchone()
     currency_list = db.execute(
         'SELECT currency_name FROM currency'
     ).fetchall()
@@ -25,7 +25,7 @@ def post():
     
     if request.method == 'POST':       
         author = g.user['id']
-        trip = request.form['trip']
+        trip = g.trip[0]
         date = request.form['date']
         currency = request.form['currency']
         amount = request.form['amount']
@@ -33,12 +33,9 @@ def post():
         label = request.form['label']
         error = None
 
-        if not trip or not date or not currency or not amount or not title or not label:
+        if not date or not currency or not amount or not title or not label:
             error = 'All the fields should be filled.'
         
-        # if trip not in trip_list[0]:
-        #     error = 'Invalid trip.'
-
         # if currency not in currency_list[0]:
         #     error = 'Invalid currency.'
         
@@ -55,4 +52,4 @@ def post():
         
         flash(error)
 
-    return render_template('post.html', trip_list=trip_list, currency_list=currency_list, label_list=label_list)
+    return render_template('post.html', currency_list=currency_list, label_list=label_list)

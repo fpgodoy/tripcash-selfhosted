@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}Total{% endblock %}</h1>
+  <h1>{% block title %}Total - {{ g.trip[1] }} {% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
@@ -13,10 +13,10 @@
             </tr>
         </thead>
         <tbody>
-            {% for total in totals %}
+            {% for each in totals %}
                 <tr>
-                    <td>{{ total.label }}</td>
-                    <td>{{ total.amount }}</td>
+                    <td>{{ each.label }}</td>
+                    <td>{{ each.amount }}</td>
                 </tr>
             {% endfor %}
         </tbody>
