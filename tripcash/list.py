@@ -36,7 +36,7 @@ def total():
 
     totals = db.execute(
         "SELECT SUM(post.amount) AS amount, labels.label_name AS label FROM post INNER JOIN labels ON post.label=labels.label_id  WHERE post.trip = ? AND post.author_id = ? GROUP BY label"
-        , (user, g.trip[0])
+        , (g.trip[0], g.user['id'])
     ).fetchall()
 
     return render_template('total.html', totals=totals)
