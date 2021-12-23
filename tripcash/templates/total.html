@@ -16,7 +16,7 @@
             {% for each in totals %}
                 <tr>
                     <td>{{ each.label }}</td>
-                    <td>{{ each.amount }}</td>
+                    <td class="money">{{ each.amount | currencyFormat }}</td>
                 </tr>
             {% endfor %}
         </tbody>

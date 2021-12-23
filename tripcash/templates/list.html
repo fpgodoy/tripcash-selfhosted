@@ -19,7 +19,7 @@
                 <tr>
                     <td>{{ post.date }}</td>
                     <td>{{ post.title }}</td>
-                    <td>{{ post.amount }}</td>
+                    <td class="money">{{ post.amount | currencyFormat }}</td>
                     <td>{{ post.label }}</td>
                 </tr>
             {% endfor %}
