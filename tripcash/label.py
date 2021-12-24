@@ -12,6 +12,9 @@ bp = Blueprint('label', __name__)
 @login_required
 def trip():
     db = get_db()
+    labels = db.execute(
+        'SELECT label_name FROM labels WHERE user=?', (g.user['id'],)
+    ).fetchall()
 
     if request.method == 'POST':
         user = session.get('user_id')
@@ -37,5 +40,5 @@ def trip():
             
         flash(error)
 
-    return render_template('label.html')
+    return render_template('label.html', labels=labels)
     

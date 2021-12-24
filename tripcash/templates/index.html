@@ -6,6 +6,7 @@
 
 {% block content %}
     {% if g.user %}
+        <div class="menu">
         {% if not g.trip %}
             <form method="post">
                 <label for="trip">Choose The Trip</label>
@@ -17,19 +18,20 @@
                 <input type="submit" value="Choose">
             </form>
         {% else %}
-        <h2>Current trip: {{ g.trip[1] }}</h2>
-        <ul>
-            <li><a href=/post>Post</a></li>
-            <li><a href=/list>List</a></li>
-            <li><a href=/total>Total</a></li>
-        </ul>
+        <h2>Expenses</h2>
+        <div class="menu-submenu">
+            <a href=/post class="menu-item">New</a>
+            <a href=/list class="menu-item">List</a>
+            <a href=/total class="menu-item">Total</a>
+        </div>
 
         {% endif %}
-
-        <ul>
-            <li><a href=/trip>Add a Trip</a></li>
-            <li><a href=/label>Add a Label</a></li>
-        </ul>
+        <h2>Configs</h2>
+        <div class="menu-submenu">
+            <a href=/trip class="menu-item">Add a Trip </a>
+            <a href=/label class="menu-item">Add a Label</a>
+        </div>
+        </div>
     {% else %}
         Login to use Tripcash
     {% endif %}
