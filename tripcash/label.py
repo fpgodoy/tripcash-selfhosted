@@ -14,6 +14,7 @@ def trip():
     db = get_db()
 
     if request.method == 'POST':
+        user = session.get('user_id')
         label = request.form['label']
         error = None
 
@@ -23,8 +24,8 @@ def trip():
         if error is None:
                 try:
                     db.execute(
-                        'INSERT INTO labels (label_name) VALUES (?)',
-                        (label, )
+                        'INSERT INTO labels (label_name, user) VALUES (?, ?)',
+                        (label, user)
                     )
                     db.commit()
 
