@@ -6,9 +6,24 @@
 
 {% block content %}
   <form method="post">
-    <label for="label">Title</label>
+    <label for="label">New Label</label>
     <input autocomplete="off" autofocus name="label" id="label" required type="text">
     
     <input type="submit" value="Create Label">
   </form>
+<h2>Existing Labels</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Label</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for each in labels %}
+      <tr>
+        <td>{{ each.label_name }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
 {% endblock %}
