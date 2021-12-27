@@ -4,6 +4,11 @@
     padding: 0;
     box-sizing: border-box;
     text-decoration: none;
+    font-size: 100%;
+}
+
+ul {
+    list-style-type: none;
 }
 
 .navbar {
@@ -11,6 +16,8 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    align-content: center;
+    column-gap: 10px;
     padding-top: 10px;
     padding-bottom: 10px;
     padding-left: 20px;
@@ -21,18 +28,25 @@
     border-bottom: 0.4px solid #a09a9a;
 }
 
-.navbar-items {
-    display: flex;
-    gap: 30px;
-}
-
 .navbar-title {
     font-family: 'Ubuntu', sans-serif;
     font-size: 30px;
 }
 
+.navbar-items {
+    display: flex;
+    justify-content: space-between;
+    column-gap: 10px;
+    font-size: clamp(0.5em, 3vw, 1.2em);
+}
+
+.navbar-items-pack {
+    display: flex;
+    flex-flow: row wrap;
+    column-gap: 10px;
+}
+
 body {
-    font-size: 100%;
     background: linear-gradient(68.15deg, #a3bebe 16.62%, #c8dfb8 85.61%);
     height: 100vh;
 }
@@ -50,12 +64,13 @@ h2 {
 
 .menu-submenu {
     display: flex;
-    flex-direction: row;
+    flex-flow: row wrap;
     justify-content: space-around;
     font-family: 'Roboto', sans-serif;
     font-size: 20px;
     margin-inline: 20vw;
     margin-bottom: 10vh;
+    row-gap: 10px;
 }
 
 .menu-item {
@@ -63,7 +78,7 @@ h2 {
     align-self: center;
     text-align: center;
     padding: 20px;
-    width: 10vw;
+    min-width: 10vw;
 }
 
 table {
@@ -80,4 +95,17 @@ tr:nth-child(even) {
 }
 .money {
     text-align: right;
+}
+form {
+    display: inline-flex;
+    flex-direction: column;
+}
+
+input[type=submit] {
+    max-width: 50%;
+}
+
+footer {
+    font-size: large;
+    margin-top: 20px;
 }

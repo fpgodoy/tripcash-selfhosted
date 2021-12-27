@@ -8,7 +8,7 @@
     {% if g.user %}
         <div class="menu">
         {% if not g.trip %}
-            <form method="post">
+            <form method="post" class="menu-choosetrip">
                 <label for="trip">Choose The Trip</label>
                 <select name="trip">
                     {% for trip in trip_list %}

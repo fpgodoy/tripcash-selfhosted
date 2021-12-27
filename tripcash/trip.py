@@ -12,30 +12,35 @@ bp = Blueprint('trip', __name__)
 @login_required
 def trip():
     db = get_db()
+    trip_list = db.execute(
+        'SELECT trip_name FROM trip WHERE user=?', (g.user['id'],)
+    ).fetchall()
 
     if request.method == 'POST':
         author = session.get('user_id')
-        trip = request.form['trip_name']
+        trip = request.form['trip_name'].strip()
         error = None
+
+        checktrip = []
+        for row in trip_list:
+            checktrip.append(row[0].upper())
 
         if not trip:
             error = 'Need to fill the trip name.'
 
-        if error is None:
-                try:
-                    db.execute(
-                        "INSERT INTO trip (user, trip_name) VALUES (?, ?)",
-                        (author, trip)
-                    )
-                    db.commit()
+        if trip.upper() in checktrip:
+            error = f"Trip {trip} is already registered."
 
-                except db.IntegrityError:
-                    error = f"Trip {trip} is already registered."
-                else:                    
-                    return redirect(url_for("index"))
+        if error is None:
+            db.execute(
+                "INSERT INTO trip (user, trip_name) VALUES (?, ?)",
+                (author, trip)
+            )
+            db.commit()
                 
+            return redirect(url_for("trip.trip"))    
             
         flash(error)
 
-    return render_template('trip.html')
+    return render_template('trip.html', trips=trip_list)
     

@@ -18,7 +18,7 @@ def list():
         ).fetchone()
 
     list = db.execute(
-        "SELECT post.post_date AS date, post.currency, post.amount, post.title, labels.label_name AS label FROM post INNER JOIN labels ON post.label=labels.label_id WHERE post.author_id = ? AND post.trip = ?"
+        "SELECT post.post_date AS date, post.amount, post.title, labels.label_name AS label FROM post INNER JOIN labels ON post.label=labels.label_id WHERE post.author_id = ? AND post.trip = ?"
         , (user, g.trip[0])
     ).fetchall()
 

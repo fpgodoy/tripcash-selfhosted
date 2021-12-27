@@ -2,14 +2,12 @@ DROP TABLE IF EXISTS user;
 DROP TABLE IF EXISTS post;
 DROP TABLE IF EXISTS labels;
 DROP TABLE IF EXISTS trip;
-DROP TABLE IF EXISTS currency;
 
 CREATE TABLE user (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT UNIQUE NOT NULL,
     current_trip INTEGER,
-    password TEXT NOT NULL,
-    FOREIGN KEY (trip) REFERENCES currency (trip_id)
+    password TEXT NOT NULL
 );
 
 CREATE TABLE post (
@@ -17,19 +15,16 @@ CREATE TABLE post (
     author_id INTEGER NOT NULL,
     trip INTEGER NOT NULL,
     post_date DATE NOT NULL,
-    currency TEXT NOT NULL,
     amount NUMERIC NOT NULL,
     title TEXT NOT NULL,
     label INTEGER NOT NULL,
     FOREIGN KEY (author_id) REFERENCES user (id),
-    FOREIGN KEY (label) REFERENCES labels (label_id),
-    FOREIGN KEY (currency) REFERENCES currency (currency_id),
-    FOREIGN KEY (trip) REFERENCES currency (trip_id)
+    FOREIGN KEY (label) REFERENCES labels (label_id)
 );
 
 CREATE TABLE labels (
     label_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    label_name TEXT UNIQUE NOT NULL,
+    label_name TEXT NOT NULL,
     user INTEGER NO NULL,
     FOREIGN KEY (user) REFERENCES user (id)
 );
@@ -40,13 +35,3 @@ CREATE TABLE trip (
     user INTEGER NO NULL,
     FOREIGN KEY (user) REFERENCES user (id)
 );
-
-CREATE TABLE currency (
-    currency_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    currency_name TEXT UNIQUE NOT NULL,
-    symbol TEXT NOT NULL
-);
-
-INSERT INTO currency (currency_name, symbol) VALUES ('Dolar', 'U$');
-INSERT INTO currency (currency_name, symbol) VALUES ('Euro', '€');
-INSERT INTO currency (currency_name, symbol) VALUES ('Real', 'R$');

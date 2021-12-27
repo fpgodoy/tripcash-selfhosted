@@ -10,35 +10,38 @@ bp = Blueprint('label', __name__)
 
 @bp.route('/label', methods=('GET', 'POST'))
 @login_required
-def trip():
+def label():
     db = get_db()
-    labels = db.execute(
+    label_list = db.execute(
         'SELECT label_name FROM labels WHERE user=?', (g.user['id'],)
     ).fetchall()
 
     if request.method == 'POST':
         user = session.get('user_id')
-        label = request.form['label']
+        label = request.form['label'].strip()
         error = None
 
-        if not trip:
+        checklabel = []
+        for row in label_list:
+            checklabel.append(row[0].upper())
+
+        if not label:
             error = 'Need to fill the label name.'
 
-        if error is None:
-                try:
-                    db.execute(
-                        'INSERT INTO labels (label_name, user) VALUES (?, ?)',
-                        (label, user)
-                    )
-                    db.commit()
+        if label.upper() in checklabel:
+            error = f"Label {label} is already registered."
 
-                except db.IntegrityError:
-                    error = f"Label {label} is already registered."
-                else:                    
-                    return redirect(url_for("index"))
+        if error is None:
+                db.execute(
+                    'INSERT INTO labels (label_name, user) VALUES (?, ?)',
+                    (label, user)
+                )
+                db.commit()
+                        
+                return redirect(url_for("label.label"))
                 
             
         flash(error)
 
-    return render_template('label.html', labels=labels)
+    return render_template('label.html', labels=label_list)
     

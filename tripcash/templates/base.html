@@ -9,17 +9,23 @@
   </head>
   <nav class="navbar">
       <a href="{{ url_for('index') }}" class="navbar-title">Tripcash</a>
-      <div class="navbar-items">
+      <ul class="navbar-items">
         {% if g.user %}
           {% if g.trip %}
-            <p>Trip: {{ g.trip[1] }} | <a href="{{ url_for('home.change_trip') }}" class="navbar-link">Change</a> </p>
+            <div class="navbar-items-pack">
+              <li>Trip: {{ g.trip[1] }}</li>
+              <li><a href="{{ url_for('home.change_trip') }}" class="navbar-link">Change</a></li>
+            </div>
           {% endif %}
-          <p class="navbar-username">User: {{ g.user['username'] }} | <a href="{{ url_for('auth.logout') }}" class="navbar-link">Log Out</a></p>
+          <div class="navbar-items-pack">
+            <li>User: {{ g.user['username'] }}</li>
+            <li><a href="{{ url_for('auth.logout') }}" class="navbar-link">Log Out</a></li>
+          </div>
         {% else %}
-          <a href="{{ url_for('auth.register') }}" class="navbar-link">Register</a>
-          <a href="{{ url_for('auth.login') }}" class="navbar-link">Log In</a>
+          <li><a href="{{ url_for('auth.register') }}" class="navbar-link">Register</a></li>
+          <li><a href="{{ url_for('auth.login') }}" class="navbar-link">Log In</a></li>
         {% endif %}
-      </div>
+        </ul>
   </nav>  
   <section class="content">
     <header>
@@ -31,5 +37,8 @@
       {% endfor %}
       {% block content %}{% endblock %}
     </body>
+    <footer>
+      <a href="{{ url_for('index') }}">Back to index</a>
+    </footer>
   </section>
 </html>
