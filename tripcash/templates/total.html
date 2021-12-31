@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}Total{% endblock %}</h1>
+  <h1>{% block title %}Total - {{ date }}{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
@@ -21,4 +21,17 @@
             {% endfor %}
         </tbody>
     </table>
+
+    <p>Select a date to filter the total expenses:</p>
+    <form method="post">
+        <label for="date">Date</label>
+        <select name="date">
+            <option value="all">All dates</option>
+            {% for date in dates_list %}
+                <option value={{ date[0] }}>{{ date[0] }}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="Filter">
+    </form>
+
 {% endblock %}

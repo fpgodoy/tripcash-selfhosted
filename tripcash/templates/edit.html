@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Edit{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <label for="date">Date</label>
+    <input autocomplete="off" name="date" id="date" value="{{ expense.post_date }}" required type="date">
+    <label for="amount">Amount</label>
+    <input autocomplete="off" class="money" name="amount" value="{{ expense.amount }}" required type="number">
+    <label for="title">Title</label>
+    <input autocomplete="off" name="title" value="{{ expense.title }}" required type="text">
+    <label for="label">Label</label>
+    <select name="label">
+        {% for label in label_list %}
+          {% if label[0] == expense.label %}
+            <option value={{ label[0] }} selected>{{ label[1] }}</option>
+          {% else %}
+            <option value={{ label[0] }}>{{ label[1] }}</option>
+          {% endif %}
+        {% endfor %}
+    </select>
+    <label for="trip">Trip</label>
+    <select name="trip">
+        {% for trip in trip_list %}
+         {% if trip[0] == expense.trip %}
+          <option value={{ trip[0] }} selected>{{ trip[1] }}</option>
+          {% else %}
+            <option value={{ trip[0] }}>{{ trip[1] }}</option>
+          {% endif %}
+        {% endfor %}
+    </select>
+    <input type="submit" value="Edit">
+  </form>
+{% endblock %}

@@ -12,6 +12,7 @@
                 <th>Title</th>
                 <th>Amount</th>
                 <th>Label</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -21,6 +22,10 @@
                     <td>{{ post.title }}</td>
                     <td class="money">{{ post.amount | currencyFormat }}</td>
                     <td>{{ post.label }}</td>
+                    <td class="buttonsform">
+                        <form action="{{ url_for('list.edit', id=post['id']) }}" method="GET"><input  type="submit" value="Edit"></form>
+                        <form action="{{ url_for('list.delete', id=post['id']) }}" method="POST"><input type="submit" value="Delete" onclick="return confirm('Are you sure?');"></form>
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>

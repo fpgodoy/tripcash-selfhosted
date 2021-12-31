@@ -4,7 +4,6 @@
     padding: 0;
     box-sizing: border-box;
     text-decoration: none;
-    font-size: 100%;
 }
 
 ul {
@@ -82,27 +81,37 @@ h2 {
 }
 
 table {
-    width: 80%;
+    max-width: 80%;
     margin: 20px;
+    text-align: center;
 }
 thead {
-    text-align: center;
     background-color: #536d7e;
     color: white;
 }
+
+td {
+    padding-inline: 20px;
+}
+
 tr:nth-child(even) {
     background-color: #8a9197;
 }
 .money {
     text-align: right;
 }
-form {
+.postform {
     display: inline-flex;
     flex-direction: column;
+    margin-bottom: 20px;
 }
 
-input[type=submit] {
-    max-width: 50%;
+.buttonsform {
+    display: flex;
+    flex:none;
+    flex-flow: row wrap;
+    gap: 20px;
+    justify-content: space-around;
 }
 
 footer {
