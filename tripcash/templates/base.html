@@ -7,38 +7,40 @@
     <meta name="description" content="The perfect tool to deal with your trip's finance.">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   </head>
-  <nav class="navbar">
-      <a href="{{ url_for('index') }}" class="navbar-title">Tripcash</a>
-      <ul class="navbar-items">
-        {% if g.user %}
-          {% if g.trip %}
+  <section>
+    <nav class="navbar">
+        <a href="{{ url_for('index') }}" class="navbar-title">Tripcash</a>
+        <ul class="navbar-items">
+          {% if g.user %}
+            {% if g.trip %}
+              <div class="navbar-items-pack">
+                <li>Trip: {{ g.trip[1] }}</li>
+                <li><a href="{{ url_for('home.change_trip') }}" class="navbar-link">Change</a></li>
+              </div>
+            {% endif %}
             <div class="navbar-items-pack">
-              <li>Trip: {{ g.trip[1] }}</li>
-              <li><a href="{{ url_for('home.change_trip') }}" class="navbar-link">Change</a></li>
+              <li>User: {{ g.user['username'] }}</li>
+              <li><a href="{{ url_for('auth.logout') }}" class="navbar-link">Log Out</a></li>
             </div>
+          {% else %}
+            <li><a href="{{ url_for('auth.register') }}" class="navbar-link">Register</a></li>
+            <li><a href="{{ url_for('auth.login') }}" class="navbar-link">Log In</a></li>
           {% endif %}
-          <div class="navbar-items-pack">
-            <li>User: {{ g.user['username'] }}</li>
-            <li><a href="{{ url_for('auth.logout') }}" class="navbar-link">Log Out</a></li>
-          </div>
-        {% else %}
-          <li><a href="{{ url_for('auth.register') }}" class="navbar-link">Register</a></li>
-          <li><a href="{{ url_for('auth.login') }}" class="navbar-link">Log In</a></li>
-        {% endif %}
-        </ul>
-  </nav>  
-  <section class="content">
-    <header>
-      {% block header %}{% endblock %}
-    </header>
+          </ul>
+    </nav>  
     <body>
-      {% for message in get_flashed_messages() %}
-        <div class="flash">{{ message }}</div>
-      {% endfor %}
-      {% block content %}{% endblock %}
+      <header>
+        {% block header %}{% endblock %}
+      </header>
+      <main>
+        {% for message in get_flashed_messages() %}
+          <div class="flash">{{ message }}</div>
+        {% endfor %}
+        {% block content %}{% endblock %}
+      </main>
+        <footer>
+        <a href="{{ url_for('index') }}" class="menu-item">Back to index</a>
+      </footer>
     </body>
-    <footer>
-      <a href="{{ url_for('index') }}">Back to index</a>
-    </footer>
   </section>
 </html>

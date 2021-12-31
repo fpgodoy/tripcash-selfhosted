@@ -9,7 +9,7 @@
     <label for="date">Date</label>
     <input autocomplete="off" name="date" id="date" value="{{ expense.post_date }}" required type="date">
     <label for="amount">Amount</label>
-    <input autocomplete="off" class="money" name="amount" value="{{ expense.amount }}" required type="number">
+    <input autocomplete="off" class="money" name="amount" value="{{ expense.amount }}" required step="0.01" type="number">
     <label for="title">Title</label>
     <input autocomplete="off" name="title" value="{{ expense.title }}" required type="text">
     <label for="label">Label</label>
