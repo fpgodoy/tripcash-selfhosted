@@ -20,9 +20,13 @@
     </tr>
   </thead>
   <tbody>
-    {% for each in labels %}
+    {% for label in labels %}
       <tr>
-        <td>{{ each.label_name }}</td>
+        <td>{{ label.label_name }}</td>
+        <td class="buttonsform">
+          <form action="{{ url_for('label.editlabel', id=label['label_id']) }}" method="GET"><input  type="submit" value="Edit"></form>
+          <form action="{{ url_for('label.deletelabel', id=label['label_id']) }}" method="POST"><input type="submit" value="Delete" onclick="return confirm('Are you sure?');"></form>
+        </td>
       </tr>
     {% endfor %}
   </tbody>

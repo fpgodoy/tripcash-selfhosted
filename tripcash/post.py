@@ -26,7 +26,7 @@ def post():
     
     if request.method == 'POST':       
         author = g.user['id']
-        trip = g.trip[0]
+        trip = g.trip['trip_id']
         date = request.form['date']
         amount = request.form['amount']
         title = request.form['title']

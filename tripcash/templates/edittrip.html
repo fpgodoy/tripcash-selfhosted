@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Edit Trip{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+    <form method="post">
+      <label for="trip">Title</label>
+      <input autocomplete="off" autofocus name="trip_name" id="trip_name" required type="text" value="{{ trip.trip_name }}">
+      
+      <input type="submit" value="Edit Trip">
+    </form>
+
+  <h2>Existing Trips</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Trip</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for each in trips %}
+        <tr>
+          <td>{{ each.trip_name }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

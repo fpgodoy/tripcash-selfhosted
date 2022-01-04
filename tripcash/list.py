@@ -9,7 +9,8 @@ from werkzeug.exceptions import abort
 
 bp = Blueprint('list', __name__)
 
-@bp.route('/list', methods=('GET', 'POST'))
+# List all the registered expenses
+@bp.route('/list')
 @login_required
 def list():
     # Access DB data
@@ -18,29 +19,31 @@ def list():
     g.trip = db.execute(
             "SELECT user.current_trip AS trip_id, trip.trip_name AS trip_name FROM user INNER JOIN trip on trip.trip_id=user.current_trip WHERE user.id=?", (g.user['id'],)
         ).fetchone()
-
-    if request.method == 'POST':
-        
-        return
     
+    # Get the list of expenses from the current user and trip
     list = db.execute(
-        "SELECT id, post.post_date AS date, post.amount, post.title, labels.label_name AS label FROM post INNER JOIN labels ON post.label=labels.label_id WHERE post.author_id = ? AND post.trip = ?"
+        "SELECT id, post.post_date AS date, post.amount, post.title, labels.label_name AS label FROM post INNER JOIN labels ON post.label=labels.label_id WHERE post.author_id = ? AND post.trip = ? ORDER BY date"
         , (user, g.trip[0])
     ).fetchall()
 
     return render_template('list.html', list=list)
 
+# List the sum of expenses by label
 @bp.route('/total', methods=('GET', 'POST'))
 @login_required
 def total():
     # Access DB data
     db = get_db()
     user = g.user['id']
+    
+    # Get the current trip
     g.trip = db.execute(
             "SELECT user.current_trip AS trip_id, trip.trip_name AS trip_name FROM user INNER JOIN trip on trip.trip_id=user.current_trip WHERE user.id=?", (g.user['id'],)
         ).fetchone()
+    
+    # Get the dates with registered expenses
     dates = db.execute(
-        "SELECT DISTINCT post_date FROM post WHERE trip = ? AND author_id = ?"
+        "SELECT DISTINCT post_date FROM post WHERE trip = ? AND author_id = ? ORDER BY post_date"
         , (g.trip[0], g.user['id'])
     ).fetchall()
     
@@ -85,6 +88,7 @@ def total():
 
     return render_template('total.html', totals=totals, dates_list=dates, date='Trip')
 
+# Get the clicked button expense ID to edit
 def get_expense(id):
     expense = get_db().execute(
         'SELECT * FROM post WHERE id = ?',
@@ -99,6 +103,7 @@ def get_expense(id):
 
     return expense
 
+# Form to edit the expenses
 @bp.route('/<int:id>/edit', methods=('GET', 'POST'))
 @login_required
 def edit(id):
@@ -125,6 +130,8 @@ def edit(id):
         checktrip.append(row[0])
     
     if request.method == 'POST':       
+        
+        # Get the current data to fill the form
         trip = int(request.form['trip'])
         date = request.form['date']
         amount = request.form['amount']
@@ -153,6 +160,7 @@ def edit(id):
 
     return render_template('edit.html', label_list=label_list, trip_list=trip_list, expense=expense)
 
+# Delete an expense
 @bp.route('/<int:id>/delete', methods=('POST',))
 @login_required
 def delete(id):

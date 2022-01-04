@@ -17,6 +17,8 @@
                 </select>
                 <input type="submit" value="Choose">
             </form>
+        {% elif not trip_list[0][1] %}
+            <p>teste</p>
         {% else %}
         <h2>Expenses</h2>
         <div class="menu-submenu">
@@ -27,9 +29,10 @@
 
         {% endif %}
         <h2>Configs</h2>
+        <p>Manage here your trips and labels.</p>
         <div class="menu-submenu">
-            <a href=/trip class="menu-item">Add a Trip </a>
-            <a href=/label class="menu-item">Add a Label</a>
+            <a href=/trip class="menu-item">Trips</a>
+            <a href=/label class="menu-item">Labels</a>
         </div>
         </div>
     {% else %}
