@@ -20,7 +20,7 @@ def index():
         ).fetchall()
 
         if request.method == 'POST':        
-            current_trip = request.form['trip']
+            current_trip = request.form['trip_name']
             error = None
 
             if error is None:
@@ -36,7 +36,16 @@ def index():
                     "SELECT user.current_trip AS trip_id, trip.trip_name AS trip_name FROM user INNER JOIN trip on trip.trip_id=user.current_trip WHERE user.id=?", (user,)
                 ).fetchone()
 
-        return render_template("index.html", trip_list=trip_list)
+        trip_count = db.execute('SELECT EXISTS(SELECT 1 FROM trip WHERE user=?)',
+                            (g.user['id'],)
+                ).fetchone()
+
+        if trip_count[0] != 0:
+            return render_template("index.html", trip_list=trip_list)
+        
+        else:
+            return redirect(url_for('home.firsttime'))
+
     return render_template("index.html")
 
 @bp.route('/change_trip')
@@ -50,3 +59,34 @@ def change_trip():
     )
     db.commit()
     return redirect(url_for('index'))
+
+@bp.route('/firsttime', methods=('GET', 'POST'))
+def firsttime():
+    db = get_db()
+
+    if request.method == 'POST':
+        author = session.get('user_id')
+        trip = request.form['trip_name'].strip()
+        error = None
+
+        if not trip:
+            error = 'Need to fill the trip name.'
+
+        if error is None:
+            db.execute(
+                "INSERT INTO trip (user, trip_name) VALUES (?, ?)",
+                (author, trip)
+            )
+            db.commit()
+
+            return redirect(url_for('index'))
+        flash(error)
+
+    trip_count = db.execute('SELECT EXISTS(SELECT 1 FROM trip WHERE user=?)',
+                            (g.user['id'],)
+                ).fetchone()
+
+    if trip_count[0] != 0:
+        return redirect(url_for('index'))
+
+    return render_template('firsttime.html')

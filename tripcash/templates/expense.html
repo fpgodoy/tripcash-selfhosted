@@ -14,9 +14,9 @@
     <input autocomplete="off" name="title" required type="text">
     <label for="label">Label</label>
     <select name="label">
-        {% for label in label_list %}
-            <option value={{ label[0] }}>{{ label[1] }}</option>
-        {% endfor %}
+      {% for label in label_list %}
+          <option value={{ label[0] }}>{{ label[1] }}</option>
+      {% endfor %}
     </select>
     <input type="submit" value="Post">
   </form>

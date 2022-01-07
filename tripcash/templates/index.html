@@ -10,7 +10,7 @@
         {% if not g.trip %}
             <form method="post" class="menu-choosetrip">
                 <label for="trip">Choose The Trip</label>
-                <select name="trip">
+                <select name="trip" id="trip">
                     {% for trip in trip_list %}
                         <option value={{ trip[0] }}>{{ trip[1] }}</option>
                     {% endfor %}
@@ -22,7 +22,7 @@
         {% else %}
         <h2>Expenses</h2>
         <div class="menu-submenu">
-            <a href=/post class="menu-item">New</a>
+            <a href=/expense class="menu-item">New</a>
             <a href=/list class="menu-item">List</a>
             <a href=/total class="menu-item">Total</a>
         </div>

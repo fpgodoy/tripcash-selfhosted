@@ -30,8 +30,8 @@ def create_app(test_config=None):
     from . import auth
     app.register_blueprint(auth.bp)
 
-    from . import post
-    app.register_blueprint(post.bp)
+    from . import expense
+    app.register_blueprint(expense.bp)
 
     from . import trip
     app.register_blueprint(trip.bp)

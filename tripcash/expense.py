@@ -5,11 +5,11 @@ from tripcash.auth import login_required
 
 from tripcash.db import get_db
 
-bp = Blueprint('post', __name__)
+bp = Blueprint('expense', __name__)
 
-@bp.route('/post', methods=('GET', 'POST'))
+@bp.route('/expense', methods=('GET', 'POST'))
 @login_required
-def post():
+def expense():
     # Access DB data
     db = get_db()
     g.trip = db.execute(
@@ -49,4 +49,4 @@ def post():
         
         flash(error)
 
-    return render_template('post.html', label_list=label_list)
+    return render_template('expense.html', label_list=label_list)

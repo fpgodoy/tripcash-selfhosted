@@ -12,16 +12,19 @@ bp = Blueprint('auth', __name__, url_prefix='/auth')
 @bp.route('/register', methods=('GET', 'POST'))
 def register():
     if request.method == 'POST':
+        # Get the form data
         username = request.form['username']
         password = request.form['password']
         db = get_db()
         error = None
         
+        # Validate the typed data
         if not username:
             error = 'Username is required.'
         elif not password:
             error = 'Password is required.'
 
+        # Create the user into the database
         if error is None:
             try:
                 db.execute(
@@ -29,11 +32,20 @@ def register():
                     (username, generate_password_hash(password))
                 )
                 db.commit()
+
             except db.IntegrityError:
                 error = f"User {username} is already registered."
-            else:
-                return redirect(url_for("auth.login"))
-        
+            
+            else:                
+                startlabels = ['Food', 'Transport', 'Tickets', 'Accomodation']
+                user = db.execute("SELECT id FROM user WHERE username=?", (username,)).fetchone()
+                for label in startlabels:
+                    db.execute("INSERT INTO labels (label_name, user) VALUES (?, ?)", (label, user[0]))
+                db.commit()
+
+                session.clear()
+                session['user_id'] = user['id']
+                return redirect(url_for('index'))
         flash(error)
     
     logout()
@@ -42,6 +54,7 @@ def register():
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
     if request.method == 'POST':
+        # Get the form and DB data
         username = request.form['username']
         password = request.form['password']
         db = get_db()
@@ -50,6 +63,7 @@ def login():
             'SELECT * FROM user WHERE username = ?', (username,)
         ).fetchone()
 
+        # Check the username and password
         if user is None:
             error = 'Incorrect username.'
         elif not check_password_hash(user['password'], password):
@@ -61,11 +75,16 @@ def login():
             return redirect(url_for('index'))
 
         flash(error)
-    
+
+    # Check if there is an user logged in
+    if session.get('user_id') != None:
+        return redirect(url_for('index'))
+
     return render_template('auth/login.html')
 
 @bp.before_app_request
 def load_logged_in_user():
+    # Feed the g.user data
     user_id = session.get('user_id')
 
     if user_id is None:
@@ -77,6 +96,7 @@ def load_logged_in_user():
 
 @bp.route('/logout')
 def logout():
+    # Clear the session and return to the index
     session.clear()
     return redirect(url_for('index'))
 
@@ -89,3 +109,4 @@ def login_required(view):
         return view(**kwargs)
     
     return wrapped_view
+
