@@ -32,11 +32,6 @@ def register():
                     (username, generate_password_hash(password))
                 )
                 db.commit()
-
-            except db.IntegrityError:
-                error = f"User {username} is already registered."
-            
-            else:                
                 startlabels = ['Food', 'Transport', 'Tickets', 'Accomodation']
                 user = db.execute("SELECT id FROM user WHERE username=?", (username,)).fetchone()
                 for label in startlabels:
@@ -46,6 +41,10 @@ def register():
                 session.clear()
                 session['user_id'] = user['id']
                 return redirect(url_for('index'))
+
+            except db.IntegrityError:
+                error = f"User {username} is already registered."
+                
         flash(error)
     
     logout()

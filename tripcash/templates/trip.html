@@ -5,30 +5,34 @@
 {% endblock %}
 
 {% block content %}
-    <form method="post">
-      <label for="trip">Title</label>
-      <input autocomplete="off" autofocus name="trip_name" id="trip_name" required type="text">
-      
-      <input type="submit" value="Create Trip">
-    </form>
+    
+<p>Here you can manage your trips. Need a new trip? Just type the name in the space below. You also can see, edit and delete all the trips you have.</p>
+<p>Just remember that when you delete a trip all the expenses registered with it will be deleted too.</p>
 
-  <h2>Existing Trips</h2>
-  <table>
-    <thead>
+<form method="post">
+  <label for="trip">Title</label>
+  <input autocomplete="off" autofocus name="trip_name" id="trip_name" required type="text">
+  
+  <input type="submit" value="Create Trip">
+</form>
+
+<h2>Existing Trips</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Trip</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for trip in trips %}
       <tr>
-        <th>Trip</th>
+        <td>{{ trip.trip_name }}</td>
+        <td>
+          <form action="{{ url_for('trip.edittrip', id=trip['trip_id']) }}" method="GET"><input  type="submit" value="Edit"></form>
+          <form action="{{ url_for('trip.deletetrip', id=trip['trip_id']) }}" method="POST"><input type="submit" value="Delete" onclick="return confirm('All the data from this trip will be deleted. Are you sure?');"></form>
+        </td>
       </tr>
-    </thead>
-    <tbody>
-      {% for trip in trips %}
-        <tr>
-          <td>{{ trip.trip_name }}</td>
-          <td>
-            <form action="{{ url_for('trip.edittrip', id=trip['trip_id']) }}" method="GET"><input  type="submit" value="Edit"></form>
-            <form action="{{ url_for('trip.deletetrip', id=trip['trip_id']) }}" method="POST"><input type="submit" value="Delete" onclick="return confirm('All the data from this trip will be deleted. Are you sure?');"></form>
-          </td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+    {% endfor %}
+  </tbody>
+</table>
 {% endblock %}

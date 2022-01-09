@@ -9,18 +9,19 @@
         <div class="menu">
         {% if not g.trip %}
             <form method="post" class="menu-choosetrip">
-                <label for="trip">Choose The Trip</label>
-                <select name="trip" id="trip">
+                <label for="trip_name">Select your trip:</label>
+                <select name="trip_name" id="trip_name">
                     {% for trip in trip_list %}
                         <option value={{ trip[0] }}>{{ trip[1] }}</option>
                     {% endfor %}
                 </select>
-                <input type="submit" value="Choose">
+                <input type="submit" value="Select">
             </form>
         {% elif not trip_list[0][1] %}
             <p>teste</p>
         {% else %}
         <h2>Expenses</h2>
+        <p> Here you can manage your expenses. Click in New to register your first expense. In list you can see all the registered expenses of this trip. Clicking on Total you will be able to check the sum of your expenses, grouped by label and filter them by date.</p>
         <div class="menu-submenu">
             <a href=/expense class="menu-item">New</a>
             <a href=/list class="menu-item">List</a>
@@ -29,7 +30,7 @@
 
         {% endif %}
         <h2>Configs</h2>
-        <p>Manage here your trips and labels.</p>
+        <p>Manage here your trips and labels. You can use any labels in any of your trips. So, be creative. Click on the buttons below to List, Edit or Delete your Labels or Trips.</p>
         <div class="menu-submenu">
             <a href=/trip class="menu-item">Trips</a>
             <a href=/label class="menu-item">Labels</a>
