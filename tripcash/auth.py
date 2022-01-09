@@ -15,6 +15,7 @@ def register():
         # Get the form data
         username = request.form['username']
         password = request.form['password']
+        password2 = request.form['password2']
         db = get_db()
         error = None
         
@@ -23,6 +24,8 @@ def register():
             error = 'Username is required.'
         elif not password:
             error = 'Password is required.'
+        elif password != password2:
+            error = 'The password and the confirmation do not match. Please, type them again.'
 
         # Create the user into the database
         if error is None:
@@ -43,9 +46,10 @@ def register():
                 return redirect(url_for('index'))
 
             except db.IntegrityError:
-                error = f"User {username} is already registered."
-                
+                error = f"User {username} is already registered."            
+
         flash(error)
+        return render_template('auth/register.html')
     
     logout()
     return render_template('auth/register.html')
