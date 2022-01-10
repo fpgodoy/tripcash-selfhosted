@@ -113,3 +113,41 @@ def login_required(view):
     
     return wrapped_view
 
+# Change the password of the current user
+@bp.route('/changepass', methods=('GET', 'POST'))
+def changepass():
+    if request.method == 'POST':
+        # Get the form data
+        current_password = request.form['current_password']
+        new_password = request.form['new_password']
+        new_password2 = request.form['new_password2']
+        db = get_db()
+        error = None
+        
+        # Get the user data from DB
+        user = db.execute(
+            'SELECT * FROM user WHERE id = ?', (g.user['id'],)
+        ).fetchone()
+        
+        # Validate the typed data
+        if not current_password or not new_password or not new_password2:
+            error = 'Need to fill all the fields.'
+        
+        elif not check_password_hash(user['password'], current_password):
+            error = 'Incorrect current password.'
+
+        elif new_password != new_password2:
+            error = 'The password and the confirmation do not match. Please, type them again.'
+
+        elif current_password == new_password:
+            error = 'New password and current password are the same.'
+        
+        if error is None:
+            db.execute(
+                'UPDATE user SET password=? WHERE id=?', (generate_password_hash(new_password), g.user['id'])
+            )
+            db.commit()
+            return redirect(url_for('index'))
+        flash(error)
+        return render_template('auth/changepass.html')
+    return render_template('auth/changepass.html')
