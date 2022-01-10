@@ -7,7 +7,7 @@
 {% block content %}
   <form method="post" class="postform">
     <label for="date">Date</label>
-    <input autocomplete="off" name="date" id="date" required type="date">
+    <input autocomplete="off" name="date" id="date" required type="date" value={{ today }}>
     <label for="amount">Amount</label>
     <input autocomplete="off" class="money" name="amount" placeholder="0.00" required step="0.01" type="number">
     <label for="title">Title</label>

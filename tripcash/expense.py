@@ -5,6 +5,8 @@ from tripcash.auth import login_required
 
 from tripcash.db import get_db
 
+from datetime import datetime
+
 bp = Blueprint('expense', __name__)
 
 @bp.route('/expense', methods=('GET', 'POST'))
@@ -23,7 +25,6 @@ def expense():
     for row in label_list:
         checklabel.append(row[0])
 
-    
     if request.method == 'POST':       
         author = g.user['id']
         trip = g.trip['trip_id']
@@ -49,4 +50,4 @@ def expense():
         
         flash(error)
 
-    return render_template('expense.html', label_list=label_list)
+    return render_template('expense.html', label_list=label_list, today=datetime.today())
