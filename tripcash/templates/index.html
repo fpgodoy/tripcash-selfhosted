@@ -23,18 +23,18 @@
         <h2>Expenses</h2>
         <p> Here you can manage your expenses. Click in New to register your first expense. In list you can see all the registered expenses of this trip. Clicking on Total you will be able to check the sum of your expenses, grouped by label and filter them by date.</p>
         <div class="menu-submenu">
-            <a href=/expense class="menu-item">New</a>
-            <a href=/list class="menu-item">List</a>
-            <a href=/total class="menu-item">Total</a>
+            <a href={{ url_for("expense.expense") }} class="menu-item">New</a>
+            <a href={{ url_for("list.list") }} class="menu-item">List</a>
+            <a href={{ url_for("list.total") }} class="menu-item">Total</a>
         </div>
 
         {% endif %}
         <h2>Configs</h2>
         <p>Manage here your trips and labels. You can use any labels in any of your trips. So, be creative. Click on the buttons below to List, Edit or Delete your Labels or Trips. You can also change your password.</p>
         <div class="menu-submenu">
-            <a href=/trip class="menu-item">Trips</a>
-            <a href=/label class="menu-item">Labels</a>
-            <a href=/auth/changepass class="menu-item">Password</a>
+            <a href={{ url_for("trip.trip") }} class="menu-item">Trips</a>
+            <a href={{ url_for("label.label") }} class="menu-item">Labels</a>
+            <a href={{ url_for("auth.changepass") }} class="menu-item">Password</a>
         </div>
         </div>
     {% else %}
