@@ -12,23 +12,24 @@
   <label for="label">New Label</label>
   <input autocomplete="off" autofocus name="label" id="label" required type="text">
   
-  <input type="submit" value="Create Label">
+  <input class="btn btn-success" type="submit" value="Create Label">
 </form>
 
 <h2>Existing Labels</h2>
-<table>
+<table class="table table-sm table-striped table-hover px-3">
   <thead>
     <tr>
-      <th>Label</th>
+      <th scope="col">Label</th>
+      <th scope="col">Manage</th>
     </tr>
   </thead>
   <tbody>
     {% for label in labels %}
       <tr>
         <td>{{ label.label_name }}</td>
-        <td class="buttonsform">
-          <form action="{{ url_for('label.editlabel', id=label['label_id']) }}" method="GET"><input  type="submit" value="Edit"></form>
-          <form action="{{ url_for('label.deletelabel', id=label['label_id']) }}" method="POST"><input type="submit" value="Delete" onclick="return confirm('Are you sure?');"></form>
+        <td class="btn-group" role="group">
+          <form action="{{ url_for('label.editlabel', id=label['label_id']) }}" method="GET"><input class="btn btn-sm btn-secondary" type="submit" value="Edit"></form>
+          <form action="{{ url_for('label.deletelabel', id=label['label_id']) }}" method="POST"><input class="btn btn-sm btn-secondary" type="submit" value="Delete" onclick="return confirm('Are you sure?');"></form>
         </td>
       </tr>
     {% endfor %}

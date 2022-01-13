@@ -23,17 +23,17 @@
                 <h2>Expenses</h2>
                 <p> Here you can manage your expenses. Click in New to register your first expense. In list you can see all the registered expenses of this trip. Clicking on Total you will be able to check the sum of your expenses, grouped by label and filter them by date.</p>
                 <div class="d-flex justify-content-around">
-                    <a class="btn btn-dark" href={{ url_for("expense.expense") }}>New</a>
-                    <a class="btn btn-dark" href={{ url_for("list.list") }}>List</a>
-                    <a class="btn btn-dark" href={{ url_for("list.total") }}>Total</a>
+                    <a class="btn btn-secondary" href={{ url_for("expense.expense") }}>New</a>
+                    <a class="btn btn-secondary" href={{ url_for("list.list") }}>List</a>
+                    <a class="btn btn-secondary" href={{ url_for("list.total") }}>Total</a>
                 </div>
 
             {% endif %}
             <h2>Configs</h2>
             <p>Manage here your trips and labels. You can use any labels in any of your trips. So, be creative. Click on the buttons below to List, Edit or Delete your Labels or Trips.</p>
             <div class="d-flex justify-content-around">
-                <a class="btn btn-dark" href={{ url_for("trip.trip") }}>Trips</a>
-                <a class="btn btn-dark" href={{ url_for("label.label") }}>Labels</a>
+                <a class="btn btn-secondary" href={{ url_for("trip.trip") }}>Trips</a>
+                <a class="btn btn-secondary" href={{ url_for("label.label") }}>Labels</a>
             </div>
         </div>
     {% else %}

@@ -12,27 +12,26 @@
     <!-- <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> -->
   </head>
   <section>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light" >
-        <div class="container-fluid">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light px-3" >
           <a class="nav-brand" href="{{ url_for('index') }}">Tripcash</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav">
+            <ul class="nav navbar-nav w-100 justify-content-end">
               <li class="nav-item"><a class="nav-link active" href="{{ url_for('index') }}">Home</a></li>
               {% if g.user %}
                 {% if g.trip %}
                   <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Trip: {{ g.trip[1] }}</a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
                       <li><a class="dropdown-item" href="{{ url_for('home.change_trip') }}">Change</a></li>
                     </ul>
                   </li>
                 {% endif %}
                   <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">User: {{ g.user['username'] }}</a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
                       <li><a class="dropdown-item" href="{{ url_for('auth.logout') }}">Log Out</a></li>
                       <li><a class="dropdown-item" href="{{ url_for('auth.changepass') }}">Change Password</a></li>
                     </ul>
@@ -43,7 +42,6 @@
               {% endif %}
             </ul>
           </div>
-        </div>
     </nav>  
     <body>
       <header>
@@ -51,7 +49,7 @@
       </header>
       <main>
         {% for message in get_flashed_messages() %}
-          <div class="alert alert-primary" role="alert">{{ message }}</div>
+          <div class="alert alert-warning" role="alert">{{ message }}</div>
         {% endfor %}
         {% block content %}{% endblock %}
       </main>
