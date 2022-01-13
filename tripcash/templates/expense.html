@@ -5,19 +5,19 @@
 {% endblock %}
 
 {% block content %}
-  <form method="post" class="postform">
-    <label for="date">Date</label>
-    <input autocomplete="off" name="date" id="date" required type="date" value={{ today }}>
-    <label for="amount">Amount</label>
-    <input autocomplete="off" class="money" name="amount" placeholder="0.00" required step="0.01" type="number">
-    <label for="title">Title</label>
-    <input autocomplete="off" name="title" required type="text">
-    <label for="label">Label</label>
+  <form class="d-flex flex-column" method="post">
+    <label class="form-label" for="date">Date</label>
+    <input autocomplete="off" class="form-control" name="date" id="date" required type="date" value={{ today }}>
+    <label class="form-label" for="amount">Amount</label>
+    <input autocomplete="off" class="form-control" class="money" name="amount" placeholder="0.00" required step="0.01" type="number">
+    <label class="form-label" for="title">Title</label>
+    <input autocomplete="off" class="form-control" name="title" required type="text">
+    <label class="form-label" for="label">Label</label>
     <select name="label">
       {% for label in label_list %}
           <option value={{ label[0] }}>{{ label[1] }}</option>
       {% endfor %}
     </select>
-    <input type="submit" value="Register">
+    <input class="btn btn-primary" type="submit" value="Register">
   </form>
 {% endblock %}

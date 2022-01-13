@@ -12,25 +12,38 @@
     <!-- <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> -->
   </head>
   <section>
-    <nav class="navbar">
-        <a href="{{ url_for('index') }}" class="navbar-title">Tripcash</a>
-        <ul class="navbar-items">
-          {% if g.user %}
-            {% if g.trip %}
-              <div class="navbar-items-pack">
-                <li>Trip: {{ g.trip[1] }}</li>
-                <li><a href="{{ url_for('home.change_trip') }}" class="navbar-link">Change</a></li>
-              </div>
-            {% endif %}
-            <div class="navbar-items-pack">
-              <li>User: {{ g.user['username'] }}</li>
-              <li><a href="{{ url_for('auth.logout') }}" class="navbar-link">Log Out</a></li>
-            </div>
-          {% else %}
-            <li><a href="{{ url_for('auth.register') }}" class="navbar-link">Register</a></li>
-            <li><a href="{{ url_for('auth.login') }}" class="navbar-link">Log In</a></li>
-          {% endif %}
-          </ul>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" >
+        <div class="container-fluid">
+          <a class="nav-brand" href="{{ url_for('index') }}">Tripcash</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+              <li class="nav-item"><a class="nav-link active" href="{{ url_for('index') }}">Home</a></li>
+              {% if g.user %}
+                {% if g.trip %}
+                  <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Trip: {{ g.trip[1] }}</a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                      <li><a class="dropdown-item" href="{{ url_for('home.change_trip') }}">Change</a></li>
+                    </ul>
+                  </li>
+                {% endif %}
+                  <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">User: {{ g.user['username'] }}</a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                      <li><a class="dropdown-item" href="{{ url_for('auth.logout') }}">Log Out</a></li>
+                      <li><a class="dropdown-item" href="{{ url_for('auth.changepass') }}">Change Password</a></li>
+                    </ul>
+                  </li>
+              {% else %}
+                <li class="nav-item"><a class="nav-link active" href="{{ url_for('auth.register') }}">Register</a></li>
+                <li class="nav-item"><a class="nav-link active" href="{{ url_for('auth.login') }}">Log In</a></li>
+              {% endif %}
+            </ul>
+          </div>
+        </div>
     </nav>  
     <body>
       <header>
@@ -38,13 +51,13 @@
       </header>
       <main>
         {% for message in get_flashed_messages() %}
-          <div class="flash">{{ message }}</div>
+          <div class="alert alert-primary" role="alert">{{ message }}</div>
         {% endfor %}
         {% block content %}{% endblock %}
       </main>
-        <footer>
-        <a href="{{ url_for('index') }}" class="menu-item">Back to index</a>
-      </footer>
+      
+      <!-- Bootstrap JS -->
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     </body>
   </section>
 </html>
