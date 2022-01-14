@@ -15,11 +15,12 @@
     <p>Just give a name to the Trip. Remember you can't use the same name to another trips.</p>
     
 
-    <form method="post">
-      <label for="trip_name">Trip</label>
-      <input autocomplete="off" autofocus name="trip_name" id="trip_name" required type="text">
-      
-      <input type="submit" value="Create Trip">
+    <form class="form-inline d-flex align-items:baseline px-3" method="post">
+      <div class="form-group">
+        <label class="form-label" for="trip_name">Trip</label>
+        <input autocomplete="off" autofocus class="form-control" name="trip_name" id="trip_name" required type="text">
+      </div>
+      <input class="btn btn-success mx-3" type="submit" value="Create Trip">
     </form>
 
   

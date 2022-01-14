@@ -90,12 +90,23 @@ def editlabel(id):
     return render_template('editlabel.html', labels=label_list, label=label)
 
 # Delete a registered label
-@bp.route('/<int:id>/deletelabel', methods=('GET', 'POST'))
+@bp.route('/<int:id>/deletelabel', methods=('POST',))
 @login_required
 def deletelabel(id):
     label = get_label(id)
+    user = session.get('user_id')
     db = get_db()
     db.execute('DELETE FROM labels WHERE label_id = ?', (id,))
+    try:
+        db.execute(
+            'INSERT INTO labels (label_name, user) VALUES (?, ?)', ('others', user)
+            )
+    except:
+        pass
+    others_label = db.execute('SELECT label_id FROM labels WHERE user=? AND label_name=?', (g.user['id'], 'others')).fetchone()
+    db.execute(
+        'UPDATE post SET label = ? WHERE label =?', (others_label[0], id)
+    )
     db.commit()
     return redirect(url_for('label.label'))
 

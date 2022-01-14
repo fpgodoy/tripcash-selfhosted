@@ -8,14 +8,14 @@
     {% if g.user %}
         <div class="menu">
             {% if not g.trip %}
-                <form method="post" class="menu-choosetrip">
-                    <label for="trip_name">Select your trip:</label>
-                    <select name="trip_name" id="trip_name">
+                <form method="post" class="d-flex">
+                    <label class="form-label" for="trip_name">Select your trip:</label>
+                    <select class="form-control w-50" name="trip_name" id="trip_name">
                         {% for trip in trip_list %}
                             <option value={{ trip[0] }}>{{ trip[1] }}</option>
                         {% endfor %}
                     </select>
-                    <input type="submit" value="Select">
+                    <input class="btn btn-secondary" type="submit" value="Select">
                 </form>
             {% elif not trip_list[0][1] %}
                 <p>teste</p>
