@@ -1,0 +1,1 @@
+web: gunicorn "tripcash:create_app()"
