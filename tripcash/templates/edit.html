@@ -32,6 +32,7 @@
           {% endif %}
         {% endfor %}
     </select>
-    <input type="submit" value="Edit">
+    <input class="btn btn-success m-3" type="submit" value="Edit">
   </form>
+  <a class="btn btn-secondary" href="{{ url_for('list.list') }}" >Back</a>
 {% endblock %}

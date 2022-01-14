@@ -29,10 +29,11 @@
         <td>{{ label.label_name }}</td>
         <td class="btn-group" role="group">
           <form action="{{ url_for('label.editlabel', id=label['label_id']) }}" method="GET"><input class="btn btn-sm btn-secondary" type="submit" value="Edit"></form>
-          <form action="{{ url_for('label.deletelabel', id=label['label_id']) }}" method="POST"><input class="btn btn-sm btn-secondary" type="submit" value="Delete" onclick="return confirm('Are you sure?');"></form>
+          <form action="{{ url_for('label.deletelabel', id=label['label_id']) }}" method="POST"><input class="btn btn-sm btn-secondary" type="submit" value="Delete" onclick="return confirm('All the expenses on this label will be transfered to the label others. Are you sure?');"></form>
         </td>
       </tr>
     {% endfor %}
   </tbody>
 </table>
+<a class="btn btn-secondary" href="{{ url_for('index') }}" >Back</a>
 {% endblock %}

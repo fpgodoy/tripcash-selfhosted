@@ -9,11 +9,11 @@
     <label for="label">New Label</label>
     <input autocomplete="off" autofocus name="label" id="label" required type="text" value="{{ label.label_name }}">
     
-    <input type="submit" value="Edit Label">
+    <input class="btn btn-secondary m-3" type="submit" value="Edit Label">
   </form>
   
 <h2>Existing Labels</h2>
-<table>
+<table class="table table-sm table-striped table-hover table-responsive">
   <thead>
     <tr>
       <th>Label</th>
@@ -27,4 +27,5 @@
     {% endfor %}
   </tbody>
 </table>
+<a class="btn btn-secondary" href="{{ url_for('label.label') }}" >Back</a>
 {% endblock %}

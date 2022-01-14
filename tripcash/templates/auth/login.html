@@ -5,11 +5,11 @@
 {% endblock %}
 
 {% block content %}
-  <form method="post">
-    <label for="username">Username</label>
+  <form class="form-group" method="post">
+    <label class="form-label" for="username">Username</label>
     <input autocomplete="off" autofocus name="username" id="username" required type="text">
-    <label for="password">Password</label>
+    <label class="form-label" for="password">Password</label>
     <input type="password" name="password" id="password" required>
-    <input type="submit" value="Log In">
+    <input class="btn btn-secondary m-3" type="submit" value="Log In">
   </form>
 {% endblock %}

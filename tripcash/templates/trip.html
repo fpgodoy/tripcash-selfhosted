@@ -17,10 +17,11 @@
 </form>
 
 <h2>Existing Trips</h2>
-<table class="table table-sm table-striped table-hover">
+<table class="table table-sm table-striped table-hover px-3">
   <thead>
     <tr>
-      <th>Trip</th>
+      <th scope="col">Trip</th>
+      <th scope="col">Manage</th>
     </tr>
   </thead>
   <tbody>
@@ -37,4 +38,5 @@
     {% endfor %}
   </tbody>
 </table>
+<a class="btn btn-secondary" href="{{ url_for('index') }}" >Back</a>
 {% endblock %}

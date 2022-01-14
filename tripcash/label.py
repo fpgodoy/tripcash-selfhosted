@@ -22,10 +22,12 @@ def label():
     ).fetchall()
 
     if request.method == 'POST':
+        # Get the data
         user = session.get('user_id')
         label = request.form['label'].strip()
         error = None
 
+        # Validate the data
         checklabel = []
         for row in label_list:
             checklabel.append(row['label_name'].upper())
@@ -36,8 +38,8 @@ def label():
         if label.upper() in checklabel:
             error = f"Label {label} is already registered."
 
+        # Insert the new label into the DB
         if error is None:
-                # Insert the new label into the DB
                 db.execute(
                     'INSERT INTO labels (label_name, user) VALUES (?, ?)',
                     (label, user)
@@ -56,18 +58,20 @@ def label():
 @login_required
 def editlabel(id):
 
+    # Get the data
     label = get_label(id)
-
     db = get_db()
     label_list = db.execute(
         'SELECT label_name FROM labels WHERE user=?', (g.user['id'],)
     ).fetchall()
 
     if request.method == 'POST':
+        # Get the form data
         user = session.get('user_id')
         label = request.form['label'].strip()
         error = None
 
+        # Validate the data
         checklabel = []
         for row in label_list:
             checklabel.append(row[0].upper())
@@ -78,6 +82,7 @@ def editlabel(id):
         if label.upper() in checklabel:
             error = f"Label {label} is already registered."
 
+        # Change the label name
         if error is None:
                 db.execute(
                     "UPDATE labels SET label_name = ? WHERE label_id = ?",
@@ -93,19 +98,29 @@ def editlabel(id):
 @bp.route('/<int:id>/deletelabel', methods=('POST',))
 @login_required
 def deletelabel(id):
+    # Get the data
     label = get_label(id)
     user = session.get('user_id')
-    db = get_db()
+    db = get_db()        
     db.execute('DELETE FROM labels WHERE label_id = ?', (id,))
-    try:
+
+    # Check if exist a label called others
+    check_others = db.execute(
+        'SELECT label_id FROM labels WHERE user=? AND label_name=?', (g.user['id'], 'others')
+    ).fetchone()
+
+    # Create an others label if not existing
+    if check_others is None:
         db.execute(
             'INSERT INTO labels (label_name, user) VALUES (?, ?)', ('others', user)
             )
-    except:
-        pass
-    others_label = db.execute('SELECT label_id FROM labels WHERE user=? AND label_name=?', (g.user['id'], 'others')).fetchone()
+        check_others = db.execute(
+            'SELECT label_id FROM labels WHERE user=? AND label_name=?', (g.user['id'], 'others')
+            ).fetchone() 
+
+    # Change all the data from the deleted label do others label
     db.execute(
-        'UPDATE post SET label = ? WHERE label =?', (others_label[0], id)
+        'UPDATE post SET label = ? WHERE label =?', (check_others[0], id)
     )
     db.commit()
     return redirect(url_for('label.label'))

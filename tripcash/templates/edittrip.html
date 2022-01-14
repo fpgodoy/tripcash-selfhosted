@@ -9,11 +9,11 @@
       <label for="trip">Title</label>
       <input autocomplete="off" autofocus name="trip_name" id="trip_name" required type="text" value="{{ trip.trip_name }}">
       
-      <input type="submit" value="Edit Trip">
+      <input class="btn btn-secondary m-3" type="submit" value="Edit Trip">
     </form>
 
   <h2>Existing Trips</h2>
-  <table>
+  <table class="table table-sm table-striped table-hover table-responsive">
     <thead>
       <tr>
         <th>Trip</th>
@@ -27,4 +27,5 @@
       {% endfor %}
     </tbody>
   </table>
+  <a class="btn btn-secondary" href="{{ url_for('trip.trip') }}" >Back</a>
 {% endblock %}
