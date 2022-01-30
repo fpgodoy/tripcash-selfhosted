@@ -1,7 +1,8 @@
-DROP TABLE IF EXISTS user;
-DROP TABLE IF EXISTS post;
-DROP TABLE IF EXISTS labels;
-DROP TABLE IF EXISTS trip;
+DROP TABLE IF EXISTS 
+    user,
+    post,
+    labels,
+    trip;
 
 CREATE TABLE user (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
