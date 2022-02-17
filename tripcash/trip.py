@@ -1,14 +1,12 @@
-from flask import (
-    Blueprint, blueprints, flash, g, redirect, render_template, request, session, url_for
-)
-
-from tripcash.db import get_db
-
-from tripcash.auth import login_required
-
+from flask import (Blueprint, blueprints, flash, g, redirect, render_template,
+                   request, session, url_for)
 from werkzeug.exceptions import abort
 
+from tripcash.auth import login_required
+from tripcash.db import get_db
+
 bp = Blueprint('trip', __name__)
+
 
 @bp.route('/trip', methods=('GET', 'POST'))
 @login_required
@@ -31,20 +29,21 @@ def trip():
             error = 'Need to fill the trip name.'
 
         if trip.upper() in checktrip:
-            error = f"Trip {trip} is already registered."
+            error = f'Trip {trip} is already registered.'
 
         if error is None:
             db.execute(
-                "INSERT INTO trip (user, trip_name) VALUES (?, ?)",
-                (author, trip)
+                'INSERT INTO trip (user, trip_name) VALUES (?, ?)',
+                (author, trip),
             )
             db.commit()
-                
-            return redirect(url_for("trip.trip"))    
-            
+
+            return redirect(url_for('trip.trip'))
+
         flash(error)
 
     return render_template('trip.html', trips=trip_list)
+
 
 # Edit the name of a registered trip
 @bp.route('/<int:id>/edittrip', methods=('GET', 'POST'))
@@ -71,18 +70,18 @@ def edittrip(id):
             error = 'Need to fill the new label name.'
 
         if trip.upper() in checktrip:
-            error = f"Trip {trip} is already registered."
+            error = f'Trip {trip} is already registered.'
 
         if error is None:
-                db.execute(
-                    "UPDATE trip SET trip_name = ? WHERE trip_id = ?",
-                    (trip, id)
-                )
-                db.commit()
-                        
-                return redirect(url_for("trip.trip"))
+            db.execute(
+                'UPDATE trip SET trip_name = ? WHERE trip_id = ?', (trip, id)
+            )
+            db.commit()
+
+            return redirect(url_for('trip.trip'))
 
     return render_template('edittrip.html', trips=trip_list, trip=trip)
+
 
 # Delete a registered trip
 @bp.route('/<int:id>/deletetrip', methods=('POST',))
@@ -90,7 +89,7 @@ def edittrip(id):
 def deletetrip(id):
     trip = get_trip(id)
     db = get_db()
-    
+
     currentrip = db.execute(
         'SELECT current_trip FROM user WHERE id = ?', (g.user['id'],)
     ).fetchone()
@@ -99,20 +98,21 @@ def deletetrip(id):
     db.execute('DELETE FROM post WHERE trip = ?', (id,))
     if trip['trip_id'] == currentrip[0]:
         db.execute(
-            "UPDATE user SET current_trip=NULL WHERE id=?", (g.user['id'],)
+            'UPDATE user SET current_trip=NULL WHERE id=?', (g.user['id'],)
         )
     db.commit()
-        
 
     return redirect(url_for('trip.trip'))
 
+
 # Get the clicked button trip
 def get_trip(id):
-    trip = get_db().execute(
-        'SELECT * FROM trip WHERE trip_id = ?',
-        (id,)
-    ).fetchone()
-    
+    trip = (
+        get_db()
+        .execute('SELECT * FROM trip WHERE trip_id = ?', (id,))
+        .fetchone()
+    )
+
     if trip is None:
         abort(404, "This trip doesn't exist.")
 

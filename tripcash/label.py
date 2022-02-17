@@ -1,12 +1,9 @@
-from flask import (
-    Blueprint, blueprints, flash, g, redirect, render_template, request, session, url_for
-)
-
-from tripcash.db import get_db
+from flask import (Blueprint, blueprints, flash, g, redirect, render_template,
+                   request, session, url_for)
+from werkzeug.exceptions import abort
 
 from tripcash.auth import login_required
-
-from werkzeug.exceptions import abort
+from tripcash.db import get_db
 
 bp = Blueprint('label', __name__)
 
@@ -14,7 +11,7 @@ bp = Blueprint('label', __name__)
 @bp.route('/label', methods=('GET', 'POST'))
 @login_required
 def label():
-    
+
     # Get db data
     db = get_db()
     label_list = db.execute(
@@ -36,23 +33,23 @@ def label():
             error = 'Need to fill the label name.'
 
         if label.upper() in checklabel:
-            error = f"Label {label} is already registered."
+            error = f'Label {label} is already registered.'
 
         # Insert the new label into the DB
         if error is None:
-                db.execute(
-                    'INSERT INTO labels (label_name, user) VALUES (?, ?)',
-                    (label, user)
-                )
-                db.commit()
-                        
-                return redirect(url_for("label.label"))
-                
-            
+            db.execute(
+                'INSERT INTO labels (label_name, user) VALUES (?, ?)',
+                (label, user),
+            )
+            db.commit()
+
+            return redirect(url_for('label.label'))
+
         flash(error)
 
     return render_template('label.html', labels=label_list)
-    
+
+
 # Edit the name of a registered label
 @bp.route('/<int:id>/editlabel', methods=('GET', 'POST'))
 @login_required
@@ -80,19 +77,20 @@ def editlabel(id):
             error = 'Need to fill the new label name.'
 
         if label.upper() in checklabel:
-            error = f"Label {label} is already registered."
+            error = f'Label {label} is already registered.'
 
         # Change the label name
         if error is None:
-                db.execute(
-                    "UPDATE labels SET label_name = ? WHERE label_id = ?",
-                    (label, id)
-                )
-                db.commit()
-                        
-                return redirect(url_for("label.label"))
+            db.execute(
+                'UPDATE labels SET label_name = ? WHERE label_id = ?',
+                (label, id),
+            )
+            db.commit()
+
+            return redirect(url_for('label.label'))
 
     return render_template('editlabel.html', labels=label_list, label=label)
+
 
 # Delete a registered label
 @bp.route('/<int:id>/deletelabel', methods=('POST',))
@@ -101,22 +99,25 @@ def deletelabel(id):
     # Get the data
     label = get_label(id)
     user = session.get('user_id')
-    db = get_db()        
+    db = get_db()
     db.execute('DELETE FROM labels WHERE label_id = ?', (id,))
 
     # Check if exist a label called others
     check_others = db.execute(
-        'SELECT label_id FROM labels WHERE user=? AND label_name=?', (g.user['id'], 'others')
+        'SELECT label_id FROM labels WHERE user=? AND label_name=?',
+        (g.user['id'], 'others'),
     ).fetchone()
 
     # Create an others label if not existing
     if check_others is None:
         db.execute(
-            'INSERT INTO labels (label_name, user) VALUES (?, ?)', ('others', user)
-            )
+            'INSERT INTO labels (label_name, user) VALUES (?, ?)',
+            ('others', user),
+        )
         check_others = db.execute(
-            'SELECT label_id FROM labels WHERE user=? AND label_name=?', (g.user['id'], 'others')
-            ).fetchone() 
+            'SELECT label_id FROM labels WHERE user=? AND label_name=?',
+            (g.user['id'], 'others'),
+        ).fetchone()
 
     # Change all the data from the deleted label do others label
     db.execute(
@@ -125,13 +126,15 @@ def deletelabel(id):
     db.commit()
     return redirect(url_for('label.label'))
 
+
 # Get the clicked button label
 def get_label(id):
-    label = get_db().execute(
-        'SELECT * FROM labels WHERE label_id = ?',
-        (id,)
-    ).fetchone()
-    
+    label = (
+        get_db()
+        .execute('SELECT * FROM labels WHERE label_id = ?', (id,))
+        .fetchone()
+    )
+
     if label is None:
         abort(404, "This label doesn't exist.")
 
