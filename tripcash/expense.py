@@ -23,14 +23,16 @@ bp = Blueprint('expense', __name__)
 def expense():
     # Access DB data
     db = get_db()
-    g.trip = db.execute(
-        'SELECT user.current_trip AS trip_id, trip.trip_name AS trip_name FROM user INNER JOIN trip on trip.trip_id=user.current_trip WHERE user.id=?',
+    db.execute(
+        'SELECT users.current_trip AS trip_id, trip.trip_name AS trip_name FROM users INNER JOIN trip on trip.trip_id=users.current_trip WHERE users.id=%s',
         (g.user['id'],),
-    ).fetchone()
-    label_list = db.execute(
-        'SELECT label_id, label_name FROM labels WHERE user = ?',
+    )
+    g.trip = db.fetchone()
+    db.execute(
+        'SELECT label_id, label_name FROM labels WHERE user_id = %s',
         (g.user['id'],),
-    ).fetchall()
+    )
+    label_list = db.fetchall()
 
     checklabel = []
     for row in label_list:
@@ -53,10 +55,10 @@ def expense():
 
         if error is None:
             db.execute(
-                'INSERT INTO post (author_id, trip, post_date, amount, title, label) VALUES (?, ?, ?, ?, ?, ?)',
+                'INSERT INTO post (author_id, trip, post_date, amount, title, label) VALUES (%s, %s, %s, %s, %s, %s)',
                 (author, trip, date, amount, title, label),
             )
-            db.commit()
+            g.db.commit()
             return redirect(url_for('list.list'))
 
         flash(error)

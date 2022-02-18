@@ -24,9 +24,11 @@ def index():
     if g.user:
         user = g.user['id']
 
-        trip_list = db.execute(
-            'SELECT trip_id, trip_name FROM trip WHERE user=?', (g.user['id'],)
-        ).fetchall()
+        db.execute(
+            'SELECT trip_id, trip_name FROM trip WHERE user_id=%s',
+            (g.user['id'],),
+        )
+        trip_list = db.fetchall()
 
         if request.method == 'POST':
             current_trip = request.form['trip_name']
@@ -34,22 +36,25 @@ def index():
 
             if error is None:
                 db.execute(
-                    'UPDATE user SET current_trip=? WHERE id=?',
+                    'UPDATE users SET current_trip=%s WHERE id=%s',
                     (current_trip, g.user['id']),
                 )
-                db.commit()
+                g.db.commit()
 
             else:
                 flash(error)
 
-        g.trip = db.execute(
-            'SELECT user.current_trip AS trip_id, trip.trip_name AS trip_name FROM user INNER JOIN trip on trip.trip_id=user.current_trip WHERE user.id=?',
+        db.execute(
+            'SELECT users.current_trip AS trip_id, trip.trip_name AS trip_name FROM users INNER JOIN trip on trip.trip_id=users.current_trip WHERE users.id=%s',
             (user,),
-        ).fetchone()
+        )
+        g.trip = db.fetchone()
 
-        trip_count = db.execute(
-            'SELECT EXISTS(SELECT 1 FROM trip WHERE user=?)', (g.user['id'],)
-        ).fetchone()
+        db.execute(
+            'SELECT EXISTS(SELECT 1 FROM trip WHERE user_id=%s)',
+            (g.user['id'],),
+        )
+        trip_count = db.fetchone()
 
         if trip_count[0] != 0:
             return render_template('index.html', trip_list=trip_list)
@@ -66,8 +71,10 @@ def change_trip():
     db = get_db()
 
     # Update current trip to NULL
-    db.execute('UPDATE user SET current_trip=NULL WHERE id=?', (g.user['id'],))
-    db.commit()
+    db.execute(
+        'UPDATE users SET current_trip=NULL WHERE id=%s', (g.user['id'],)
+    )
+    g.db.commit()
     return redirect(url_for('index'))
 
 
@@ -85,17 +92,18 @@ def firsttime():
 
         if error is None:
             db.execute(
-                'INSERT INTO trip (user, trip_name) VALUES (?, ?)',
+                'INSERT INTO trip (user_id, trip_name) VALUES (%s, %s)',
                 (author, trip),
             )
-            db.commit()
+            g.db.commit()
 
             return redirect(url_for('index'))
         flash(error)
 
-    trip_count = db.execute(
-        'SELECT EXISTS(SELECT 1 FROM trip WHERE user=?)', (g.user['id'],)
-    ).fetchone()
+    db.execute(
+        'SELECT EXISTS(SELECT 1 FROM trip WHERE user_id=%s)', (g.user['id'],)
+    )
+    trip_count = db.fetchone()
 
     if trip_count[0] != 0:
         return redirect(url_for('index'))

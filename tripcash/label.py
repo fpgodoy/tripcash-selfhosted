@@ -25,9 +25,11 @@ def label():
 
     # Get db data
     db = get_db()
-    label_list = db.execute(
-        'SELECT label_id, label_name FROM labels WHERE user=?', (g.user['id'],)
-    ).fetchall()
+    db.execute(
+        'SELECT label_id, label_name FROM labels WHERE user_id=%s',
+        (g.user['id'],),
+    )
+    label_list = db.fetchall()
 
     if request.method == 'POST':
         # Get the data
@@ -49,10 +51,10 @@ def label():
         # Insert the new label into the DB
         if error is None:
             db.execute(
-                'INSERT INTO labels (label_name, user) VALUES (?, ?)',
+                'INSERT INTO labels (label_name, user_id) VALUES (%s, %s)',
                 (label, user),
             )
-            db.commit()
+            g.db.commit()
 
             return redirect(url_for('label.label'))
 
@@ -69,9 +71,10 @@ def editlabel(id):
     # Get the data
     label = get_label(id)
     db = get_db()
-    label_list = db.execute(
-        'SELECT label_name FROM labels WHERE user=?', (g.user['id'],)
-    ).fetchall()
+    db.execute(
+        'SELECT label_name FROM labels WHERE user_id=%s', (g.user['id'],)
+    )
+    label_list = db.fetchall()
 
     if request.method == 'POST':
         # Get the form data
@@ -93,10 +96,10 @@ def editlabel(id):
         # Change the label name
         if error is None:
             db.execute(
-                'UPDATE labels SET label_name = ? WHERE label_id = ?',
+                'UPDATE labels SET label_name = %s WHERE label_id = %s',
                 (label, id),
             )
-            db.commit()
+            g.db.commit()
 
             return redirect(url_for('label.label'))
 
@@ -111,40 +114,40 @@ def deletelabel(id):
     label = get_label(id)
     user = session.get('user_id')
     db = get_db()
-    db.execute('DELETE FROM labels WHERE label_id = ?', (id,))
+    db.execute('DELETE FROM labels WHERE label_id = %s', (id,))
 
     # Check if exist a label called others
-    check_others = db.execute(
-        'SELECT label_id FROM labels WHERE user=? AND label_name=?',
+    db.execute(
+        'SELECT label_id FROM labels WHERE user_id=%s AND label_name=%s',
         (g.user['id'], 'others'),
-    ).fetchone()
+    )
+    check_others = db.fetchone()
 
     # Create an others label if not existing
     if check_others is None:
         db.execute(
-            'INSERT INTO labels (label_name, user) VALUES (?, ?)',
+            'INSERT INTO labels (label_name, user_id) VALUES (%s, %s)',
             ('others', user),
         )
-        check_others = db.execute(
-            'SELECT label_id FROM labels WHERE user=? AND label_name=?',
+        db.execute(
+            'SELECT label_id FROM labels WHERE user_id=%s AND label_name=%s',
             (g.user['id'], 'others'),
-        ).fetchone()
+        )
+        check_others = db.fetchone()
 
     # Change all the data from the deleted label do others label
     db.execute(
-        'UPDATE post SET label = ? WHERE label =?', (check_others[0], id)
+        'UPDATE post SET label = %s WHERE label =%s', (check_others[0], id)
     )
-    db.commit()
+    g.db.commit()
     return redirect(url_for('label.label'))
 
 
 # Get the clicked button label
 def get_label(id):
-    label = (
-        get_db()
-        .execute('SELECT * FROM labels WHERE label_id = ?', (id,))
-        .fetchone()
-    )
+    db = get_db()
+    db.execute('SELECT * FROM labels WHERE label_id = %s', (id,))
+    label = db.fetchone()
 
     if label is None:
         abort(404, "This label doesn't exist.")

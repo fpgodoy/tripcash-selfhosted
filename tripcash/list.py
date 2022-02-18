@@ -24,16 +24,18 @@ def list():
     # Access DB data
     db = get_db()
     user = g.user['id']
-    g.trip = db.execute(
-        'SELECT user.current_trip AS trip_id, trip.trip_name AS trip_name FROM user INNER JOIN trip on trip.trip_id=user.current_trip WHERE user.id=?',
+    db.execute(
+        'SELECT users.current_trip AS trip_id, trip.trip_name AS trip_name FROM users INNER JOIN trip on trip.trip_id=users.current_trip WHERE users.id=%s',
         (g.user['id'],),
-    ).fetchone()
+    )
+    g.trip = db.fetchone()
 
     # Get the list of expenses from the current user and trip
-    list = db.execute(
-        'SELECT id, post.post_date AS date, post.amount, post.title, labels.label_name AS label FROM post INNER JOIN labels ON post.label=labels.label_id WHERE post.author_id = ? AND post.trip = ? ORDER BY date',
+    db.execute(
+        'SELECT id, post.post_date AS date, post.amount, post.title, labels.label_name AS label FROM post INNER JOIN labels ON post.label=labels.label_id WHERE post.author_id = %s AND post.trip = %s ORDER BY date',
         (user, g.trip[0]),
-    ).fetchall()
+    )
+    list = db.fetchall()
 
     return render_template('list.html', list=list)
 
@@ -47,16 +49,18 @@ def total():
     user = g.user['id']
 
     # Get the current trip
-    g.trip = db.execute(
-        'SELECT user.current_trip AS trip_id, trip.trip_name AS trip_name FROM user INNER JOIN trip on trip.trip_id=user.current_trip WHERE user.id=?',
+    db.execute(
+        'SELECT users.current_trip AS trip_id, trip.trip_name AS trip_name FROM users INNER JOIN trip on trip.trip_id=users.current_trip WHERE users.id=%s',
         (g.user['id'],),
-    ).fetchone()
+    )
+    g.trip = db.fetchone()
 
     # Get the dates with registered expenses
-    dates = db.execute(
-        'SELECT DISTINCT post_date FROM post WHERE trip = ? AND author_id = ? ORDER BY post_date',
+    db.execute(
+        'SELECT DISTINCT post_date FROM post WHERE trip = %s AND author_id = %s ORDER BY post_date',
         (g.trip[0], g.user['id']),
-    ).fetchall()
+    )
+    dates = db.fetchall()
 
     if request.method == 'POST':
         # Get the selected date to filter data
@@ -69,10 +73,11 @@ def total():
 
         # Get the unfiltered data showing all the totals
         if date == 'all':
-            totals = db.execute(
-                'SELECT SUM(post.amount) AS amount, labels.label_name AS label FROM post INNER JOIN labels ON post.label=labels.label_id  WHERE post.trip = ? AND post.author_id = ? GROUP BY label',
+            db.execute(
+                'SELECT SUM(post.amount) AS amount, labels.label_name AS label FROM post INNER JOIN labels ON post.label=labels.label_id  WHERE post.trip = %s AND post.author_id = %s GROUP BY label',
                 (g.trip[0], g.user['id']),
-            ).fetchall()
+            )
+            totals = db.fetchall()
             return render_template(
                 'total.html', totals=totals, dates_list=dates, date='Trip'
             )
@@ -83,10 +88,11 @@ def total():
 
         if error is None:
             # Get the filtered data from DB
-            totals = db.execute(
-                'SELECT SUM(post.amount) AS amount, labels.label_name AS label FROM post INNER JOIN labels ON post.label=labels.label_id  WHERE post.trip = ? AND post.author_id = ? AND post.post_date = ? GROUP BY label',
+            db.execute(
+                'SELECT SUM(post.amount) AS amount, labels.label_name AS label FROM post INNER JOIN labels ON post.label=labels.label_id  WHERE post.trip = %s AND post.author_id = %s AND post.post_date = %s GROUP BY label',
                 (g.trip[0], g.user['id'], date),
-            ).fetchall()
+            )
+            totals = db.fetchall()
 
             return render_template(
                 'total.html', totals=totals, dates_list=dates, date=date
@@ -96,10 +102,11 @@ def total():
             flash(error)
 
     # Get the unfiltered data showing all the totals
-    totals = db.execute(
-        'SELECT SUM(post.amount) AS amount, labels.label_name AS label FROM post INNER JOIN labels ON post.label=labels.label_id  WHERE post.trip = ? AND post.author_id = ? GROUP BY label',
+    db.execute(
+        'SELECT SUM(post.amount) AS amount, labels.label_name AS label FROM post INNER JOIN labels ON post.label=labels.label_id  WHERE post.trip = %s AND post.author_id = %s GROUP BY label',
         (g.trip[0], g.user['id']),
-    ).fetchall()
+    )
+    totals = db.fetchall()
 
     return render_template(
         'total.html', totals=totals, dates_list=dates, date='Trip'
@@ -108,9 +115,9 @@ def total():
 
 # Get the clicked button expense ID to edit
 def get_expense(id):
-    expense = (
-        get_db().execute('SELECT * FROM post WHERE id = ?', (id,)).fetchone()
-    )
+    db = get_db()
+    db.execute('SELECT * FROM post WHERE id = %s', (id,))
+    expense = db.fetchone()
 
     if expense is None:
         abort(404, "Register doesn't exist.")
@@ -129,17 +136,21 @@ def edit(id):
 
     # Access DB data
     db = get_db()
-    g.trip = db.execute(
-        'SELECT user.current_trip AS trip_id, trip.trip_name AS trip_name FROM user INNER JOIN trip on trip.trip_id=user.current_trip WHERE user.id=?',
+    db.execute(
+        'SELECT users.current_trip AS trip_id, trip.trip_name AS trip_name FROM users INNER JOIN trip on trip.trip_id=users.current_trip WHERE users.id=%s',
         (g.user['id'],),
-    ).fetchone()
-    label_list = db.execute(
-        'SELECT label_id, label_name FROM labels WHERE user = ?',
+    )
+    g.trip = db.fetchone()
+    db.execute(
+        'SELECT label_id, label_name FROM labels WHERE user = %s',
         (g.user['id'],),
-    ).fetchall()
-    trip_list = db.execute(
-        'SELECT trip_id, trip_name FROM trip WHERE user = ?', (g.user['id'],)
-    ).fetchall()
+    )
+    label_list = db.fetchall()
+    db.execute(
+        'SELECT trip_id, trip_name FROM trip WHERE user_id = %s',
+        (g.user['id'],),
+    )
+    trip_list = db.fetchall()
 
     checklabel = []
     for row in label_list:
@@ -170,10 +181,10 @@ def edit(id):
 
         if error is None:
             db.execute(
-                'UPDATE post SET trip = ?, post_date = ?, amount = ?, title = ?, label = ? WHERE id = ?',
+                'UPDATE post SET trip = %s, post_date = %s, amount = %s, title = %s, label = %s WHERE id = %s',
                 (trip, date, amount, title, label, id),
             )
-            db.commit()
+            g.db.commit()
             return redirect(url_for('list.list'))
 
         flash(error)
@@ -192,6 +203,6 @@ def edit(id):
 def delete(id):
     get_expense(id)
     db = get_db()
-    db.execute('DELETE FROM post WHERE id = ?', (id,))
-    db.commit()
+    db.execute('DELETE FROM post WHERE id = %s', (id,))
+    g.db.commit()
     return redirect(url_for('list.list'))

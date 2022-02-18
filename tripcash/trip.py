@@ -23,9 +23,8 @@ bp = Blueprint('trip', __name__)
 @login_required
 def trip():
     db = get_db()
-    trip_list = db.execute(
-        'SELECT * FROM trip WHERE user=?', (g.user['id'],)
-    ).fetchall()
+    db.execute('SELECT * FROM trip WHERE user_id=%s', (g.user['id'],))
+    trip_list = db.fetchall()
 
     if request.method == 'POST':
         author = session.get('user_id')
@@ -44,10 +43,10 @@ def trip():
 
         if error is None:
             db.execute(
-                'INSERT INTO trip (user, trip_name) VALUES (?, ?)',
+                'INSERT INTO trip (user_id, trip_name) VALUES (%s, %s)',
                 (author, trip),
             )
-            db.commit()
+            g.db.commit()
 
             return redirect(url_for('trip.trip'))
 
@@ -64,9 +63,8 @@ def edittrip(id):
     trip = get_trip(id)
 
     db = get_db()
-    trip_list = db.execute(
-        'SELECT trip_name FROM trip WHERE user=?', (g.user['id'],)
-    ).fetchall()
+    db.execute('SELECT trip_name FROM trip WHERE user_id=%s', (g.user['id'],))
+    trip_list = db.fetchall()
 
     if request.method == 'POST':
         user = session.get('user_id')
@@ -85,9 +83,9 @@ def edittrip(id):
 
         if error is None:
             db.execute(
-                'UPDATE trip SET trip_name = ? WHERE trip_id = ?', (trip, id)
+                'UPDATE trip SET trip_name = %s WHERE trip_id = %s', (trip, id)
             )
-            db.commit()
+            g.db.commit()
 
             return redirect(url_for('trip.trip'))
 
@@ -101,28 +99,25 @@ def deletetrip(id):
     trip = get_trip(id)
     db = get_db()
 
-    currentrip = db.execute(
-        'SELECT current_trip FROM user WHERE id = ?', (g.user['id'],)
-    ).fetchone()
+    db.execute('SELECT current_trip FROM users WHERE id = %s', (g.user['id'],))
+    currentrip = db.fetchone()
 
-    db.execute('DELETE FROM trip WHERE trip_id = ?', (id,))
-    db.execute('DELETE FROM post WHERE trip = ?', (id,))
+    db.execute('DELETE FROM trip WHERE trip_id = %s', (id,))
+    db.execute('DELETE FROM post WHERE trip = %s', (id,))
     if trip['trip_id'] == currentrip[0]:
         db.execute(
-            'UPDATE user SET current_trip=NULL WHERE id=?', (g.user['id'],)
+            'UPDATE users SET current_trip=NULL WHERE id=%s', (g.user['id'],)
         )
-    db.commit()
+    g.db.commit()
 
     return redirect(url_for('trip.trip'))
 
 
 # Get the clicked button trip
 def get_trip(id):
-    trip = (
-        get_db()
-        .execute('SELECT * FROM trip WHERE trip_id = ?', (id,))
-        .fetchone()
-    )
+    db = get_db()
+    db.execute('SELECT * FROM trip WHERE trip_id = %s', (id,))
+    trip = db.fetchone()
 
     if trip is None:
         abort(404, "This trip doesn't exist.")
