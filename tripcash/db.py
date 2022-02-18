@@ -1,4 +1,6 @@
-import sqlite3
+import psycopg2
+import psycopg2.extras
+import os
 
 import click
 from flask import current_app, g
@@ -7,13 +9,13 @@ from flask.cli import with_appcontext
 
 def get_db():
     if 'db' not in g:
-        g.db = sqlite3.connect(
-            current_app.config['DATABASE'],
-            detect_types=sqlite3.PARSE_DECLTYPES,
+        g.db = psycopg2.connect(
+            host=os.environ['DB_HOST'],
+            database=os.environ['DB_DATABASE'],
+            user=os.environ['DB_USERNAME'],
+            password=os.environ['DB_PASSWORD'],
         )
-        g.db.row_factory = sqlite3.Row
-
-    return g.db
+    return g.db.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
 
 def close_db(e=None):
@@ -26,8 +28,43 @@ def close_db(e=None):
 def init_db():
     db = get_db()
 
-    with current_app.open_resource('schema.sql') as f:
-        db.executescript(f.read().decode('utf8'))
+    # db.execute('DROP TABLE IF EXISTS users, post, labels, trip;')
+
+    db.execute(
+        'CREATE TABLE users (id SERIAL PRIMARY KEY,'
+        'username TEXT UNIQUE NOT NULL,'
+        'current_trip INTEGER,'
+        'password TEXT NOT NULL);'
+    )
+
+    db.execute(
+        'CREATE TABLE labels (label_id SERIAL PRIMARY KEY,'
+        'label_name TEXT NOT NULL,'
+        'user_id INTEGER NOT NULL,'
+        'FOREIGN KEY (user_id) REFERENCES users (id));'
+    )
+
+    db.execute(
+        'CREATE TABLE post (id SERIAL PRIMARY KEY,'
+        'author_id INTEGER NOT NULL,'
+        'trip INTEGER NOT NULL,'
+        'post_date DATE NOT NULL,'
+        'amount NUMERIC NOT NULL,'
+        'title TEXT NOT NULL,'
+        'label INTEGER NOT NULL,'
+        'FOREIGN KEY (author_id) REFERENCES users (id),'
+        'FOREIGN KEY (label) REFERENCES labels (label_id));'
+    )
+
+    db.execute(
+        'CREATE TABLE trip (trip_id SERIAL PRIMARY KEY,'
+        'trip_name TEXT NOT NULL,'
+        'user_id INTEGER NOT NULL,'
+        'FOREIGN KEY (user_id) REFERENCES users (id));'
+    )
+
+    g.db.commit()
+
 
 
 @click.command('init-db')

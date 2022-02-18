@@ -1,7 +1,16 @@
 import functools
 
-from flask import (Blueprint, blueprints, flash, g, redirect, render_template,
-                   request, session, url_for)
+from flask import (
+    Blueprint,
+    blueprints,
+    flash,
+    g,
+    redirect,
+    render_template,
+    request,
+    session,
+    url_for,
+)
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from tripcash.db import get_db
@@ -29,29 +38,30 @@ def register():
 
         # Create the user into the database
         if error is None:
-            try:
+            # try:
+            db.execute(
+                'INSERT INTO users (username, password) VALUES (%s, %s)',
+                (username, generate_password_hash(password)),
+            )
+            g.db.commit()
+            startlabels = ['Food', 'Transport', 'Tickets', 'Accomodation']
+            db.execute('SELECT id FROM users WHERE username=%s', (username,))
+            user = db.fetchone()
+            for label in startlabels:
                 db.execute(
-                    'INSERT INTO user (username, password) VALUES (?, ?)',
-                    (username, generate_password_hash(password)),
+
+                    'INSERT INTO labels (label_name, user_id) VALUES (%s, %s)',
+                    (label, user[0]),
                 )
-                db.commit()
-                startlabels = ['Food', 'Transport', 'Tickets', 'Accomodation']
-                user = db.execute(
-                    'SELECT id FROM user WHERE username=?', (username,)
-                ).fetchone()
-                for label in startlabels:
-                    db.execute(
-                        'INSERT INTO labels (label_name, user) VALUES (?, ?)',
-                        (label, user[0]),
-                    )
-                db.commit()
+            g.db.commit()
 
-                session.clear()
-                session['user_id'] = user['id']
-                return redirect(url_for('index'))
 
-            except db.IntegrityError:
-                error = f'User {username} is already registered.'
+            session.clear()
+            session['user_id'] = user['id']
+            return redirect(url_for('index'))
+
+            """except db.IntegrityError:
+                error = f'User {username} is already registered.'"""
 
         flash(error)
         return render_template('auth/register.html')
@@ -68,9 +78,8 @@ def login():
         password = request.form['password']
         db = get_db()
         error = None
-        user = db.execute(
-            'SELECT * FROM user WHERE username = ?', (username,)
-        ).fetchone()
+        db.execute('SELECT * FROM users WHERE username = %s', (username,))
+        user = db.fetchone()
 
         # Check the username and password
         if user is None:
@@ -100,11 +109,10 @@ def load_logged_in_user():
     if user_id is None:
         g.user = None
     else:
-        g.user = (
-            get_db()
-            .execute('SELECT * FROM user WHERE id = ?', (user_id,))
-            .fetchone()
-        )
+        db = get_db()
+        db.execute('SELECT * FROM users WHERE id = %s', (user_id,))
+        g.user = db.fetchone()
+
 
 
 @bp.route('/logout')
@@ -137,9 +145,8 @@ def changepass():
         error = None
 
         # Get the user data from DB
-        user = db.execute(
-            'SELECT * FROM user WHERE id = ?', (g.user['id'],)
-        ).fetchone()
+        db.execute('SELECT * FROM users WHERE id = %s', (g.user['id'],))
+        user = db.fetchone()
 
         # Validate the typed data
         if not current_password or not new_password or not new_password2:
@@ -156,10 +163,10 @@ def changepass():
 
         if error is None:
             db.execute(
-                'UPDATE user SET password=? WHERE id=?',
+                'UPDATE users SET password=%s WHERE id=%s',
                 (generate_password_hash(new_password), g.user['id']),
             )
-            db.commit()
+            g.db.commit()
             return redirect(url_for('index'))
         flash(error)
         return render_template('auth/changepass.html')
