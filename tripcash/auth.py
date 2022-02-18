@@ -1,13 +1,22 @@
 import functools
 
 from flask import (
-    Blueprint, blueprints, flash, g, redirect, render_template, request, session, url_for
+    Blueprint,
+    blueprints,
+    flash,
+    g,
+    redirect,
+    render_template,
+    request,
+    session,
+    url_for,
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from tripcash.db import get_db
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
+
 
 @bp.route('/register', methods=('GET', 'POST'))
 def register():
@@ -18,7 +27,7 @@ def register():
         password2 = request.form['password2']
         db = get_db()
         error = None
-        
+
         # Validate the typed data
         if not username:
             error = 'Username is required.'
@@ -31,14 +40,19 @@ def register():
         if error is None:
             try:
                 db.execute(
-                    "INSERT INTO user (username, password) VALUES (?, ?)",
-                    (username, generate_password_hash(password))
+                    'INSERT INTO user (username, password) VALUES (?, ?)',
+                    (username, generate_password_hash(password)),
                 )
                 db.commit()
                 startlabels = ['Food', 'Transport', 'Tickets', 'Accomodation']
-                user = db.execute("SELECT id FROM user WHERE username=?", (username,)).fetchone()
+                user = db.execute(
+                    'SELECT id FROM user WHERE username=?', (username,)
+                ).fetchone()
                 for label in startlabels:
-                    db.execute("INSERT INTO labels (label_name, user) VALUES (?, ?)", (label, user[0]))
+                    db.execute(
+                        'INSERT INTO labels (label_name, user) VALUES (?, ?)',
+                        (label, user[0]),
+                    )
                 db.commit()
 
                 session.clear()
@@ -46,13 +60,14 @@ def register():
                 return redirect(url_for('index'))
 
             except db.IntegrityError:
-                error = f"User {username} is already registered."            
+                error = f'User {username} is already registered.'
 
         flash(error)
         return render_template('auth/register.html')
-    
+
     logout()
     return render_template('auth/register.html')
+
 
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
@@ -71,7 +86,7 @@ def login():
             error = 'Incorrect username.'
         elif not check_password_hash(user['password'], password):
             error = 'Incorrect password.'
-        
+
         if error is None:
             session.clear()
             session['user_id'] = user['id']
@@ -85,6 +100,7 @@ def login():
 
     return render_template('auth/login.html')
 
+
 @bp.before_app_request
 def load_logged_in_user():
     # Feed the g.user data
@@ -93,9 +109,12 @@ def load_logged_in_user():
     if user_id is None:
         g.user = None
     else:
-        g.user = get_db().execute(
-            'SELECT * FROM user WHERE id = ?', (user_id,)
-        ).fetchone()
+        g.user = (
+            get_db()
+            .execute('SELECT * FROM user WHERE id = ?', (user_id,))
+            .fetchone()
+        )
+
 
 @bp.route('/logout')
 def logout():
@@ -103,15 +122,17 @@ def logout():
     session.clear()
     return redirect(url_for('index'))
 
+
 def login_required(view):
     @functools.wraps(view)
     def wrapped_view(**kwargs):
         if g.user is None:
             return redirect(url_for('auth.login'))
-        
+
         return view(**kwargs)
-    
+
     return wrapped_view
+
 
 # Change the password of the current user
 @bp.route('/changepass', methods=('GET', 'POST'))
@@ -123,16 +144,16 @@ def changepass():
         new_password2 = request.form['new_password2']
         db = get_db()
         error = None
-        
+
         # Get the user data from DB
         user = db.execute(
             'SELECT * FROM user WHERE id = ?', (g.user['id'],)
         ).fetchone()
-        
+
         # Validate the typed data
         if not current_password or not new_password or not new_password2:
             error = 'Need to fill all the fields.'
-        
+
         elif not check_password_hash(user['password'], current_password):
             error = 'Incorrect current password.'
 
@@ -141,10 +162,11 @@ def changepass():
 
         elif current_password == new_password:
             error = 'New password and current password are the same.'
-        
+
         if error is None:
             db.execute(
-                'UPDATE user SET password=? WHERE id=?', (generate_password_hash(new_password), g.user['id'])
+                'UPDATE user SET password=? WHERE id=?',
+                (generate_password_hash(new_password), g.user['id']),
             )
             db.commit()
             return redirect(url_for('index'))
