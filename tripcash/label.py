@@ -1,20 +1,9 @@
-from flask import (
-    Blueprint,
-    blueprints,
-    flash,
-    g,
-    redirect,
-    render_template,
-    request,
-    session,
-    url_for,
-)
-
-from tripcash.db import get_db
+from flask import (Blueprint, blueprints, flash, g, redirect, render_template,
+                   request, session, url_for)
+from werkzeug.exceptions import abort
 
 from tripcash.auth import login_required
-
-from werkzeug.exceptions import abort
+from tripcash.db import get_db
 
 bp = Blueprint('label', __name__)
 

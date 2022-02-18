@@ -66,6 +66,7 @@ def init_db():
     g.db.commit()
 
 
+
 @click.command('init-db')
 @with_appcontext
 def init_db_command():

@@ -49,16 +49,18 @@ def register():
             user = db.fetchone()
             for label in startlabels:
                 db.execute(
+
                     'INSERT INTO labels (label_name, user_id) VALUES (%s, %s)',
                     (label, user[0]),
                 )
             g.db.commit()
 
+
             session.clear()
             session['user_id'] = user['id']
             return redirect(url_for('index'))
 
-            """except:
+            """except db.IntegrityError:
                 error = f'User {username} is already registered.'"""
 
         flash(error)
@@ -110,6 +112,7 @@ def load_logged_in_user():
         db = get_db()
         db.execute('SELECT * FROM users WHERE id = %s', (user_id,))
         g.user = db.fetchone()
+
 
 
 @bp.route('/logout')

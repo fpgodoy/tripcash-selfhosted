@@ -1,19 +1,10 @@
-from flask import (
-    Blueprint,
-    blueprints,
-    flash,
-    g,
-    redirect,
-    render_template,
-    request,
-    session,
-    url_for,
-)
-from tripcash.auth import login_required
-
-from tripcash.db import get_db
-
 from datetime import datetime
+
+from flask import (Blueprint, blueprints, flash, g, redirect, render_template,
+                   request, session, url_for)
+
+from tripcash.auth import login_required
+from tripcash.db import get_db
 
 bp = Blueprint('expense', __name__)
 
