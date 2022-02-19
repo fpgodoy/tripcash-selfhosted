@@ -1,6 +1,5 @@
 from flask import (Blueprint, blueprints, flash, g, redirect, render_template,
                    request, session, url_for)
-from sqlalchemy import true
 from werkzeug.exceptions import abort
 
 from tripcash.auth import login_required
@@ -135,7 +134,9 @@ def deletelabel(id):
         db.execute('DELETE FROM labels WHERE label_id = %s', (id,))
 
         g.db.commit()
-    flash(error)
+    else:
+        flash(error)
+
     return redirect(url_for('label.label'))
 
 
