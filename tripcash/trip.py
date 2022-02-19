@@ -111,7 +111,7 @@ def get_trip(id):
     if trip is None:
         abort(404, "This trip doesn't exist.")
 
-    if trip['user'] != g.user['id']:
+    if trip['user_id'] != g.user['id']:
         abort(403)
 
     return trip

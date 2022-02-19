@@ -64,7 +64,7 @@ def total():
         # Get the unfiltered data showing all the totals
         if date == 'all':
             db.execute(
-                'SELECT SUM(post.amount) AS amount, labels.label_name AS label FROM post INNER JOIN labels ON post.label=labels.label_id  WHERE post.trip = %s AND post.author_id = %s GROUP BY label',
+                'SELECT SUM(post.amount) AS amount, labels.label_name AS label FROM post INNER JOIN labels ON post.label=labels.label_id  WHERE post.trip = %s AND post.author_id = %s GROUP BY labels.label_name',
                 (g.trip[0], g.user['id']),
             )
             totals = db.fetchall()
@@ -79,7 +79,7 @@ def total():
         if error is None:
             # Get the filtered data from DB
             db.execute(
-                'SELECT SUM(post.amount) AS amount, labels.label_name AS label FROM post INNER JOIN labels ON post.label=labels.label_id  WHERE post.trip = %s AND post.author_id = %s AND post.post_date = %s GROUP BY label',
+                'SELECT SUM(post.amount) AS amount, labels.label_name AS label FROM post INNER JOIN labels ON post.label=labels.label_id  WHERE post.trip = %s AND post.author_id = %s AND post.post_date = %s GROUP BY labels.label_name',
                 (g.trip[0], g.user['id'], date),
             )
             totals = db.fetchall()

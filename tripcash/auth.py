@@ -1,16 +1,7 @@
 import functools
 
-from flask import (
-    Blueprint,
-    blueprints,
-    flash,
-    g,
-    redirect,
-    render_template,
-    request,
-    session,
-    url_for,
-)
+from flask import (Blueprint, blueprints, flash, g, redirect, render_template,
+                   request, session, url_for)
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from tripcash.db import get_db
@@ -49,12 +40,10 @@ def register():
             user = db.fetchone()
             for label in startlabels:
                 db.execute(
-
                     'INSERT INTO labels (label_name, user_id) VALUES (%s, %s)',
                     (label, user[0]),
                 )
             g.db.commit()
-
 
             session.clear()
             session['user_id'] = user['id']
@@ -112,7 +101,6 @@ def load_logged_in_user():
         db = get_db()
         db.execute('SELECT * FROM users WHERE id = %s', (user_id,))
         g.user = db.fetchone()
-
 
 
 @bp.route('/logout')

@@ -1,5 +1,6 @@
 from flask import (Blueprint, blueprints, flash, g, redirect, render_template,
                    request, session, url_for)
+from sqlalchemy import true
 from werkzeug.exceptions import abort
 
 from tripcash.auth import login_required
@@ -102,33 +103,39 @@ def deletelabel(id):
     # Get the data
     label = get_label(id)
     user = session.get('user_id')
+    error = None
     db = get_db()
-    db.execute('DELETE FROM labels WHERE label_id = %s', (id,))
 
-    # Check if exist a label called others
+    # Create an others label if not existing
+    db.execute(
+        'INSERT INTO labels (label_name, user_id) SELECT %s, %s WHERE NOT EXISTS (SELECT label_id FROM labels WHERE user_id=%s AND label_name=%s)',
+        ('others', g.user['id'], g.user['id'], 'others'),
+    )
+    g.db.commit()
+
+    # Get the others label id
     db.execute(
         'SELECT label_id FROM labels WHERE user_id=%s AND label_name=%s',
         (g.user['id'], 'others'),
     )
-    check_others = db.fetchone()
+    others = db.fetchone()
 
-    # Create an others label if not existing
-    if check_others is None:
-        db.execute(
-            'INSERT INTO labels (label_name, user_id) VALUES (%s, %s)',
-            ('others', user),
-        )
-        db.execute(
-            'SELECT label_id FROM labels WHERE user_id=%s AND label_name=%s',
-            (g.user['id'], 'others'),
-        )
-        check_others = db.fetchone()
+    if others['label_id'] == id:
+        error = "You can't delete the others label."
 
-    # Change all the data from the deleted label do others label
-    db.execute(
-        'UPDATE post SET label = %s WHERE label =%s', (check_others[0], id)
-    )
-    g.db.commit()
+    if error is None:
+        # Change all the data from the deleted label do others label
+        db.execute(
+            'UPDATE post SET label = %s WHERE label =%s',
+            (others['label_id'], id),
+        )
+        g.db.commit()
+
+        # Delete the selected label
+        db.execute('DELETE FROM labels WHERE label_id = %s', (id,))
+
+        g.db.commit()
+    flash(error)
     return redirect(url_for('label.label'))
 
 
@@ -141,7 +148,7 @@ def get_label(id):
     if label is None:
         abort(404, "This label doesn't exist.")
 
-    if label['user'] != g.user['id']:
+    if label['user_id'] != g.user['id']:
         abort(403)
 
     return label

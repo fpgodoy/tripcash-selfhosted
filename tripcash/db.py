@@ -1,8 +1,8 @@
-import psycopg2
-import psycopg2.extras
 import os
 
 import click
+import psycopg2
+import psycopg2.extras
 from flask import current_app, g
 from flask.cli import with_appcontext
 
@@ -64,7 +64,6 @@ def init_db():
     )
 
     g.db.commit()
-
 
 
 @click.command('init-db')
