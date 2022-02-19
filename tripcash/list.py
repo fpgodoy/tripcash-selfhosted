@@ -93,7 +93,7 @@ def total():
 
     # Get the unfiltered data showing all the totals
     db.execute(
-        'SELECT SUM(post.amount) AS amount, labels.label_name AS label FROM post INNER JOIN labels ON post.label=labels.label_id  WHERE post.trip = %s AND post.author_id = %s GROUP BY label',
+        'SELECT SUM(post.amount) AS amount, labels.label_name AS label FROM post INNER JOIN labels ON post.label=labels.label_id  WHERE post.trip = %s AND post.author_id = %s GROUP BY labels.label_name',
         (g.trip[0], g.user['id']),
     )
     totals = db.fetchall()
@@ -132,7 +132,7 @@ def edit(id):
     )
     g.trip = db.fetchone()
     db.execute(
-        'SELECT label_id, label_name FROM labels WHERE user = %s',
+        'SELECT label_id, label_name FROM labels WHERE user_id = %s',
         (g.user['id'],),
     )
     label_list = db.fetchall()
