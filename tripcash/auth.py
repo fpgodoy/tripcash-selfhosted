@@ -28,29 +28,29 @@ def register():
             error = 'The password and the confirmation do not match. Please, type them again.'
 
         # Create the user into the database
-        if error is None:
-            # try:
-            db.execute(
-                'INSERT INTO users (username, password) VALUES (%s, %s)',
-                (username, generate_password_hash(password)),
-            )
-            g.db.commit()
-            startlabels = ['Food', 'Transport', 'Tickets', 'Accomodation']
-            db.execute('SELECT id FROM users WHERE username=%s', (username,))
-            user = db.fetchone()
-            for label in startlabels:
+        if error is None:            
+            try:
                 db.execute(
-                    'INSERT INTO labels (label_name, user_id) VALUES (%s, %s)',
-                    (label, user[0]),
+                    'INSERT INTO users (username, password) VALUES (%s, %s)',
+                    (username, generate_password_hash(password)),
                 )
-            g.db.commit()
-
-            session.clear()
-            session['user_id'] = user['id']
-            return redirect(url_for('index'))
-
-            """except db.IntegrityError:
-                error = f'User {username} is already registered.'"""
+                g.db.commit()
+                startlabels = ['Food', 'Transport', 'Tickets', 'Accomodation']
+                db.execute('SELECT id FROM users WHERE username=%s', (username,))
+                user = db.fetchone()
+                for label in startlabels:
+                    db.execute(
+                        'INSERT INTO labels (label_name, user_id) VALUES (%s, %s)',
+                        (label, user[0]),
+                    )
+                g.db.commit()
+                session.clear()
+                session['user_id'] = user['id']
+                return redirect(url_for('index'))
+            
+            # Show the error message if the username is already registered
+            except Exception as err:
+                error = f'User {username} is already registered.'
 
         flash(error)
         return render_template('auth/register.html')
@@ -110,6 +110,7 @@ def logout():
     return redirect(url_for('index'))
 
 
+# Ensure the user is logged in
 def login_required(view):
     @functools.wraps(view)
     def wrapped_view(**kwargs):
@@ -149,6 +150,7 @@ def changepass():
         elif current_password == new_password:
             error = 'New password and current password are the same.'
 
+        # Change the password
         if error is None:
             db.execute(
                 'UPDATE users SET password=%s WHERE id=%s',

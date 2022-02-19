@@ -131,11 +131,15 @@ def edit(id):
         (g.user['id'],),
     )
     g.trip = db.fetchone()
+    
+    # Get the label list.
     db.execute(
         'SELECT label_id, label_name FROM labels WHERE user_id = %s',
         (g.user['id'],),
     )
     label_list = db.fetchall()
+    
+    # Get the trip list.
     db.execute(
         'SELECT trip_id, trip_name FROM trip WHERE user_id = %s',
         (g.user['id'],),
@@ -160,6 +164,7 @@ def edit(id):
         label = int(request.form['label'])
         error = None
 
+        # Validate the form data
         if not trip or not date or not amount or not title or not label:
             error = 'All the fields should be filled.'
 
@@ -170,6 +175,7 @@ def edit(id):
             error = 'Invalid trip.'
 
         if error is None:
+            # Update the expense on DB
             db.execute(
                 'UPDATE post SET trip = %s, post_date = %s, amount = %s, title = %s, label = %s WHERE id = %s',
                 (trip, date, amount, title, label, id),

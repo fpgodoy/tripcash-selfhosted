@@ -12,13 +12,15 @@ bp = Blueprint('expense', __name__)
 @bp.route('/expense', methods=('GET', 'POST'))
 @login_required
 def expense():
-    # Access DB data
+    # Access DB data.
     db = get_db()
+    # Get the current trip.
     db.execute(
         'SELECT users.current_trip AS trip_id, trip.trip_name AS trip_name FROM users INNER JOIN trip on trip.trip_id=users.current_trip WHERE users.id=%s',
         (g.user['id'],),
     )
     g.trip = db.fetchone()
+    # Get the labels list.
     db.execute(
         'SELECT label_id, label_name FROM labels WHERE user_id = %s',
         (g.user['id'],),
@@ -30,6 +32,7 @@ def expense():
         checklabel.append(row[0])
 
     if request.method == 'POST':
+        # Get the form data.
         author = g.user['id']
         trip = g.trip['trip_id']
         date = request.form['date']
@@ -37,13 +40,15 @@ def expense():
         title = request.form['title']
         label = int(request.form['label'])
         error = None
-
+        
+        #Validate the form data.
         if not date or not amount or not title or not label:
             error = 'All the fields should be filled.'
 
         if label not in checklabel:
             error = 'Invalid label.'
 
+        # Insert the expense on DB and show the expenses list
         if error is None:
             db.execute(
                 'INSERT INTO post (author_id, trip, post_date, amount, title, label) VALUES (%s, %s, %s, %s, %s, %s)',

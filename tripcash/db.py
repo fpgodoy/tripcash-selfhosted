@@ -28,7 +28,7 @@ def close_db(e=None):
 def init_db():
     db = get_db()
 
-    # db.execute('DROP TABLE IF EXISTS users, post, labels, trip;')
+    # Create the tables on DB
 
     db.execute(
         'CREATE TABLE users (id SERIAL PRIMARY KEY,'
@@ -66,6 +66,7 @@ def init_db():
     g.db.commit()
 
 
+# Start the tables creation
 @click.command('init-db')
 @with_appcontext
 def init_db_command():

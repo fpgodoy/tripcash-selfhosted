@@ -11,6 +11,7 @@ bp = Blueprint('trip', __name__)
 @bp.route('/trip', methods=('GET', 'POST'))
 @login_required
 def trip():
+    # Get the data
     db = get_db()
     db.execute('SELECT * FROM trip WHERE user_id=%s', (g.user['id'],))
     trip_list = db.fetchall()
@@ -20,6 +21,7 @@ def trip():
         trip = request.form['trip_name'].strip()
         error = None
 
+        # Ensure the typed trip is a new trip
         checktrip = []
         for row in trip_list:
             checktrip.append(row['trip_name'].upper())
@@ -30,6 +32,7 @@ def trip():
         if trip.upper() in checktrip:
             error = f'Trip {trip} is already registered.'
 
+        # Insert the trip on the DB
         if error is None:
             db.execute(
                 'INSERT INTO trip (user_id, trip_name) VALUES (%s, %s)',
@@ -60,6 +63,7 @@ def edittrip(id):
         trip = request.form['trip_name'].strip()
         error = None
 
+        # Ensure there isn't another trip with the same name and validate the data
         checktrip = []
         for row in trip_list:
             checktrip.append(row[0].upper())
@@ -70,6 +74,7 @@ def edittrip(id):
         if trip.upper() in checktrip:
             error = f'Trip {trip} is already registered.'
 
+        # Update the trip name on the DB
         if error is None:
             db.execute(
                 'UPDATE trip SET trip_name = %s WHERE trip_id = %s', (trip, id)
@@ -85,14 +90,19 @@ def edittrip(id):
 @bp.route('/<int:id>/deletetrip', methods=('POST',))
 @login_required
 def deletetrip(id):
+    # Get the data
     trip = get_trip(id)
     db = get_db()
 
+    # Get the current trip
     db.execute('SELECT current_trip FROM users WHERE id = %s', (g.user['id'],))
     currentrip = db.fetchone()
 
+    # Delete the trip and all its expenses
     db.execute('DELETE FROM trip WHERE trip_id = %s', (id,))
     db.execute('DELETE FROM post WHERE trip = %s', (id,))
+    
+    # Check if the deleted trip is the current one and clear the current trip if it is
     if trip['trip_id'] == currentrip[0]:
         db.execute(
             'UPDATE users SET current_trip=NULL WHERE id=%s', (g.user['id'],)

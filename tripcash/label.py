@@ -26,7 +26,7 @@ def label():
         label = request.form['label'].strip()
         error = None
 
-        # Validate the data
+        # Validate the data ensuring the label is a new one
         checklabel = []
         for row in label_list:
             checklabel.append(row['label_name'].upper())
@@ -140,7 +140,7 @@ def deletelabel(id):
     return redirect(url_for('label.label'))
 
 
-# Get the clicked button label
+# Get the clicked button label to edit or delete it
 def get_label(id):
     db = get_db()
     db.execute('SELECT * FROM labels WHERE label_id = %s', (id,))
