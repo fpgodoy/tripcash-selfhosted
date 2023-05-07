@@ -1,19 +1,29 @@
 import os
-
 import click
+from dotenv import load_dotenv
 import psycopg2
 import psycopg2.extras
 from flask import current_app, g
 from flask.cli import with_appcontext
 
 
+# Carrega as variáveis de ambiente do arquivo .env
+load_dotenv()
+
+# Acesse as variáveis de ambiente usando os.environ
+db_user = os.environ.get('DB_USER')
+db_password = os.environ.get('DB_PASSWORD')
+db_host = os.environ.get('DB_HOST')
+db_name = os.environ.get('DB_NAME')
+
+
 def get_db():
     if 'db' not in g:
         g.db = psycopg2.connect(
-            host="192.168.2.25",
-            database="tripcashdb",
-            user="tripcash",
-            password="musgas",
+            host=db_host,
+            database=db_name,
+            user=db_user,
+            password=db_password,
         )
     return g.db.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
