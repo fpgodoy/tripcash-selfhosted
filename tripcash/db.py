@@ -10,10 +10,10 @@ from flask.cli import with_appcontext
 def get_db():
     if 'db' not in g:
         g.db = psycopg2.connect(
-            host=os.environ['DB_HOST'],
-            database=os.environ['DB_DATABASE'],
-            user=os.environ['DB_USERNAME'],
-            password=os.environ['DB_PASSWORD'],
+            host="192.168.2.25",
+            database="tripcashdb",
+            user="tripcash",
+            password="musgas",
         )
     return g.db.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
