@@ -20,7 +20,7 @@
                 <p>teste</p>
             {% else %}
                 <h2>Expenses</h2>
-                <p> Welcome to expense management. To register your expenses, click on "New". In the "List" section, you can view all the expenses you have registered for this trip. Click on "Total" to see a sum of your expenses grouped by label, and filter them by date. Start managing your expenses right now!</p>
+                <p> To register your expenses, click on "New". In the "List" section, you can view all the expenses you have registered for this trip. Click on "Total" to see a sum of your expenses grouped by label, and filter them by date. Start managing your expenses right now!</p>
                 <div class="d-flex justify-content-around">
                     <a class="btn btn-secondary" href={{ url_for("expense.expense") }}>New</a>
                     <a class="btn btn-secondary" href={{ url_for("list.list") }}>List</a>
@@ -28,7 +28,7 @@
                 </div>
             {% endif %}
             <h2>Configs</h2>
-            <p>Welcome to your trip and label management dashboard! Here you can easily organize and keep track of all your trips and labels. You can use the same labels for different trips, so feel free to get creative and use labels that best suit your needs. Simply click on the buttons below to view, edit or delete your labels and trips.</p> 
+            <p>Here is your trip and label management dashboard! Here you can easily organize and keep track of all your trips and labels. You can use the same labels for different trips, so feel free to get creative and use labels that best suit your needs. Simply click on the buttons below to view, edit or delete your labels and trips.</p> 
             <div class="d-flex justify-content-around">
                 <a class="btn btn-secondary" href={{ url_for("trip.trip") }}>Trips</a>
                 <a class="btn btn-secondary" href={{ url_for("label.label") }}>Labels</a>
