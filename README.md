@@ -1,66 +1,31 @@
 # Tripcash <h1>
 
-### Video Demo: https://youtu.be/pjZw4wXE7mQ
+## Overview
+Tripcash is a Python-based web application specifically designed for managing your trip finances. With Tripcash, you can effortlessly track and record all your expenses, organizing them by date and label, and conveniently view them either as a comprehensive list or summarized.
 
-## Description:
-**Tripcash is a web-based aplication, using Python, to deal with the finances of your trip.**
-The project is a webpage where you can register all your travel expenses and, then, list or sum them by date and label.
+Initially, [my original project](https://github.com/fpgodoy/tripcash) was developed with the intention of deploying it on Heroku. However, due to recent changes in Heroku's pricing structure, including the discontinuation of the free tier, I have created this fork to explore alternative self-hosting options.
 
-It's made from the [tutorial available in the official Flask documentation](https://flask.palletsprojects.com/en/2.0.x/tutorial/).
+Similar to the original project, this application prioritizes simplicity and speed. To deliver a seamless user experience, the application intentionally excludes any images or JavaScript. Instead, the entire CSS styling is achieved using Bootstrap, ensuring an efficient and intuitive interface.
 
-Once I would like to deploy it using Heroku, it was needed to use PostgreSQL instead of SQLite3.
+## Features
+  Here are some of the key features already available in Tripcash:
+  * User authentication: Tripcash allows you to register and log in to your account, so you can keep track of your expenses and trips.
+  * Trip management: With Tripcash, you can create, edit, and delete trips, and keep all your expenses organized by trip.
+  * Label management: Tripcash comes with four default labels (Food, Transport, Tickets, and Accommodation), but you can create, edit, and delete your own labels to better fit your travel needs.
+  * Expense tracking: Tripcash lets you register all your travel expenses, including the date, label, description, and amount, and view them in a list or by label and date. You can also edit or delete your expenses if you need to make any changes.
 
-To make it simple and fast to use, it doesn't have any image neither Javascript. All the CSS is made using Bootstrap.
+## Objectives for upcoming features
+  * Multi-Currency Support: The aim is to enhance Tripcash by introducing support for multiple currencies. This feature will enable users to seamlessly manage expenses in different currencies during their trips, providing accurate and convenient financial tracking.
+  * Multi-Language Support: Tripcash aims to provide support for multiple languages to cater to a diverse user base. This feature will allow users to select their preferred language within the application, enhancing accessibility and usability for users worldwide. By offering language options, Tripcash seeks to ensure that users can comfortably interact with the application in their native language, further enhancing their experience and usability.
 
-This is my final project of [CS50 course](https://cs50.harvard.edu/x/2021/), available to test on https://tripcash.herokuapp.com .
-
-## How to use
-In the home page you can login or register a new user. To register, type a username and a password (twice). For security, all the passwords are encripted.
-
-Once registered, you will be presented to a welcome page to create your first trip. Then, you can start to use the app selecting the created trip in the menu.
-
-After select the trip you will be looking to the main page. From here, you can do everything about your expenses. On the top section you have the expenses options, where you can register a new expense, list the existing expenses and see a sum of them by label or date.
-
-On the bottom section, you have some configuration options to manage the trips and labels you've created or edit them.
-
-To register your first expense, just click on New. So, you can just fill the form and click on the green button. Don't forget to choose a label to your expense. Once registered, you will see the list with all the registered expenses in this trip.
-
-Here you can edit ou delete each expense, or create another one clicking in New Expense.
-
-After you have registered some expenses, on the main page, click in Total to see the sum of your expenses grouped by the On te bottom, there is a menu to filter the total bbelow y date.
-
-Back to thename  main page, on the configuration options you can manage your trips using the corresponding button. Filling the form you create another  trip and with the buttons below you can change the name or delete any of your trips.
-
-**Important: Deleting a trip will delete all the corresponding expenses too.**
-
-On the Labels page, you can create new labels or edit and delete the existing ones. By default, every new user starts with 4 labels to Food, Transport, Tickets and Accomodation expenses.
-
-The page works like the Trips one, but the expenses related to a deleted label will be grouped in a new label named "others".
-
-## Content
-### auth.py
-All the authentication functions are here, including Login, Logout, Register User and Change Password.
-
-### db.py
-Includes the DB connection and all the DB query to create the tables and their functions.
-
-### expense.py
-Here is the function to create a new expense.
-
-### home.py
-Functions to the index and welcome page.
-
-### label.py
-All the functions to create, edit, list and delete the labels.
-
-### list.py
-Has the function to list existing expenses, delete or edit them and the function to sum and list the expenses by label and date.
-
-### Procfile
-Declares the process types and command to run the app on Heroku.com plataform.
-
-### requirements.txt
-Lists all the dependecies to run the app.
-
-### /templates/
-All the HTML pages to render using the base.html file.
+## Files
+  * **'\_\_init\_\_.py'**: Initializes the app components.
+  * **'auth.py'**: Contains all the authentication functions, including Login, Logout, Register User, and Change Password.
+  * **'db.py'**: Includes the DB connection and all the DB query to create the tables and their functions.
+  * **'expense.py'**: Contains the function to create a new expense.
+  * **'home.py'**: Contains functions to the index and welcome page.
+  * **'label.py'**: Contains all the functions to create, edit, list, and delete the labels.
+  * **'list.py'**: Contains the function to list existing expenses, delete or edit them, and the function to sum and list the expenses by label and date.
+  * **'Procfile'**: Declares the process types and command to run the app on the Heroku.com platform.
+  * **'requirements.txt'**: Lists all the dependencies needed to run the app.
+  * **'/templates/'**: Contains all the HTML pages to render using the base.html file.
