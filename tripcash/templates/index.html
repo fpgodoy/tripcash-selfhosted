@@ -8,38 +8,38 @@
         <div class="menu">
             {% if not g.trip %}
                 <form method="post">
-                    <label class="form-label" for="trip_name">Select your trip:</label>
+                    <label class="form-label" for="trip_name">{{ _('Select your trip:') }}</label>
                     <select name="trip_name" id="trip_name">
                         {% for trip in trip_list %}
                             <option value={{ trip[0] }}>{{ trip[1] }}</option>
                         {% endfor %}
                     </select>
-                    <input class="btn btn-secondary m-3" type="submit" value="Select">
+                    <input class="btn btn-secondary m-3" type="submit" value="{{ _('Select') }}">
                 </form>
             {% elif not trip_list[0][1] %}
                 <p>teste</p>
             {% else %}
-                <h2>Expenses</h2>
-                <p> To register your expenses, click on "New". In the "List" section, you can view all the expenses you have registered for this trip. Click on "Total" to see a sum of your expenses grouped by label, and filter them by date. Start managing your expenses right now!</p>
+                <h2>{{ _('Expenses') }}</h2>
+                <p>{{ _('Register new expenses or view all records for this trip in the list section. You can also see a summary of expenses grouped by category and filtered by date.') }}</p>
                 <div class="d-flex justify-content-around">
-                    <a class="btn btn-secondary" href={{ url_for("expense.expense") }}>New</a>
-                    <a class="btn btn-secondary" href={{ url_for("list.list") }}>List</a>
-                    <a class="btn btn-secondary" href={{ url_for("list.total") }}>Total</a>
+                    <a class="btn btn-secondary" href={{ url_for("expense.expense") }}>{{ _('New') }}</a>
+                    <a class="btn btn-secondary" href={{ url_for("list.list") }}>{{ _('List') }}</a>
+                    <a class="btn btn-secondary" href={{ url_for("list.total") }}>{{ _('Total') }}</a>
                 </div>
             {% endif %}
-            <h2>Configs</h2>
-            <p>Here is your trip and label management dashboard! Here you can easily organize and keep track of all your trips and labels. You can use the same labels for different trips, so feel free to get creative and use labels that best suit your needs. Simply click on the buttons below to view, edit or delete your labels and trips.</p> 
+            <h2>{{ _('Management') }}</h2>
+            <p>{{ _('Organize and keep track of your trips and categories. You can reuse the same categories across different trips. Click below to view, edit, or delete them.') }}</p> 
             <div class="d-flex justify-content-around">
-                <a class="btn btn-secondary" href={{ url_for("trip.trip") }}>Trips</a>
-                <a class="btn btn-secondary" href={{ url_for("label.label") }}>Labels</a>
+                <a class="btn btn-secondary" href={{ url_for("trip.trip") }}>{{ _('Trips') }}</a>
+                <a class="btn btn-secondary" href={{ url_for("label.label") }}>{{ _('Labels') }}</a>
             </div>
         </div>
     {% else %}
     <h1 class="text-center">Tripcash</h1>
-    <h2 class="text-center">Simplify your trip expenses.</h2>
+    <h2 class="text-center">{{ _('Simplify your trip expenses.') }}</h2>
     <div class="d-flex justify-content-around">
-        <a class="btn btn-secondary" href={{ url_for("auth.login") }}>Login</a>
-        <a class="btn btn-secondary" href={{ url_for("auth.register") }}>Register</a>
+        <a class="btn btn-secondary" href={{ url_for("auth.login") }}>{{ _('Log In') }}</a>
+        <a class="btn btn-secondary" href={{ url_for("auth.register") }}>{{ _('Register') }}</a>
     </div>
     {% endif %}
 {% endblock %}

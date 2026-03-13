@@ -1,38 +1,38 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}Total - {{ date }}{% endblock %}</h1>
+  <h1>{% block title %}{{ _('Total') }} - {{ date }}{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>Label</th>
-                <th>Amount</th>
+                <th>{{ _('Category') }}</th>
+                <th>{{ _('Amount') }}</th>
             </tr>
         </thead>
         <tbody>
             {% for each in totals %}
                 <tr>
-                    <td>{{ each.label }}</td>
+                    <td>{{ _(each.label) }}</td>
                     <td class="money">{{ each.amount | currencyFormat }}</td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
 
-    <p>Select a date to filter the total expenses:</p>
+    <p>{{ _('Select a date to filter the total expenses:') }}</p>
     <form method="post">
-        <label for="date">Date</label>
+        <label for="date">{{ _('Date') }}</label>
         <select name="date">
-            <option value="all">All dates</option>
+            <option value="all">{{ _('All dates') }}</option>
             {% for date in dates_list %}
                 <option value={{ date[0] }}>{{ date[0] }}</option>
             {% endfor %}
         </select>
-        <input class="btn btn-info" type="submit" value="Filter">
+        <input class="btn btn-info" type="submit" value="{{ _('Filter') }}">
     </form>
-    <a class="btn btn-secondary" href="{{ url_for('index') }}" >Back</a>
+    <a class="btn btn-secondary" href="{{ url_for('index') }}" >{{ _('Back') }}</a>
 
 {% endblock %}

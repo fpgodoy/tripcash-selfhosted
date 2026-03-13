@@ -1,5 +1,6 @@
 from flask import (Blueprint, blueprints, flash, g, redirect, render_template,
                    request, session, url_for)
+from flask_babel import _
 from werkzeug.exceptions import abort
 
 from tripcash.auth import login_required
@@ -26,6 +27,8 @@ def list():
         (user, g.trip[0]),
     )
     list = db.fetchall()
+    # Translate the label names for system default categories
+    list = [dict(row) | {'label': _(row['label'])} for row in list]
 
     return render_template('list.html', list=list)
 
@@ -68,6 +71,8 @@ def total():
                 (g.trip[0], g.user['id']),
             )
             totals = db.fetchall()
+            # Translate the label names for system default categories
+            totals = [dict(row) | {'label': _(row['label'])} for row in totals]
             return render_template(
                 'total.html', totals=totals, dates_list=dates, date='Trip'
             )
@@ -83,6 +88,8 @@ def total():
                 (g.trip[0], g.user['id'], date),
             )
             totals = db.fetchall()
+            # Translate the label names for system default categories
+            totals = [dict(row) | {'label': _(row['label'])} for row in totals]
 
             return render_template(
                 'total.html', totals=totals, dates_list=dates, date=date
@@ -97,6 +104,8 @@ def total():
         (g.trip[0], g.user['id']),
     )
     totals = db.fetchall()
+    # Translate the label names for system default categories
+    totals = [dict(row) | {'label': _(row['label'])} for row in totals]
 
     return render_template(
         'total.html', totals=totals, dates_list=dates, date='Trip'

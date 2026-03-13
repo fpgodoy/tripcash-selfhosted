@@ -1,25 +1,25 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}Register a new expense{% endblock %}</h1>
+  <h1>{% block title %}{{ _('Register a new expense') }}{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
   <form method="post" class="d-flex flex-column">
     <div class="form-group p-3">
-      <label class="form-label" for="date">Date</label>
+      <label class="form-label" for="date">{{ _('Date') }}</label>
       <input autocomplete="off" class="form-control" name="date" id="date" required type="date" value={{ today }}>
     </div>
     <div class="form-group p-3">
-      <label class="form-label" for="amount">Amount</label>
+      <label class="form-label" for="amount">{{ _('Amount') }}</label>
       <input autocomplete="off" class="form-control" class="money" name="amount" placeholder="0.00" required step="0.01" type="number">
     </div>
     <div class="form-group p-3">
-      <label class="form-label" for="title">Title</label>
+      <label class="form-label" for="title">{{ _('Title') }}</label>
       <input autocomplete="off" class="form-control" name="title" required type="text">
     </div>
     <div class="form-group p-3">
-      <label class="form-label" for="label">Label</label>
+      <label class="form-label" for="label">{{ _('Category') }}</label>
       <select class="form-control" name="label">
         {% for label in label_list %}
             <option value={{ label[0] }}>{{ label[1] }}</option>
@@ -27,8 +27,8 @@
       </select>
     </div>
     <div class="d-flex flex-row justify-content-around p-3">
-      <input class="btn btn-success" type="submit" value="Register">
-      <a class="btn btn-secondary" href="{{ url_for('index') }}" >Back</a>
+      <input class="btn btn-success" type="submit" value="{{ _('Register') }}">
+      <a class="btn btn-secondary" href="{{ url_for('index') }}" >{{ _('Back') }}</a>
   </div>
   </form>
 {% endblock %}

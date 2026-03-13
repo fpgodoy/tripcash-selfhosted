@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}Log In{% endblock %}</h1>
+  <h1>{% block title %}{{ _('Log In') }}{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
   <form class="form-group" method="post">
-    <label class="form-label" for="username">Username</label>
+    <label class="form-label" for="username">{{ _('Username') }}</label>
     <input autocomplete="off" autofocus name="username" id="username" required type="text">
-    <label class="form-label" for="password">Password</label>
+    <label class="form-label" for="password">{{ _('Password') }}</label>
     <input type="password" name="password" id="password" required>
-    <input class="btn btn-secondary m-3" type="submit" value="Log In">
+    <input class="btn btn-secondary m-3" type="submit" value="{{ _('Log In') }}">
   </form>
 {% endblock %}

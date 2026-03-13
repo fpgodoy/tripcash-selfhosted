@@ -1,27 +1,27 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}Trip{% endblock %}</h1>
+  <h1>{% block title %}{{ _('Trips') }}{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
     
-<p>Here you can manage your trips. Need a new trip? Just type the name in the space below. You also can see, edit and delete all the trips you have.</p>
-<p>Just remember that when you delete a trip all the expenses registered with it will be deleted too.</p>
+<p>{{ _('Manage your trips here. Create new ones, or view, edit, and delete existing trips from the list below.') }}</p>
+<p><strong>{{ _('Warning:') }}</strong> {{ _('Deleting a trip will also remove all expenses registered under it.') }}</p>
 
 <form method="post">
-  <label for="trip">Title</label>
+  <label for="trip">{{ _('Trip Name') }}</label>
   <input autocomplete="off" autofocus name="trip_name" id="trip_name" required type="text">
   
-  <input class="btn btn-success" type="submit" value="Create Trip">
+  <input class="btn btn-success" type="submit" value="{{ _('Create Trip') }}">
 </form>
 
-<h2>Existing Trips</h2>
+<h2>{{ _('Existing Trips') }}</h2>
 <table class="table table-sm table-striped table-hover px-3">
   <thead>
     <tr>
-      <th scope="col">Trip</th>
-      <th scope="col">Manage</th>
+      <th scope="col">{{ _('Trip Name') }}</th>
+      <th scope="col">{{ _('Actions') }}</th>
     </tr>
   </thead>
   <tbody>
@@ -30,13 +30,13 @@
         <td>{{ trip.trip_name }}</td>
         <td>
           <div class="btn-group" role="group">
-            <form action="{{ url_for('trip.edittrip', id=trip['trip_id']) }}" method="GET"><input class="btn btn-sm btn-secondary" type="submit" value="Edit"></form>
-            <form action="{{ url_for('trip.deletetrip', id=trip['trip_id']) }}" method="POST"><input class="btn btn-sm btn-secondary" type="submit" value="Delete" onclick="return confirm('All the data from this trip will be deleted. Are you sure?');"></form>
+            <form action="{{ url_for('trip.edittrip', id=trip['trip_id']) }}" method="GET"><input class="btn btn-sm btn-secondary" type="submit" value="{{ _('Edit') }}"></form>
+            <form action="{{ url_for('trip.deletetrip', id=trip['trip_id']) }}" method="POST"><input class="btn btn-sm btn-secondary" type="submit" value="{{ _('Delete') }}" onclick="return confirm('{{ _('This will permanently delete the trip and all its expenses. Are you sure?') }}');"></form>
           </div>
         </td>
       </tr>
     {% endfor %}
   </tbody>
 </table>
-<a class="btn btn-secondary" href="{{ url_for('index') }}" >Back</a>
+<a class="btn btn-secondary" href="{{ url_for('index') }}" >{{ _('Back') }}</a>
 {% endblock %}

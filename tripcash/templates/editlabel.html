@@ -1,22 +1,22 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}Edit Label{% endblock %}</h1>
+  <h1>{% block title %}{{ _('Edit Category') }}{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
   <form method="post">
-    <label for="label">New Label</label>
+    <label for="label">{{ _('New Category Name') }}</label>
     <input autocomplete="off" autofocus name="label" id="label" required type="text" value="{{ label.label_name }}">
     
-    <input class="btn btn-secondary m-3" type="submit" value="Edit Label">
+    <input class="btn btn-secondary m-3" type="submit" value="{{ _('Save Changes') }}">
   </form>
   
-<h2>Existing Labels</h2>
+<h2>{{ _('Existing Categories') }}</h2>
 <table class="table table-sm table-striped table-hover table-responsive">
   <thead>
     <tr>
-      <th>Label</th>
+      <th>{{ _('Category') }}</th>
     </tr>
   </thead>
   <tbody>
@@ -27,5 +27,5 @@
     {% endfor %}
   </tbody>
 </table>
-<a class="btn btn-secondary" href="{{ url_for('label.label') }}" >Back</a>
+<a class="btn btn-secondary" href="{{ url_for('label.label') }}" >{{ _('Back') }}</a>
 {% endblock %}

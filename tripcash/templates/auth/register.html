@@ -1,20 +1,20 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}Register{% endblock %}</h1>
+  <h1>{% block title %}{{ _('Register') }}{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
   <form method="post">
-    <label for="username">Username</label>
+    <label for="username">{{ _('Username') }}</label>
     <input autocomplete="off" autofocus name="username" id="username" required type="text">
     
-    <label for="password">Password</label>
+    <label for="password">{{ _('Password') }}</label>
     <input type="password" name="password" id="password" required>
     
-    <label for="password2">Confirm the password</label>
+    <label for="password2">{{ _('Confirm the password') }}</label>
     <input type="password" name="password2" id="password2" required>
     
-    <input class="btn btn-secondary m-3" type="submit" value="Register">
+    <input class="btn btn-secondary m-3" type="submit" value="{{ _('Register') }}">
   </form>
 {% endblock %}

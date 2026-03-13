@@ -1,31 +1,124 @@
-# Tripcash <h1>
+# Tripcash 💰
 
-## Overview
-Tripcash is a Python-based web application specifically designed for managing your trip finances. With Tripcash, you can effortlessly track and record all your expenses, organizing them by date and label, and conveniently view them either as a comprehensive list or summarized.
+Tripcash é uma aplicação web focada na simplicidade e eficiência para o gerenciamento das finanças de suas viagens. O objetivo é permitir que você registre seus gastos de forma rápida, organizando-os por categoria e data, sem distrações.
 
-Initially, [my original project](https://github.com/fpgodoy/tripcash) was developed with the intention of deploying it on Heroku. However, due to recent changes in Heroku's pricing structure, including the discontinuation of the free tier, I have created this fork to explore alternative self-hosting options.
+Esta versão foi adaptada para ser **self-hosted**, utilizando Docker para facilitar o deploy e PostgreSQL como banco de dados.
 
-Similar to the original project, this application prioritizes simplicity and speed. To deliver a seamless user experience, the application intentionally excludes any images or JavaScript. Instead, the entire CSS styling is achieved using Bootstrap, ensuring an efficient and intuitive interface.
+---
 
-## Features
-  Here are some of the key features already available in Tripcash:
-  * User authentication: Tripcash allows you to register and log in to your account, so you can keep track of your expenses and trips.
-  * Trip management: With Tripcash, you can create, edit, and delete trips, and keep all your expenses organized by trip.
-  * Label management: Tripcash comes with four default labels (Food, Transport, Tickets, and Accommodation), but you can create, edit, and delete your own labels to better fit your travel needs.
-  * Expense tracking: Tripcash lets you register all your travel expenses, including the date, label, description, and amount, and view them in a list or by label and date. You can also edit or delete your expenses if you need to make any changes.
+## 🚀 Como Rodar (Self-hosting)
 
-## Objectives for upcoming features
-  * Multi-Currency Support: The aim is to enhance Tripcash by introducing support for multiple currencies. This feature will enable users to seamlessly manage expenses in different currencies during their trips, providing accurate and convenient financial tracking.
-  * Multi-Language Support: Tripcash aims to provide support for multiple languages to cater to a diverse user base. This feature will allow users to select their preferred language within the application, enhancing accessibility and usability for users worldwide. By offering language options, Tripcash seeks to ensure that users can comfortably interact with the application in their native language, further enhancing their experience and usability.
+A forma recomendada de executar o Tripcash é através do **Docker Compose**.
 
-## Files
-  * **'\_\_init\_\_.py'**: Initializes the app components.
-  * **'auth.py'**: Contains all the authentication functions, including Login, Logout, Register User, and Change Password.
-  * **'db.py'**: Includes the DB connection and all the DB query to create the tables and their functions.
-  * **'expense.py'**: Contains the function to create a new expense.
-  * **'home.py'**: Contains functions to the index and welcome page.
-  * **'label.py'**: Contains all the functions to create, edit, list, and delete the labels.
-  * **'list.py'**: Contains the function to list existing expenses, delete or edit them, and the function to sum and list the expenses by label and date.
-  * **'Procfile'**: Declares the process types and command to run the app on the Heroku.com platform.
-  * **'requirements.txt'**: Lists all the dependencies needed to run the app.
-  * **'/templates/'**: Contains all the HTML pages to render using the base.html file.
+### Pré-requisitos
+- [Docker](https://www.docker.com/) instalado.
+- [Docker Compose](https://docs.docker.com/compose/) instalado.
+
+### Passo a Passo
+
+1. **Clone o repositório:**
+   ```bash
+   git clone <URL_DO_REPOSITORIO>
+   cd tripcash-selfhosted-main
+   ```
+
+2. **Configure as variáveis de ambiente:**
+   Crie um arquivo `.env` na raiz do projeto (opcional, pois o `docker-compose` já possui valores padrão seguros para teste):
+   ```env
+   SECRET_KEY=sua_chave_secreta_aqui
+   DB_USER=tripuser
+   DB_PASSWORD=trippassword
+   DB_NAME=tripcashdb
+   ```
+
+3. **Suba os containers:**
+   ```bash
+   docker-compose up -d
+   ```
+
+4. **Inicialize o Banco de Dados (Apenas na primeira vez):**
+   ```bash
+   docker-compose exec web flask init-db
+   ```
+
+5. **Acesse a aplicação:**
+   Abra seu navegador em [http://localhost:8000](http://localhost:8000).
+
+---
+
+## 📖 Guia de Uso
+
+O uso do Tripcash segue um fluxo lógico simples:
+
+### 1. Registro e Login
+Ao acessar a aplicação pela primeira vez, clique em **Register** para criar seu usuário. Após o registro, faça o login para acessar seu painel pessoal.
+
+### 2. Criando sua primeira Viagem
+Logo após o primeiro login, você será redirecionado para criar uma viagem (ex: "Eurotrip 2024"). As despesas são sempre vinculadas a uma viagem específica.
+
+### 3. Gerenciando Categorias (Labels)
+A aplicação vem com 4 categorias padrão: **Food**, **Transport**, **Tickets** e **Accommodation**. 
+Você pode criar novas categorias ou editar as existentes no menu de **Labels** para melhor se adaptar ao seu estilo de viagem.
+
+### 4. Lançando Gastos
+No painel principal da sua viagem atual, você pode clicar para adicionar um novo gasto:
+- Selecione a **Data**.
+- Escolha a **Categoria**.
+- Dê um **Título**/Descrição.
+- Insira o **Valor**.
+
+### 5. Visualização e Resumo
+No menu **List**, você pode ver todos os gastos lançados, editá-los ou excluí-los. Há também uma funcionalidade de resumo que soma os gastos por categoria e data, ajudando você a entender para onde seu dinheiro está indo.
+
+---
+
+## ✨ Funcionalidades Principais
+* **Autenticação Segura:** Seus dados protegidos por login.
+* **Múltiplas Viagens:** Gerencie diferentes destinos separadamente.
+* **Categorias Personalizáveis:** Crie etiquetas que façam sentido para você.
+* **Interface Low-JS:** Focada em velocidade e compatibilidade, com visual limpo via Bootstrap.
+* **Docker Ready:** Deploy em segundos em qualquer servidor.
+
+---
+
+## 🛠️ Tecnologias Utilizadas
+- **Python 3.11** + **Flask 3.1.3**
+- **PostgreSQL 15** (Banco de dados relacional)
+- **Gunicorn** (Servidor de produção)
+- **Bootstrap** (Interface responsiva)
+- **Docker & Docker Compose** (Containerização)
+- **Flask-Babel** (Internacionalização PT/EN)
+
+---
+
+## 📋 Monitoramento de Logs
+
+A aplicação está configurada para registrar logs de acesso e erros via Gunicorn, capturados pelo Docker com rotação automática (máx. 5 arquivos × 10 MB para web, 3 × 10 MB para o banco).
+
+### Comandos úteis
+
+```bash
+# Ver logs em tempo real
+docker-compose logs -f web
+
+# Ver últimas 50 linhas
+docker-compose logs --tail=50 web
+
+# Filtrar por período
+docker-compose logs --since 1h web
+
+# Logs do banco de dados
+docker-compose logs --tail=30 db
+
+# Buscar um endpoint específico
+docker-compose logs web | grep "POST /auth/login"
+```
+
+### Exemplo de saída
+```
+web-1 | [INFO] Starting gunicorn 25.1.0
+web-1 | 192.168.1.5 - - [13/Mar/2026] "GET / HTTP/1.1" 200 2345
+web-1 | 192.168.1.5 - - [13/Mar/2026] "POST /auth/login HTTP/1.1" 302 -
+```
+
+> O serviço `web` reinicia automaticamente em caso de falha (`restart: unless-stopped`).

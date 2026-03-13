@@ -1,18 +1,18 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}Edit{% endblock %}</h1>
+  <h1>{% block title %}{{ _('Edit') }}{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
   <form method="post">
-    <label for="date">Date</label>
+    <label for="date">{{ _('Date') }}</label>
     <input autocomplete="off" name="date" id="date" value="{{ expense.post_date }}" required type="date">
-    <label for="amount">Amount</label>
+    <label for="amount">{{ _('Amount') }}</label>
     <input autocomplete="off" class="money" name="amount" value="{{ expense.amount }}" required step="0.01" type="number">
-    <label for="title">Title</label>
+    <label for="title">{{ _('Title') }}</label>
     <input autocomplete="off" name="title" value="{{ expense.title }}" required type="text">
-    <label for="label">Label</label>
+    <label for="label">{{ _('Category') }}</label>
     <select name="label">
         {% for label in label_list %}
           {% if label[0] == expense.label %}
@@ -22,7 +22,7 @@
           {% endif %}
         {% endfor %}
     </select>
-    <label for="trip">Trip</label>
+    <label for="trip">{{ _('Trip') }}</label>
     <select name="trip">
         {% for trip in trip_list %}
          {% if trip[0] == expense.trip %}
@@ -32,7 +32,7 @@
           {% endif %}
         {% endfor %}
     </select>
-    <input class="btn btn-success m-3" type="submit" value="Edit">
+    <input class="btn btn-success m-3" type="submit" value="{{ _('Save Changes') }}">
   </form>
-  <a class="btn btn-secondary" href="{{ url_for('list.list') }}" >Back</a>
+  <a class="btn btn-secondary" href="{{ url_for('list.list') }}" >{{ _('Back') }}</a>
 {% endblock %}

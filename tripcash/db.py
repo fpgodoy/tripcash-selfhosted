@@ -1,8 +1,6 @@
 import os
 import click
 from dotenv import load_dotenv
-import psycopg2
-import psycopg2.extras
 from flask import current_app, g
 from flask.cli import with_appcontext
 
@@ -18,6 +16,8 @@ db_name = os.environ.get('DB_NAME')
 
 
 def get_db():
+    import psycopg2
+    import psycopg2.extras
     if 'db' not in g:
         g.db = psycopg2.connect(
             host=db_host,

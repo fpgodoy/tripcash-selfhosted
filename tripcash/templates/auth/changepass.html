@@ -1,20 +1,20 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}Change your password{% endblock %}</h1>
+  <h1>{% block title %}{{ _('Change your password') }}{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
   <form method="post">
-    <label for="current_password">Current Password</label>
+    <label for="current_password">{{ _('Current Password') }}</label>
     <input type="password" name="current_password" id="current_password" required>
     
-    <label for="password">New Password</label>
+    <label for="password">{{ _('New Password') }}</label>
     <input type="password" name="new_password" id="new_password" required>
     
-    <label for="password2">Confirm the new password</label>
+    <label for="password2">{{ _('Confirm the new password') }}</label>
     <input type="password" name="new_password2" id="new_password2" required>
     
-    <input class="btn btn-secondary m-3" type="submit" value="Change">
+    <input class="btn btn-secondary m-3" type="submit" value="{{ _('Change') }}">
   </form>
 {% endblock %}

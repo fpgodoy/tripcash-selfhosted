@@ -2,6 +2,7 @@ from datetime import datetime
 
 from flask import (Blueprint, blueprints, flash, g, redirect, render_template,
                    request, session, url_for)
+from flask_babel import _
 
 from tripcash.auth import login_required
 from tripcash.db import get_db
@@ -59,6 +60,9 @@ def expense():
 
         flash(error)
 
+    # Translate category names for display
+    display_label_list = [(row[0], _(row[1])) for row in label_list]
+
     return render_template(
-        'expense.html', label_list=label_list, today=datetime.today()
+        'expense.html', label_list=display_label_list, today=datetime.today()
     )

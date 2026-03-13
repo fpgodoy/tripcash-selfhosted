@@ -1,0 +1,241 @@
+# Portuguese (Brazil) translations for Tripcash
+msgid ""
+msgstr ""
+"Project-Id-Version: Tripcash 1.0\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2026-03-12 00:00+0000\n"
+"PO-Revision-Date: 2026-03-12 00:00+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: pt\n"
+"Language-Team: pt <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.16.0\n"
+
+msgid "Home"
+msgstr "Início"
+
+msgid "Trip"
+msgstr "Viagem"
+
+msgid "Change"
+msgstr "Alterar"
+
+msgid "User"
+msgstr "Usuário"
+
+msgid "Log Out"
+msgstr "Sair"
+
+msgid "Change Password"
+msgstr "Alterar Senha"
+
+msgid "Register"
+msgstr "Registrar"
+
+msgid "Log In"
+msgstr "Entrar"
+
+msgid "Getting Started"
+msgstr "Primeiros Passos"
+
+msgid "With Tripcash, you can easily manage your travel expenses with just a few clicks. Organize your spending by categories and stay on top of your budget more effectively."
+msgstr "Com o Tripcash, você pode gerenciar seus gastos de viagem com apenas alguns cliques. Organize suas despesas por categorias e controle seu orçamento de forma mais eficaz."
+
+msgid "Tripcash comes with default categories, but you can easily edit, delete, or create your own custom ones to suit your needs."
+msgstr "O Tripcash vem com categorias padrão, mas você pode editá-las, excluí-las ou criar as suas próprias para melhor se adequar às suas necessidades."
+
+msgid "To get started, simply create your first trip by giving it a name. Choose a unique name to help you identify it later."
+msgstr "Para começar, crie sua primeira viagem dando um nome a ela. Escolha um nome único para identificá-la facilmente depois."
+
+msgid "Create Trip"
+msgstr "Criar Viagem"
+
+msgid "Select your trip:"
+msgstr "Selecione sua viagem:"
+
+msgid "Select"
+msgstr "Selecionar"
+
+msgid "Expenses"
+msgstr "Despesas"
+
+msgid "Register new expenses or view all records for this trip in the list section. You can also see a summary of expenses grouped by category and filtered by date."
+msgstr "Registre novas despesas ou visualize todos os registros desta viagem na seção de lista. Você também pode ver um resumo das despesas agrupadas por categoria e filtradas por data."
+
+msgid "New"
+msgstr "Nova"
+
+msgid "List"
+msgstr "Lista"
+
+msgid "Total"
+msgstr "Total"
+
+msgid "Management"
+msgstr "Gerenciamento"
+
+msgid "Organize and keep track of your trips and categories. You can reuse the same categories across different trips. Click below to view, edit, or delete them."
+msgstr "Organize e gerencie suas viagens e categorias. Você pode reutilizar as mesmas categorias em viagens diferentes. Clique abaixo para visualizar, editar ou excluir."
+
+msgid "Trips"
+msgstr "Viagens"
+
+msgid "Labels"
+msgstr "Categorias"
+
+msgid "Simplify your trip expenses."
+msgstr "Simplifique os gastos da sua viagem."
+
+msgid "Username"
+msgstr "Usuário"
+
+msgid "Password"
+msgstr "Senha"
+
+msgid "Confirm the password"
+msgstr "Confirme a senha"
+
+msgid "Current Password"
+msgstr "Senha Atual"
+
+msgid "New Password"
+msgstr "Nova Senha"
+
+msgid "Confirm the new password"
+msgstr "Confirme a nova senha"
+
+msgid "Register a new expense"
+msgstr "Registrar nova despesa"
+
+msgid "Date"
+msgstr "Data"
+
+msgid "Amount"
+msgstr "Valor"
+
+msgid "Title"
+msgstr "Título"
+
+msgid "Category"
+msgstr "Categoria"
+
+msgid "Back"
+msgstr "Voltar"
+
+msgid "Edit"
+msgstr "Editar"
+
+msgid "Save Changes"
+msgstr "Salvar Alterações"
+
+msgid "Welcome to category management. You can create new categories, view current ones, or edit and delete them as needed."
+msgstr "Bem-vindo ao gerenciamento de categorias. Você pode criar novas categorias, visualizar as existentes ou editá-las e excluí-las conforme necessário."
+
+msgid "Note:"
+msgstr "Nota:"
+
+msgid "If you delete a category, all associated expenses will be automatically reassigned to \"Others\"."
+msgstr "Se você excluir uma categoria, todas as despesas associadas serão automaticamente reatribuídas para \"Outros\"."
+
+msgid "New Category"
+msgstr "Nova Categoria"
+
+msgid "Create Category"
+msgstr "Criar Categoria"
+
+msgid "Existing Categories"
+msgstr "Categorias Existentes"
+
+msgid "Actions"
+msgstr "Ações"
+
+msgid "Delete"
+msgstr "Excluir"
+
+msgid "Deleting this category will move all associated expenses to others. Are you sure?"
+msgstr "Excluir esta categoria moverá todas as despesas associadas para \"Outros\". Tem certeza?"
+
+msgid "Manage your trips here. Create new ones, or view, edit, and delete existing trips from the list below."
+msgstr "Gerencie suas viagens aqui. Crie novas viagens ou visualize, edite e exclua as existentes na lista abaixo."
+
+msgid "Warning:"
+msgstr "Atenção:"
+
+msgid "Deleting a trip will also remove all expenses registered under it."
+msgstr "Excluir uma viagem também removerá todas as despesas registradas nela."
+
+msgid "Trip Name"
+msgstr "Nome da Viagem"
+
+msgid "Existing Trips"
+msgstr "Viagens Existentes"
+
+msgid "This will permanently delete the trip and all its expenses. Are you sure?"
+msgstr "Isso excluirá permanentemente a viagem e todas as suas despesas. Tem certeza?"
+
+msgid "New Expense"
+msgstr "Nova Despesa"
+
+msgid "Are you sure?"
+msgstr "Tem certeza?"
+
+msgid "Select a date to filter the total expenses:"
+msgstr "Selecione uma data para filtrar o total de despesas:"
+
+msgid "All dates"
+msgstr "Todas as datas"
+
+msgid "Filter"
+msgstr "Filtrar"
+
+msgid "Edit Category"
+msgstr "Editar Categoria"
+
+msgid "New Category Name"
+msgstr "Novo Nome da Categoria"
+
+msgid "Edit Trip"
+msgstr "Editar Viagem"
+
+msgid "Incorrect username."
+msgstr "Nome de usuário incorreto."
+
+msgid "Incorrect password."
+msgstr "Senha incorreta."
+
+msgid "Username is required."
+msgstr "O nome de usuário é obrigatório."
+
+msgid "Password is required."
+msgstr "A senha é obrigatória."
+
+msgid "Passwords do not match. Please try again."
+msgstr "As senhas não coincidem. Por favor, tente novamente."
+
+msgid "All fields are required."
+msgstr "Todos os campos são obrigatórios."
+
+msgid "Trip name is required."
+msgstr "O nome da viagem é obrigatório."
+
+msgid "Incorrect current password."
+msgstr "Senha atual incorreta."
+
+msgid "New password and current password are the same."
+msgstr "A nova senha é igual à senha atual."
+
+# System default category names
+msgid "Food"
+msgstr "Alimentação"
+
+msgid "Transport"
+msgstr "Transporte"
+
+msgid "Tickets"
+msgstr "Ingressos"
+
+msgid "Accommodation"
+msgstr "Hospedagem"

@@ -1,6 +1,9 @@
 venv/
+tripcashenv/
+.venv/
 
 *.pyc
+*.pyo
 __pycache__/
 
 instance/
@@ -13,6 +16,20 @@ dist/
 build/
 *.egg-info/
 
+# Variáveis de ambiente (nunca commitar credenciais)
 .env
+*.env.local
 
-tripcashenv/
+# Babel — arquivos compilados (gerados automaticamente no build Docker)
+*.mo
+
+# Logs locais
+*.log
+logs/
+
+# VS Code
+.vscode/
+
+# Arquivos de sistema
+.DS_Store
+Thumbs.db

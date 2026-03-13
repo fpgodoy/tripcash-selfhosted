@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - FLASK_APP=tripcash
+      - SECRET_KEY=${SECRET_KEY:-dev_key_super_secret_para_producao}
+      - DB_USER=${DB_USER:-tripuser}
+      - DB_PASSWORD=${DB_PASSWORD:-trippassword}
+      - DB_HOST=db
+      - DB_NAME=${DB_NAME:-tripcashdb}
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+
+  db:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER:-tripuser}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-trippassword}
+      POSTGRES_DB: ${DB_NAME:-tripcashdb}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  pgdata:

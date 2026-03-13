@@ -1,22 +1,22 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}Getting Started{% endblock %}</h1>
+  <h1>{% block title %}{{ _('Getting Started') }}{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
     
-<p>With Tripcash, you can easily manage all of your travel expenses with just a few clicks. Organize your expenses by labels, both big and small, and keep track of your spending to help plan your budget more effectively. </p>
-<p>By default, Tripcash comes with some generic labels, but you can easily edit and delete them, or even create your own custom labels that better suit your travel needs.</p>
-<p>To get started with Tripcash, simply create your first trip by giving it a name. Remember to choose a unique name that hasn't been used for any other trips before.</p>
+<p>{{ _('With Tripcash, you can easily manage your travel expenses with just a few clicks. Organize your spending by categories and stay on top of your budget more effectively.') }}</p>
+<p>{{ _('Tripcash comes with default categories, but you can easily edit, delete, or create your own custom ones to suit your needs.') }}</p>
+<p>{{ _('To get started, simply create your first trip by giving it a name. Choose a unique name to help you identify it later.') }}</p>
     
 
     <form class="form-inline d-flex align-items:baseline px-3" method="post">
       <div class="form-group">
-        <label class="form-label" for="trip_name">Trip</label>
+        <label class="form-label" for="trip_name">{{ _('Trip') }}</label>
         <input autocomplete="off" autofocus class="form-control" name="trip_name" id="trip_name" required type="text">
       </div>
-      <input class="btn btn-success mx-3" type="submit" value="Create Trip">
+      <input class="btn btn-success mx-3" type="submit" value="{{ _('Create Trip') }}">
     </form>
 
   

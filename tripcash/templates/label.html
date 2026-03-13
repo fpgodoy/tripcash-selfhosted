@@ -1,26 +1,26 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}Label{% endblock %}</h1>
+  <h1>{% block title %}{{ _('Categories') }}{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
-<p> Welcome to the label management page. Need to create a new label? Simply type the desired name in the field provided below. You can also view, edit and delete any of your existing labels.</p>
-<p> Please note that when you delete a label, all expenses associated with it will be re-labeled with the default label "others".</p>
+<p>{{ _('Welcome to category management. You can create new categories, view current ones, or edit and delete them as needed.') }}</p>
+<p><strong>{{ _('Note:') }}</strong> {{ _('If you delete a category, all associated expenses will be automatically reassigned to "Others".') }}</p>
 
 <form method="post">
-  <label for="label">New Label</label>
+  <label for="label">{{ _('New Category') }}</label>
   <input autocomplete="off" autofocus name="label" id="label" required type="text">
   
-  <input class="btn btn-success" type="submit" value="Create Label">
+  <input class="btn btn-success" type="submit" value="{{ _('Create Category') }}">
 </form>
 
-<h2>Existing Labels</h2>
+<h2>{{ _('Existing Categories') }}</h2>
 <table class="table table-sm table-striped table-hover px-3">
   <thead>
     <tr>
-      <th scope="col">Label</th>
-      <th scope="col">Manage</th>
+      <th scope="col">{{ _('Category') }}</th>
+      <th scope="col">{{ _('Actions') }}</th>
     </tr>
   </thead>
   <tbody>
@@ -28,12 +28,12 @@
       <tr>
         <td>{{ label.label_name }}</td>
         <td class="btn-group" role="group">
-          <form action="{{ url_for('label.editlabel', id=label['label_id']) }}" method="GET"><input class="btn btn-sm btn-secondary" type="submit" value="Edit"></form>
-          <form action="{{ url_for('label.deletelabel', id=label['label_id']) }}" method="POST"><input class="btn btn-sm btn-secondary" type="submit" value="Delete" onclick="return confirm('All the expenses on this label will be transfered to the label others. Are you sure?');"></form>
+          <form action="{{ url_for('label.editlabel', id=label['label_id']) }}" method="GET"><input class="btn btn-sm btn-secondary" type="submit" value="{{ _('Edit') }}"></form>
+          <form action="{{ url_for('label.deletelabel', id=label['label_id']) }}" method="POST"><input class="btn btn-sm btn-secondary" type="submit" value="{{ _('Delete') }}" onclick="return confirm('{{ _('Deleting this category will move all associated expenses to others. Are you sure?') }}');"></form>
         </td>
       </tr>
     {% endfor %}
   </tbody>
 </table>
-<a class="btn btn-secondary" href="{{ url_for('index') }}" >Back</a>
+<a class="btn btn-secondary" href="{{ url_for('index') }}" >{{ _('Back') }}</a>
 {% endblock %}
