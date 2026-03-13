@@ -23,26 +23,50 @@ A forma recomendada de executar o Tripcash é através do **Docker Compose**.
    ```
 
 2. **Configure as variáveis de ambiente:**
-   Crie um arquivo `.env` na raiz do projeto (opcional, pois o `docker-compose` já possui valores padrão seguros para teste):
+   Crie um arquivo `.env` na raiz do projeto. O `docker-compose.yml` já possui valores padrão para facilitar testes locais, mas **nunca use os valores padrão em produção**.
    ```env
-   SECRET_KEY=sua_chave_secreta_aqui
+   SECRET_KEY=uma_string_longa_e_aleatoria_aqui
    DB_USER=tripuser
-   DB_PASSWORD=trippassword
+   DB_PASSWORD=sua_senha_forte_aqui
    DB_NAME=tripcashdb
    ```
+
+   > **Dica:** para gerar um `SECRET_KEY` seguro, use:
+   > ```bash
+   > python -c "import secrets; print(secrets.token_hex(32))"
+   > ```
 
 3. **Suba os containers:**
    ```bash
    docker-compose up -d
    ```
 
-4. **Inicialize o Banco de Dados (Apenas na primeira vez):**
+4. **Inicialize o Banco de Dados (apenas na primeira vez):**
    ```bash
    docker-compose exec web flask init-db
    ```
 
 5. **Acesse a aplicação:**
-   Abra seu navegador em [http://localhost:8000](http://localhost:8000).
+   A aplicação estará disponível na porta **8000** do servidor onde os containers estão rodando.
+   - Acesso local: `http://localhost:8000`
+   - Acesso na rede local: `http://<IP_DO_SERVIDOR>:8000`
+
+---
+
+## 🔒 Considerações para Produção
+
+> **Atenção:** nunca suba a aplicação em produção com as credenciais padrão. Use sempre um arquivo `.env` com valores fortes e únicos.
+
+### Credenciais
+Defina `SECRET_KEY` e `DB_PASSWORD` com valores seguros no arquivo `.env`. Jamais comite o `.env` no repositório. O `.gitignore` já está configurado para ignorá-lo.
+
+### Acesso por HTTPS (recomendado)
+O Gunicorn serve HTTP puro na porta 8000. Para expor a aplicação na internet com segurança, utilize um reverse proxy como **Nginx** ou **Traefik** na frente da aplicação para:
+- Terminar o SSL/TLS (certificado via Let's Encrypt)
+- Redirecionar HTTP → HTTPS
+- Servir arquivos estáticos com melhor desempenho
+
+Para uso exclusivo em **rede local interna**, o acesso direto à porta 8000 é suficiente.
 
 ---
 
