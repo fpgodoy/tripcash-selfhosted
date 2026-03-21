@@ -18,7 +18,7 @@ A forma recomendada de executar o Tripcash é através do **Docker Compose**.
 
 1. **Clone o repositório:**
    ```bash
-   git clone <URL_DO_REPOSITORIO>
+   git clone https://github.com/fpgodoy/tripcash-selfhosted.git
    cd tripcash-selfhosted-main
    ```
 
