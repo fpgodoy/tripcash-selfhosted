@@ -1,38 +1,54 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}{{ _('Edit') }}{% endblock %}</h1>
+  <h1 class="h2">{% block title %}{{ _('Edit') }}{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
-  <form method="post">
-    <label for="date">{{ _('Date') }}</label>
-    <input autocomplete="off" name="date" id="date" value="{{ expense.post_date }}" required type="date">
-    <label for="amount">{{ _('Amount') }}</label>
-    <input autocomplete="off" class="money" name="amount" value="{{ expense.amount }}" required step="0.01" type="number">
-    <label for="title">{{ _('Title') }}</label>
-    <input autocomplete="off" name="title" value="{{ expense.title }}" required type="text">
-    <label for="label">{{ _('Category') }}</label>
-    <select name="label">
-        {% for label in label_list %}
-          {% if label[0] == expense.label %}
-            <option value={{ label[0] }} selected>{{ label[1] }}</option>
-          {% else %}
-            <option value={{ label[0] }}>{{ label[1] }}</option>
-          {% endif %}
-        {% endfor %}
-    </select>
-    <label for="trip">{{ _('Trip') }}</label>
-    <select name="trip">
-        {% for trip in trip_list %}
-         {% if trip[0] == expense.trip %}
-          <option value={{ trip[0] }} selected>{{ trip[1] }}</option>
-          {% else %}
-            <option value={{ trip[0] }}>{{ trip[1] }}</option>
-          {% endif %}
-        {% endfor %}
-    </select>
-    <input class="btn btn-success m-3" type="submit" value="{{ _('Save Changes') }}">
-  </form>
-  <a class="btn btn-secondary" href="{{ url_for('list.list') }}" >{{ _('Back') }}</a>
+  <div class="card shadow-sm mx-auto" style="max-width: 500px;">
+    <div class="card-body">
+      <form method="post" class="d-flex flex-column gap-3">
+        <div class="form-group">
+            <label class="form-label" for="date">{{ _('Date') }}</label>
+            <input autocomplete="off" class="form-control" name="date" id="date" value="{{ expense.post_date }}" required type="date">
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="amount">{{ _('Amount') }}</label>
+            <input autocomplete="off" class="form-control money" name="amount" id="amount" value="{{ expense.amount }}" required step="0.01" type="number">
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="title">{{ _('Title') }}</label>
+            <input autocomplete="off" class="form-control" name="title" id="title" value="{{ expense.title }}" required type="text">
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="label">{{ _('Category') }}</label>
+            <select class="form-select" name="label" id="label">
+                {% for label in label_list %}
+                  {% if label[0] == expense.label %}
+                    <option value={{ label[0] }} selected>{{ label[1] }}</option>
+                  {% else %}
+                    <option value={{ label[0] }}>{{ label[1] }}</option>
+                  {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="trip">{{ _('Trip') }}</label>
+            <select class="form-select" name="trip" id="trip">
+                {% for trip in trip_list %}
+                 {% if trip[0] == expense.trip %}
+                  <option value={{ trip[0] }} selected>{{ trip[1] }}</option>
+                  {% else %}
+                    <option value={{ trip[0] }}>{{ trip[1] }}</option>
+                  {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+        <div class="d-grid gap-2 mt-3 d-md-flex justify-content-md-end">
+            <a class="btn btn-secondary" href="{{ url_for('list.list') }}" >{{ _('Back') }}</a>
+            <button class="btn btn-primary" type="submit">{{ _('Save Changes') }}</button>
+        </div>
+      </form>
+    </div>
+  </div>
 {% endblock %}

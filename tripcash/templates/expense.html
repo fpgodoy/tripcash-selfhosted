@@ -1,34 +1,38 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}{{ _('Register a new expense') }}{% endblock %}</h1>
+  <h1 class="h2">{% block title %}{{ _('Register a new expense') }}{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
-  <form method="post" class="d-flex flex-column">
-    <div class="form-group p-3">
-      <label class="form-label" for="date">{{ _('Date') }}</label>
-      <input autocomplete="off" class="form-control" name="date" id="date" required type="date" value={{ today }}>
+  <div class="card shadow-sm mx-auto" style="max-width: 500px;">
+    <div class="card-body">
+      <form method="post" class="d-flex flex-column gap-3">
+        <div class="form-group">
+          <label class="form-label" for="date">{{ _('Date') }}</label>
+          <input autocomplete="off" class="form-control" name="date" id="date" required type="date" value={{ today }}>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="amount">{{ _('Amount') }}</label>
+          <input autocomplete="off" class="form-control money" name="amount" id="amount" placeholder="0.00" required step="0.01" type="number">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="title">{{ _('Title') }}</label>
+          <input autocomplete="off" class="form-control" name="title" id="title" required type="text">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="label">{{ _('Category') }}</label>
+          <select class="form-select" name="label" id="label">
+            {% for label in label_list %}
+                <option value={{ label[0] }}>{{ label[1] }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="d-grid gap-2 mt-3 d-md-flex justify-content-md-end">
+          <a class="btn btn-secondary" href="{{ url_for('index') }}" >{{ _('Back') }}</a>
+          <button class="btn btn-success" type="submit">{{ _('Register') }}</button>
+        </div>
+      </form>
     </div>
-    <div class="form-group p-3">
-      <label class="form-label" for="amount">{{ _('Amount') }}</label>
-      <input autocomplete="off" class="form-control" class="money" name="amount" placeholder="0.00" required step="0.01" type="number">
-    </div>
-    <div class="form-group p-3">
-      <label class="form-label" for="title">{{ _('Title') }}</label>
-      <input autocomplete="off" class="form-control" name="title" required type="text">
-    </div>
-    <div class="form-group p-3">
-      <label class="form-label" for="label">{{ _('Category') }}</label>
-      <select class="form-control" name="label">
-        {% for label in label_list %}
-            <option value={{ label[0] }}>{{ label[1] }}</option>
-        {% endfor %}
-      </select>
-    </div>
-    <div class="d-flex flex-row justify-content-around p-3">
-      <input class="btn btn-success" type="submit" value="{{ _('Register') }}">
-      <a class="btn btn-secondary" href="{{ url_for('index') }}" >{{ _('Back') }}</a>
   </div>
-  </form>
 {% endblock %}

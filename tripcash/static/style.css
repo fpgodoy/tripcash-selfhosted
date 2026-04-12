@@ -1,0 +1,122 @@
+:root {
+  --bg-color: #121212;
+  --surface-color: #1e1e1e;
+  --text-primary: #e0e0e0;
+  --text-secondary: #aaaaaa;
+  --accent-color: #bb86fc;
+  --accent-hover: #9965f4;
+  --danger-color: #cf6679;
+  --success-color: #03dac6;
+  --border-color: #333333;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Navbar */
+.navbar {
+  background-color: var(--surface-color) !important;
+  border-bottom: 1px solid var(--border-color);
+}
+.navbar-brand, .nav-link {
+  color: var(--text-primary) !important;
+}
+
+/* Tables */
+.table {
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+.table-striped>tbody>tr:nth-of-type(odd)>* {
+  color: var(--text-primary);
+  background-color: rgba(255, 255, 255, 0.05);
+}
+.table-hover>tbody>tr:hover>* {
+  color: var(--text-primary);
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Forms */
+.form-control, .form-select {
+  background-color: var(--surface-color);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+}
+.form-control:focus, .form-select:focus {
+  background-color: var(--surface-color);
+  color: var(--text-primary);
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 0.25rem rgba(187, 134, 252, 0.25);
+}
+
+/* Buttons */
+.btn {
+  min-height: 44px; /* Touch target size */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  /* Responsiveness for cards / generic containers */
+  main {
+    padding-bottom: 3rem;
+  }
+  
+  /* Make buttons stretch for easier tapping on mobile */
+  .btn-mobile-stretch {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+
+  /* Hide specific table columns on mobile */
+  .mobile-hide {
+    display: none !important;
+  }
+  
+  /* Responsive cards for table data */
+  .table-responsive-cards thead {
+    display: none;
+  }
+  .table-responsive-cards tbody, .table-responsive-cards tr, .table-responsive-cards td {
+    display: block;
+    width: 100%;
+  }
+  .table-responsive-cards tr {
+    margin-bottom: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    background-color: var(--surface-color);
+    padding: 0.5rem;
+  }
+  .table-responsive-cards td {
+    text-align: right;
+    padding-left: 50%;
+    position: relative;
+    border: none;
+    border-bottom: 1px solid var(--border-color);
+    min-height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+  .table-responsive-cards td:last-child {
+    border-bottom: none;
+  }
+  .table-responsive-cards td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 0.5rem;
+    width: 45%;
+    padding-right: 10px;
+    white-space: nowrap;
+    text-align: left;
+    font-weight: bold;
+    color: var(--text-secondary);
+  }
+}

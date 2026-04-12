@@ -7,39 +7,56 @@
     {% if g.user %}
         <div class="menu">
             {% if not g.trip %}
-                <form method="post">
-                    <label class="form-label" for="trip_name">{{ _('Select your trip:') }}</label>
-                    <select name="trip_name" id="trip_name">
-                        {% for trip in trip_list %}
-                            <option value={{ trip[0] }}>{{ trip[1] }}</option>
-                        {% endfor %}
-                    </select>
-                    <input class="btn btn-secondary m-3" type="submit" value="{{ _('Select') }}">
-                </form>
+                <div class="card shadow-sm mb-4">
+                    <div class="card-body">
+                        <form method="post">
+                            <label class="form-label fw-bold" for="trip_name">{{ _('Select your trip:') }}</label>
+                            <select class="form-select mb-3" name="trip_name" id="trip_name">
+                                {% for trip in trip_list %}
+                                    <option value={{ trip[0] }}>{{ trip[1] }}</option>
+                                {% endfor %}
+                            </select>
+                            <div class="d-grid">
+                                <button class="btn btn-primary" type="submit">{{ _('Select') }}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             {% elif not trip_list[0][1] %}
                 <p>teste</p>
             {% else %}
-                <h2>{{ _('Expenses') }}</h2>
-                <p>{{ _('Register new expenses or view all records for this trip in the list section. You can also see a summary of expenses grouped by category and filtered by date.') }}</p>
-                <div class="d-flex justify-content-around">
-                    <a class="btn btn-secondary" href={{ url_for("expense.expense") }}>{{ _('New') }}</a>
-                    <a class="btn btn-secondary" href={{ url_for("list.list") }}>{{ _('List') }}</a>
-                    <a class="btn btn-secondary" href={{ url_for("list.total") }}>{{ _('Total') }}</a>
+                <div class="card shadow-sm mb-4">
+                    <div class="card-body">
+                        <h3 class="card-title h4 mb-3">{{ _('Expenses') }}</h3>
+                        <p class="text-secondary small mb-4">{{ _('Register new expenses or view all records for this trip in the list section. You can also see a summary of expenses grouped by category and filtered by date.') }}</p>
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                            <a class="btn btn-primary btn-mobile-stretch" href="{{ url_for('expense.expense') }}">{{ _('New') }}</a>
+                            <a class="btn btn-secondary btn-mobile-stretch" href="{{ url_for('list.list') }}">{{ _('List') }}</a>
+                            <a class="btn btn-secondary btn-mobile-stretch" href="{{ url_for('list.total') }}">{{ _('Total') }}</a>
+                        </div>
+                    </div>
                 </div>
             {% endif %}
-            <h2>{{ _('Management') }}</h2>
-            <p>{{ _('Organize and keep track of your trips and categories. You can reuse the same categories across different trips. Click below to view, edit, or delete them.') }}</p> 
-            <div class="d-flex justify-content-around">
-                <a class="btn btn-secondary" href={{ url_for("trip.trip") }}>{{ _('Trips') }}</a>
-                <a class="btn btn-secondary" href={{ url_for("label.label") }}>{{ _('Labels') }}</a>
+            
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h3 class="card-title h4 mb-3">{{ _('Management') }}</h3>
+                    <p class="text-secondary small mb-4">{{ _('Organize and keep track of your trips and categories. You can reuse the same categories across different trips. Click below to view, edit, or delete them.') }}</p> 
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                        <a class="btn btn-secondary btn-mobile-stretch" href="{{ url_for('trip.trip') }}">{{ _('Trips') }}</a>
+                        <a class="btn btn-secondary btn-mobile-stretch" href="{{ url_for('label.label') }}">{{ _('Labels') }}</a>
+                    </div>
+                </div>
             </div>
         </div>
     {% else %}
-    <h1 class="text-center">Tripcash</h1>
-    <h2 class="text-center">{{ _('Simplify your trip expenses.') }}</h2>
-    <div class="d-flex justify-content-around">
-        <a class="btn btn-secondary" href={{ url_for("auth.login") }}>{{ _('Log In') }}</a>
-        <a class="btn btn-secondary" href={{ url_for("auth.register") }}>{{ _('Register') }}</a>
+    <div class="text-center py-5">
+        <h1 class="display-4 fw-bold mb-3">Tripcash</h1>
+        <h2 class="h4 text-secondary mb-5">{{ _('Simplify your trip expenses.') }}</h2>
+        <div class="d-grid gap-3 d-md-flex justify-content-md-center max-w-sm mx-auto" style="max-width: 300px;">
+            <a class="btn btn-primary btn-lg" href="{{ url_for('auth.login') }}">{{ _('Log In') }}</a>
+            <a class="btn btn-outline-secondary btn-lg" href="{{ url_for('auth.register') }}">{{ _('Register') }}</a>
+        </div>
     </div>
     {% endif %}
 {% endblock %}

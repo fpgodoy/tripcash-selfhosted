@@ -1,25 +1,25 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}{{ _('Getting Started') }}{% endblock %}</h1>
+  <h1 class="h2">{% block title %}{{ _('Getting Started') }}{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
+<div class="card shadow-sm mb-4">
+  <div class="card-body">
+    <p class="mb-3 text-secondary">{{ _('With Tripcash, you can easily manage your travel expenses with just a few clicks. Organize your spending by categories and stay on top of your budget more effectively.') }}</p>
+    <p class="mb-3 text-secondary">{{ _('Tripcash comes with default categories, but you can easily edit, delete, or create your own custom ones to suit your needs.') }}</p>
+    <p class="mb-4 text-secondary">{{ _('To get started, simply create your first trip by giving it a name. Choose a unique name to help you identify it later.') }}</p>
     
-<p>{{ _('With Tripcash, you can easily manage your travel expenses with just a few clicks. Organize your spending by categories and stay on top of your budget more effectively.') }}</p>
-<p>{{ _('Tripcash comes with default categories, but you can easily edit, delete, or create your own custom ones to suit your needs.') }}</p>
-<p>{{ _('To get started, simply create your first trip by giving it a name. Choose a unique name to help you identify it later.') }}</p>
-    
-
-    <form class="form-inline d-flex align-items:baseline px-3" method="post">
-      <div class="form-group">
-        <label class="form-label" for="trip_name">{{ _('Trip') }}</label>
-        <input autocomplete="off" autofocus class="form-control" name="trip_name" id="trip_name" required type="text">
-      </div>
-      <input class="btn btn-success mx-3" type="submit" value="{{ _('Create Trip') }}">
-    </form>
-
-  
-    </tbody>
-  </table>
+    <div class="p-3 rounded" style="background-color: rgba(255,255,255,0.05);">
+        <form class="d-flex flex-column flex-md-row gap-3" method="post">
+          <div class="form-group flex-grow-1">
+            <label class="form-label visually-hidden" for="trip_name">{{ _('Trip') }}</label>
+            <input autocomplete="off" autofocus class="form-control" name="trip_name" id="trip_name" placeholder="{{ _('Trip') }}" required type="text">
+          </div>
+          <button class="btn btn-success" type="submit">{{ _('Create Trip') }}</button>
+        </form>
+    </div>
+  </div>
+</div>
 {% endblock %}
