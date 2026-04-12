@@ -28,8 +28,9 @@
                                 <form action="{{ url_for('list.edit', id=post['id']) }}" method="GET">
                                     <button class="btn btn-sm btn-primary" type="submit">{{ _('Edit') }}</button>
                                 </form>
+                                {% set confirm_msg = _('Are you sure?') %}
                                 <form action="{{ url_for('list.delete', id=post['id']) }}" method="POST">
-                                    <button class="btn btn-sm btn-danger" type="submit" onclick="return confirm('{{ _("Are you sure?") }}');">{{ _('Delete') }}</button>
+                                    <button class="btn btn-sm btn-danger" type="submit" onclick="return confirm('{{ confirm_msg }}');">{{ _('Delete') }}</button>
                                 </form>
                             </div>
                         </td>

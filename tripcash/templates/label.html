@@ -42,8 +42,9 @@
               <form action="{{ url_for('label.editlabel', id=label['label_id']) }}" method="GET">
                 <button class="btn btn-sm btn-primary" type="submit">{{ _('Edit') }}</button>
               </form>
+              {% set confirm_msg = _('Deleting this category will move all associated expenses to others. Are you sure?') %}
               <form action="{{ url_for('label.deletelabel', id=label['label_id']) }}" method="POST">
-                <button class="btn btn-sm btn-danger" type="submit" onclick="return confirm('{{ _("Deleting this category will move all associated expenses to others. Are you sure?") }}');">{{ _('Delete') }}</button>
+                <button class="btn btn-sm btn-danger" type="submit" onclick="return confirm('{{ confirm_msg }}');">{{ _('Delete') }}</button>
               </form>
             </div>
           </td>
