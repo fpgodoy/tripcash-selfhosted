@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1 class="h2">{% block title %}{{ _('Group Expenses') }} - {{ participant.name }}{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 mb-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-header bg-dark border-secondary d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">{{ _('Net Balance') }}</h5>
+                <h4 class="mb-0 {% if net_balance > 0 %}text-success{% elif net_balance < 0 %}text-danger{% else %}text-info{% endif %} fw-bold">
+                    {{ net_balance | currency_format }}
+                </h4>
+            </div>
+            
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover table-responsive-cards mb-0">
+                        <thead>
+                            <tr>
+                                <th>{{ _('Date') }}</th>
+                                <th>{{ _('Ledger Entry') }}</th>
+                                <th class="text-end">{{ _('Amount') }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in ledger %}
+                                <tr>
+                                    <td data-label="{{ _('Date') }}" class="align-middle text-secondary small" style="white-space: nowrap;">
+                                        {{ item.date.strftime('%Y-%m-%d') if item.date is not string else item.date }}
+                                    </td>
+                                    <td data-label="{{ _('Ledger Entry') }}" class="align-middle">
+                                        {{ item.title }}
+                                    </td>
+                                    <td data-label="{{ _('Amount') }}" class="align-middle text-end fw-bold {% if item.type == 'credit' %}text-success{% else %}text-danger{% endif %}">
+                                        {% if item.type == 'credit' %}+{% else %}-{% endif %} {{ item.amount | currency_format }}
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="3" class="text-center text-secondary py-4">
+                                        {{ _('No group expenses recorded yet.') }}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="d-grid gap-2 d-md-flex mt-2 justify-content-md-center">
+    <a class="btn btn-secondary" style="min-width: 200px" href="{{ url_for('settlement.show') }}" >{{ _('Back') }}</a>
+</div>
+
+{% endblock %}

@@ -1,31 +1,134 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}{{ _('Edit Trip') }}{% endblock %}</h1>
+  <h1 class="h2">{% block title %}{{ _('Edit Trip') }}{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
-    <form method="post">
-      <label for="trip">{{ _('Trip Name') }}</label>
-      <input autocomplete="off" autofocus name="trip_name" id="trip_name" required type="text" value="{{ trip.trip_name }}">
-      
-      <input class="btn btn-secondary m-3" type="submit" value="{{ _('Save Changes') }}">
-    </form>
+<div class="row">
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-header bg-dark border-secondary">
+                <h5 class="mb-0">{{ _('Trip Details') }}</h5>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    <div class="form-group mb-3">
+                        <label class="form-label fw-bold" for="trip_name">{{ _('Trip Name') }}</label>
+                        <input autocomplete="off" autofocus class="form-control" name="trip_name" id="trip_name" required type="text" value="{{ trip.trip_name }}">
+                    </div>
+                    {% if trip.is_group_trip %}
+                    <div class="mb-3">
+                        <span class="badge bg-primary">{{ _('Group Trip') }}</span>
+                    </div>
+                    {% endif %}
+                    <div class="row g-2 mt-1">
+                        <div class="col-6 col-md-auto d-grid">
+                            <a class="btn btn-secondary" href="{{ url_for('trip.trip') }}">{{ _('Back') }}</a>
+                        </div>
+                        <div class="col-6 col-md-auto d-grid">
+                            <button class="btn btn-success" type="submit">{{ _('Save Changes') }}</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
-  <h2>{{ _('Existing Trips') }}</h2>
-  <table class="table table-sm table-striped table-hover table-responsive">
-    <thead>
-      <tr>
-        <th>{{ _('Trip Name') }}</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for each in trips %}
-        <tr>
-          <td>{{ each.trip_name }}</td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-  <a class="btn btn-secondary" href="{{ url_for('trip.trip') }}" >{{ _('Back') }}</a>
+    {% if trip.is_group_trip %}
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-header bg-dark border-secondary">
+                <h5 class="mb-0">{{ _('Participants') }}</h5>
+            </div>
+            <div class="card-body">
+                <form action="{{ url_for('trip.add_participant', id=trip.trip_id) }}" method="post" class="mb-4">
+                    <input type="hidden" name="is_registered_user" id="is_registered_user" value="false">
+                    <div class="input-group">
+                        <input autocomplete="off" class="form-control" name="participant_name" id="participant_name" placeholder="{{ _('New participant name') }}" required type="text">
+                        <button class="btn btn-outline-secondary" type="button" id="searchUserBtn" title="{{ _('Search existing user') }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search mb-1" viewBox="0 0 16 16">
+                              <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                            </svg>
+                            {{ _('Search') }}
+                        </button>
+                        <button class="btn btn-primary" type="submit">{{ _('Add') }}</button>
+                    </div>
+                </form>
+                <div id="searchResults" class="list-group mb-4" style="display: none; max-height: 200px; overflow-y: auto;"></div>
+
+                <ul class="list-group list-group-flush">
+                    {% for p in participants %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent text-light border-secondary">
+                        <div>
+                            {{ p.name }}
+                            {% if p.is_user and p.name == g.user['username'] %}
+                                <span class="badge bg-secondary ms-2">{{ _('You') }}</span>
+                            {% endif %}
+                        </div>
+                        {% if not (p.is_user and p.name == g.user['username']) %}
+                            {% set confirm_msg = _('Remove this participant?') %}
+                            <form action="{{ url_for('trip.delete_participant', trip_id=trip.trip_id, participant_id=p.id) }}" method="POST">
+                                <button class="btn btn-sm btn-outline-danger" type="submit" onclick="return confirm('{{ confirm_msg }}');">X</button>
+                            </form>
+                        {% endif %}
+                    </li>
+                    {% else %}
+                    <li class="list-group-item text-secondary bg-transparent">{{ _('No additional participants.') }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchBtn = document.getElementById('searchUserBtn');
+    const input = document.getElementById('participant_name');
+    const resultsContainer = document.getElementById('searchResults');
+    const hiddenInput = document.getElementById('is_registered_user');
+    const noUsersText = {{ _('No users found.') | tojson }};
+
+    if(searchBtn) {
+        searchBtn.addEventListener('click', function() {
+            const q = input.value.trim();
+            if(q.length < 2) return;
+            
+            fetch("{{ url_for('trip.search_users') }}?q=" + encodeURIComponent(q))
+            .then(r => r.json())
+            .then(data => {
+                resultsContainer.innerHTML = '';
+                if(data.length > 0) {
+                    data.forEach(username => {
+                        let btn = document.createElement('button');
+                        btn.type = 'button';
+                        btn.className = 'list-group-item list-group-item-action bg-transparent text-light border-secondary';
+                        btn.textContent = username;
+                        btn.addEventListener('click', function() {
+                            input.value = username;
+                            hiddenInput.value = 'true';
+                            resultsContainer.style.display = 'none';
+                        });
+                        resultsContainer.appendChild(btn);
+                    });
+                    resultsContainer.style.display = 'block';
+                } else {
+                    resultsContainer.innerHTML = '<div class="list-group-item bg-transparent text-light border-secondary text-muted">' + noUsersText + '</div>';
+                    resultsContainer.style.display = 'block';
+                }
+            });
+        });
+        
+        input.addEventListener('input', function() {
+            hiddenInput.value = 'false';
+            resultsContainer.style.display = 'none';
+        });
+    }
+});
+</script>
 {% endblock %}

@@ -1,8 +1,9 @@
 import functools
+import psycopg2
 
-from flask import (Blueprint, blueprints, flash, g, redirect, render_template,
-                   request, session, url_for)
+from flask import Blueprint, flash, g, redirect, render_template, request, session, url_for
 from flask_babel import _
+from werkzeug.exceptions import abort
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from tripcash.db import get_db
@@ -12,6 +13,10 @@ bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 @bp.route('/register', methods=('GET', 'POST'))
 def register():
+    from flask import current_app
+    if not current_app.config.get('ALLOW_REGISTRATION', True):
+        abort(403, "Registration is disabled on this server.")
+
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -33,22 +38,20 @@ def register():
                     (username, generate_password_hash(password)),
                 )
                 g.db.commit()
-                # Default categories are stored in English and translated at display time.
-                # To add more defaults, just append to this list.
-                startlabels = ['Food', 'Transport', 'Tickets', 'Accommodation']
+                # Babel extraction hooks — mantém as categorias padrão no catálogo de tradução
+                _('Food')
+                _('Transport')
+                _('Tickets')
+                _('Accommodation')
+                _('Others')
                 db.execute('SELECT id FROM users WHERE username=%s', (username,))
                 user = db.fetchone()
-                for label in startlabels:
-                    db.execute(
-                        'INSERT INTO labels (label_name, user_id) VALUES (%s, %s)',
-                        (label, user[0]),
-                    )
-                g.db.commit()
                 session.clear()
                 session['user_id'] = user['id']
                 return redirect(url_for('index'))
 
-            except Exception as err:
+            except psycopg2.errors.UniqueViolation:
+                g.db.rollback()
                 error = f'User {username} is already registered.'
 
         flash(error)
@@ -80,7 +83,7 @@ def login():
 
         flash(error)
 
-    if session.get('user_id') != None:
+    if session.get('user_id') is not None:
         return redirect(url_for('index'))
 
     return render_template('auth/login.html')

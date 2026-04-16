@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1 class="h2">{% block title %}{{ _('New Category') }}{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<div class="card shadow-sm mx-auto" style="max-width: 500px;">
+  <div class="card-body">
+    <form method="post">
+      <div class="form-group mb-4">
+        <label class="form-label fw-bold" for="label">{{ _('Category Name') }}</label>
+        <input autocomplete="off" autofocus class="form-control" name="label" id="label" required type="text">
+      </div>
+      <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <a class="btn btn-secondary" href="{{ url_for('label.label') }}">{{ _('Cancel') }}</a>
+        <button class="btn btn-success" type="submit">{{ _('Create') }}</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

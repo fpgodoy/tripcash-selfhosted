@@ -7,19 +7,25 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends libpq-dev gcc build-essential && \
     rm -rf /var/lib/apt/lists/*
 
-COPY requirements.txt .
+COPY requirements.txt requirements-dev.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Separate step so Docker can cache the layer and skip reinstall on code-only changes.
-RUN pip install pytest
+# Ferramentas de dev (pytest, flake8) só instaladas se INSTALL_DEV=true no build
+# Ex: docker build --build-arg INSTALL_DEV=true .
+ARG INSTALL_DEV=false
+RUN if [ "$INSTALL_DEV" = "true" ]; then pip install --no-cache-dir -r requirements-dev.txt; fi
 
 COPY . .
 
-# Compile translation catalogs (.po -> .mo). Run after COPY so the .po files are available.
+# Compila os catálogos de tradução (.po -> .mo). Executado após COPY para os .po estarem disponíveis.
 RUN pybabel compile -d tripcash/translations
+
+# Garante que o entrypoint seja executável
+RUN chmod +x entrypoint.sh
 
 # Porta padrão exposta
 EXPOSE 8000
 
-# Send access and error logs to stdout/stderr so Docker captures them via 'docker-compose logs'.
-CMD ["gunicorn", "-b", "0.0.0.0:8000", "--access-logfile", "-", "--error-logfile", "-", "tripcash:create_app()"]
+# O entrypoint aguarda o banco, aplica migrations (alembic upgrade head)
+# e só então inicia o gunicorn.
+ENTRYPOINT ["/app/entrypoint.sh"]

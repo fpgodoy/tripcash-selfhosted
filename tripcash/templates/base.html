@@ -54,16 +54,73 @@
       .btn-primary { background-color: var(--accent-color) !important; border-color: var(--accent-color) !important; color: #000 !important; }
       .btn-primary:hover { background-color: var(--accent-hover) !important; border-color: var(--accent-hover) !important; }
       .card { background-color: var(--surface-color) !important; border: 1px solid var(--border-color) !important; }
+      .fab-btn {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        font-size: 32px;
+        line-height: 1;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+        z-index: 1000;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding-bottom: 4px; /* optical alignment for + sign */
+      }
       @media (max-width: 768px) {
-        main { padding-bottom: 3rem; }
+        main { padding-bottom: 5rem; }
+        .fab-btn { display: flex !important; }
+        .container { padding-left: 0 !important; padding-right: 0 !important; }
+        main > *:not(.card):not(.table-responsive) { padding-left: 1rem; padding-right: 1rem; }
+        header { padding-left: 1rem; padding-right: 1rem; }
+        .card { border-radius: 0 !important; border-left: none !important; border-right: none !important; margin-left: 0; margin-right: 0; }
         .btn-mobile-stretch { width: 100%; margin-bottom: 0.5rem; }
         .mobile-hide { display: none !important; }
+        .table-responsive { border: none !important; }
         .table-responsive-cards thead { display: none; }
         .table-responsive-cards tbody, .table-responsive-cards tr, .table-responsive-cards td { display: block; width: 100%; }
-        .table-responsive-cards tr { margin-bottom: 1rem; border: 1px solid var(--border-color); border-radius: 0.5rem; background-color: var(--surface-color); padding: 0.5rem; }
-        .table-responsive-cards td { text-align: right; padding-left: 50%; position: relative; border: none; border-bottom: 1px solid var(--border-color); min-height: 35px; display: flex; align-items: center; justify-content: flex-end; }
+        .table-responsive-cards tr { margin-bottom: 0.5rem; border: 1px solid var(--border-color); border-left: none; border-right: none; border-radius: 0; background-color: var(--surface-color); padding: 0.5rem; }
+        .table-responsive-cards td { text-align: right; padding-left: 45%; position: relative; border: none; border-bottom: 1px solid var(--border-color); min-height: 35px; display: flex; align-items: center; justify-content: flex-end; }
         .table-responsive-cards td:last-child { border-bottom: none; }
-        .table-responsive-cards td::before { content: attr(data-label); position: absolute; left: 0.5rem; width: 45%; padding-right: 10px; white-space: nowrap; text-align: left; font-weight: bold; color: var(--text-secondary); }
+        .table-responsive-cards td::before { content: attr(data-label); position: absolute; left: 1rem; width: 40%; padding-right: 10px; white-space: nowrap; text-align: left; font-weight: bold; color: var(--text-secondary); }
+      }
+      /* Banner mobile — viagem ativa */
+      .trip-active-banner {
+        background-color: rgba(187, 134, 252, 0.1);
+        border-bottom: 1px solid rgba(187, 134, 252, 0.3);
+        padding: 0.5rem 1rem;
+      }
+      .trip-active-banner-link {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        text-decoration: none;
+        color: var(--text-primary);
+      }
+      .trip-active-name {
+        font-weight: 600;
+        font-size: 0.9rem;
+        color: var(--accent-color);
+        flex: 1;
+      }
+      .trip-active-label {
+        font-size: 0.75rem;
+        color: var(--text-secondary);
+      }
+      /* Card de viagem ativa na tela de viagens */
+      .trip-active-card {
+        border-left: 3px solid var(--accent-color) !important;
+        background-color: rgba(187, 134, 252, 0.06) !important;
+      }
+      .trip-active-badge {
+        background-color: rgba(187, 134, 252, 0.2);
+        color: var(--accent-color);
+        font-size: 0.7rem;
+        font-weight: 600;
+        border: 1px solid rgba(187, 134, 252, 0.4);
       }
     </style>
   </head>
@@ -92,11 +149,8 @@
                 <li class="nav-item"><a class="nav-link" href="{{ url_for('index') }}">{{ _('Home') }}</a></li>
                 {% if g.user %}
                   {% if g.trip %}
-                    <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownTripLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ _('Trip') }}: <span class="fw-bold">{{ g.trip[1] }}</span></a>
-                      <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark" aria-labelledby="navbarDropdownTripLink">
-                        <li><a class="dropdown-item" href="{{ url_for('home.change_trip') }}">{{ _('Change') }}</a></li>
-                      </ul>
+                    <li class="nav-item">
+                      <a class="nav-link" href="{{ url_for('trip.trip') }}">{{ _('Trip') }}: <span class="fw-bold">{{ g.trip['trip_name'] }} {% if g.trip['is_group_trip'] %}👥{% endif %}</span></a>
                     </li>
                   {% endif %}
                     <li class="nav-item dropdown">
@@ -107,14 +161,27 @@
                       </ul>
                     </li>
                 {% else %}
-                  <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.register') }}">{{ _('Register') }}</a></li>
+                  {% if allow_registration %}
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.register') }}">{{ _('Register') }}</a></li>
+                  {% endif %}
                   <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.login') }}">{{ _('Log In') }}</a></li>
                 {% endif %}
 
               </ul>
             </div>
           </div>
-    </nav>  
+    </nav>
+
+    {% if g.user and g.trip %}
+    <!-- Banner mobile: viagem ativa — visível apenas em telas pequenas -->
+    <div class="trip-active-banner d-lg-none">
+      <a href="{{ url_for('trip.trip') }}" class="trip-active-banner-link">
+        <span class="trip-active-icon">✈️</span>
+        <span class="trip-active-name">{{ g.trip['trip_name'] }}{% if g.trip['is_group_trip'] %} 👥{% endif %}</span>
+      </a>
+    </div>
+    {% endif %}
+
     <div class="container py-4">
       <header class="mb-4">
         {% block header %}{% endblock %}
@@ -132,5 +199,6 @@
     
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    {% block script %}{% endblock %}
   </body>
 </html>

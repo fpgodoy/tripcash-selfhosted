@@ -21,7 +21,7 @@
                     <tr>
                         <td data-label="{{ _('Date') }}">{{ post.date }}</td>
                         <td data-label="{{ _('Title') }}">{{ post.title }}</td>
-                        <td data-label="{{ _('Amount') }}" class="money fw-bold text-success">{{ post.amount | currencyFormat }}</td>
+                        <td data-label="{{ _('Amount') }}" class="money fw-bold text-success">{{ post.amount | currency_format }}</td>
                         <td data-label="{{ _('Category') }}">{{ _(post.label) }}</td>
                         <td data-label="{{ _('Actions') }}">
                             <div class="d-flex gap-2 justify-content-end w-100">
@@ -40,8 +40,13 @@
         </table>
     </div>
 
-    <div class="d-grid gap-2 d-md-flex mt-4">
-        <a class="btn btn-primary" href="{{ url_for('expense.expense') }}">{{ _('New Expense') }}</a>
+    <div class="d-grid gap-2 d-md-flex mt-4 mb-4">
+        <a class="btn btn-primary d-none d-md-inline-flex" href="{{ url_for('expense.expense') }}">{{ _('New Expense') }}</a>
         <a class="btn btn-secondary" href="{{ url_for('index') }}" >{{ _('Back') }}</a>
     </div>
+
+    <!-- Mobile Floating Action Button -->
+    <a href="{{ url_for('expense.expense') }}" class="btn btn-primary fab-btn" title="{{ _('New Expense') }}" aria-label="{{ _('New Expense') }}">
+      +
+    </a>
 {% endblock %}

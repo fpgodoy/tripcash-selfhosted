@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1 class="h2">{% block title %}{{ _('Create Trip') }}{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<div class="card shadow-sm mx-auto" style="max-width: 500px;">
+  <div class="card-body">
+    <form method="post">
+      <div class="form-group mb-3">
+        <label class="form-label fw-bold" for="trip_name">{{ _('Trip Name') }}</label>
+        <input autocomplete="off" autofocus class="form-control" name="trip_name" id="trip_name" required type="text">
+      </div>
+      <div class="form-check form-switch mb-4">
+        <input class="form-check-input" type="checkbox" role="switch" id="is_group_trip" name="is_group_trip">
+        <label class="form-check-label" for="is_group_trip">{{ _('Is this a group trip?') }}</label>
+      </div>
+      <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <a class="btn btn-secondary" href="{{ url_for('trip.trip') }}">{{ _('Cancel') }}</a>
+        <button class="btn btn-success" type="submit">{{ _('Create') }}</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

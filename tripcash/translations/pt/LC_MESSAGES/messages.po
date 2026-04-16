@@ -239,3 +239,155 @@ msgstr "Ingressos"
 
 msgid "Accommodation"
 msgstr "Hospedagem"
+
+
+
+msgid "Group Expenses"
+msgstr "Gastos do Grupo"
+
+# --- Botões renomeados da tela inicial ---
+msgid "New Expense"
+msgstr "Nova Despesa"
+
+msgid "View List"
+msgstr "Ver Lista"
+
+msgid "Summary"
+msgstr "Resumo"
+
+msgid "Settlement"
+msgstr "Acerto de Contas"
+
+msgid "Manage Trips"
+msgstr "Gerenciar Viagens"
+
+msgid "Manage Categories"
+msgstr "Gerenciar Categorias"
+
+# --- Indicador de viagem ativa ---
+msgid "Active trip"
+msgstr "Viagem ativa"
+
+msgid "Active"
+msgstr "Ativa"
+
+# --- Categoria padrão 'Others' e badge ---
+msgid "Others"
+msgstr "Outros"
+
+msgid "Default"
+msgstr "Padrão"
+
+# --- Aviso de categorias em viagens em grupo ---
+msgid "In group trips, only default categories are available."
+msgstr "Em viagens em grupo, apenas as categorias padrão estão disponíveis."
+
+# --- Tela de seleção de viagem (No trip selected) ---
+msgid "No trip selected"
+msgstr "Nenhuma viagem selecionada"
+
+msgid "Please select an active trip from your list of created trips to start managing expenses."
+msgstr "Selecione uma viagem ativa na sua lista de viagens para começar a gerenciar as despesas."
+
+msgid "Go to My Trips"
+msgstr "Ir para Minhas Viagens"
+
+# --- Botão Select na tela de viagens ---
+msgid "Select"
+msgstr "Selecionar"
+
+msgid "Paid for"
+msgstr "Pagou por"
+
+msgid "Owes part of"
+msgstr "Parte em"
+
+msgid "Payment to"
+msgstr "Pagamento para"
+
+msgid "Payment from"
+msgstr "Recebimento de"
+
+msgid "Personal Expense"
+msgstr "Gasto Pessoal"
+
+msgid "Net Balance"
+msgstr "Saldo Final"
+
+msgid "Ledger Entry"
+msgstr "Registro"
+
+msgid "No group expenses recorded yet."
+msgstr "Nenhum gasto do grupo registrado ainda."
+
+msgid "Who Paid?"
+msgstr "Quem Pagou?"
+
+msgid "You"
+msgstr "Você"
+
+msgid "Split this expense directly"
+msgstr "Dividir esta despesa"
+
+msgid "Enter the total amount owed by each participant. If they owe nothing on this specific transaction, leave 0."
+msgstr "Insira o total devido por cada integrante. Caso alguém não tenha consumido nada, deixe zerado."
+
+msgid "Trip Details"
+msgstr "Detalhes da Viagem"
+
+msgid "Group Trip"
+msgstr "Viagem em Grupo"
+
+msgid "Participants"
+msgstr "Participantes"
+
+msgid "New participant name"
+msgstr "Nome do novo participante"
+
+msgid "Add"
+msgstr "Adicionar"
+
+msgid "Remove this participant?"
+msgstr "Remover este participante?"
+
+msgid "No additional participants."
+msgstr "Nenhum participante adicional."
+
+msgid "Search"
+msgstr "Buscar"
+
+msgid "Search existing user"
+msgstr "Buscar usuário existente"
+
+msgid "No users found."
+msgstr "Nenhum usuário encontrado."
+
+msgid "Trip Settlements"
+msgstr "Acertos da Viagem"
+
+msgid "Participant Balances"
+msgstr "Saldos dos Participantes"
+
+msgid "Positive balances mean the group owes them money. Negative balances mean they owe the group."
+msgstr "Saldos positivos indicam que o grupo lhes deve. Saldos negativos indicam que devem ao grupo."
+
+msgid "Register a Settlement"
+msgstr "Registrar um Acerto"
+
+msgid "Select Payer"
+msgstr "Selecionar Pagador"
+
+msgid "Who Received?"
+msgstr "Quem Recebeu?"
+
+msgid "Select Receiver"
+msgstr "Selecionar Recebedor"
+
+msgid "Register Payment"
+msgstr "Registrar Pagamento"
+
+msgid "Back to Dashboard"
+msgstr "Voltar ao Dashboard"
+
+msgid "The sum of split fractions must perfectly match the total expense amount."
+msgstr "A soma da divisão de despesas deve ser igual ao valor total da despesa."

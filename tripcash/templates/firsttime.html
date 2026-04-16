@@ -12,12 +12,18 @@
     <p class="mb-4 text-secondary">{{ _('To get started, simply create your first trip by giving it a name. Choose a unique name to help you identify it later.') }}</p>
     
     <div class="p-3 rounded" style="background-color: rgba(255,255,255,0.05);">
-        <form class="d-flex flex-column flex-md-row gap-3" method="post">
-          <div class="form-group flex-grow-1">
-            <label class="form-label visually-hidden" for="trip_name">{{ _('Trip') }}</label>
-            <input autocomplete="off" autofocus class="form-control" name="trip_name" id="trip_name" placeholder="{{ _('Trip') }}" required type="text">
+        <form class="d-flex flex-column gap-3" method="post">
+          <div class="d-flex flex-column flex-md-row gap-3">
+            <div class="form-group flex-grow-1">
+              <label class="form-label visually-hidden" for="trip_name">{{ _('Trip') }}</label>
+              <input autocomplete="off" autofocus class="form-control" name="trip_name" id="trip_name" placeholder="{{ _('Trip name') }}" required type="text">
+            </div>
+            <button class="btn btn-success" type="submit">{{ _('Create Trip') }}</button>
           </div>
-          <button class="btn btn-success" type="submit">{{ _('Create Trip') }}</button>
+          <div class="form-check form-switch mt-2">
+            <input class="form-check-input" type="checkbox" role="switch" id="is_group_trip" name="is_group_trip">
+            <label class="form-check-label" for="is_group_trip">{{ _('Is this a group trip?') }}</label>
+          </div>
         </form>
     </div>
   </div>

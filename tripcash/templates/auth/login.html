@@ -21,5 +21,10 @@
         </div>
       </form>
     </div>
+    {% if allow_registration %}
+    <div class="card-footer text-center py-3" style="border-top: 1px solid var(--border-color); background: transparent;">
+      <small class="text-secondary">{{ _("Don't have an account?") }} <a href="{{ url_for('auth.register') }}" class="text-decoration-none" style="color: var(--accent-color);">{{ _('Register') }}</a></small>
+    </div>
+    {% endif %}
   </div>
 {% endblock %}

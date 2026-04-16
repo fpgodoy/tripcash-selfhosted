@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1 class="h2">{% block title %}{{ _('Trip Settlements') }}{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <!-- Balances Panel -->
+    <div class="col-md-8 mb-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-header bg-dark border-secondary">
+                <h5 class="mb-0">{{ _('Participant Balances') }}</h5>
+            </div>
+            <div class="card-body">
+                <p class="small text-secondary">{{ _('Positive balances mean the group owes them money. Negative balances mean they owe the group.') }}</p>
+                <div class="list-group">
+                    {% for p in balances %}
+                        <div class="list-group-item d-flex justify-content-between align-items-center bg-transparent border-secondary">
+                            <div>
+                                <a href="{{ url_for('settlement.detail', participant_id=p.id) }}" class="text-light text-decoration-none d-flex align-items-center">
+                                    <strong class="me-2">{{ p.name }}</strong>
+                                    {% if p.is_user and p.name == g.user['username'] %}
+                                        <span class="badge bg-secondary me-2">{{ _('You') }}</span>
+                                    {% endif %}
+                                    <small class="text-secondary opacity-50">&rsaquo;</small>
+                                </a>
+                            </div>
+                            <div class="fs-5 fw-bold {% if p.net > 0 %}text-success{% elif p.net < 0 %}text-danger{% else %}text-info{% endif %}">
+                                {{ p.net | currency_format }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-2 justify-content-md-center mt-3">
+    <div class="col-6 col-md-auto d-grid">
+        <a class="btn btn-secondary" href="{{ url_for('index') }}">{{ _('Back to Dashboard') }}</a>
+    </div>
+    <div class="col-6 col-md-auto d-grid">
+        <a class="btn btn-primary" href="{{ url_for('settlement.create') }}">{{ _('Register a Settlement') }}</a>
+    </div>
+</div>
+
+{% endblock %}

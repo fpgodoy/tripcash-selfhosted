@@ -5,55 +5,51 @@
 {% endblock %}
 
 {% block content %}
-<div class="card shadow-sm mb-4">
-  <div class="card-body">
-    <p class="text-secondary small">{{ _('Welcome to category management. You can create new categories, view current ones, or edit and delete them as needed.') }}</p>
-    <div class="alert alert-info py-2 small">
-      <strong>{{ _('Note:') }}</strong> {{ _('If you delete a category, all associated expenses will be automatically reassigned to "Others".') }}
-    </div>
+<p class="text-secondary small mb-4">{{ _('Welcome to category management. You can create new categories, view current ones, or edit and delete them as needed.') }}</p>
 
-    <form method="post" class="mt-3">
-      <div class="form-group mb-3">
-        <label class="form-label fw-bold" for="label">{{ _('New Category') }}</label>
-        <div class="input-group">
-          <input autocomplete="off" autofocus class="form-control" name="label" id="label" required type="text">
-          <button class="btn btn-success" type="submit">{{ _('Create') }}</button>
-        </div>
-      </div>
-    </form>
-  </div>
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2 class="h4 mb-0">{{ _('Existing Categories') }}</h2>
+  <a class="btn btn-primary d-none d-md-inline-flex" href="{{ url_for('label.createlabel') }}">{{ _('New Category') }}</a>
+</div>
+<div class="alert alert-info py-2 small mb-3">
+  <strong>{{ _('Note:') }}</strong> {{ _('If you delete a category, all associated expenses will be automatically reassigned to "Others".') }}
 </div>
 
-<h2 class="h4 mb-3">{{ _('Existing Categories') }}</h2>
-<div class="table-responsive">
-  <table class="table table-striped table-hover table-responsive-cards">
-    <thead>
-      <tr>
-        <th scope="col">{{ _('Category') }}</th>
-        <th scope="col" class="text-end">{{ _('Actions') }}</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for label in labels %}
-        <tr>
-          <td data-label="{{ _('Category') }}" class="align-middle fw-bold">{{ label.label_name }}</td>
-          <td data-label="{{ _('Actions') }}">
-            <div class="d-flex gap-2 justify-content-end">
-              <form action="{{ url_for('label.editlabel', id=label['label_id']) }}" method="GET">
-                <button class="btn btn-sm btn-primary" type="submit">{{ _('Edit') }}</button>
-              </form>
-              {% set confirm_msg = _('Deleting this category will move all associated expenses to others. Are you sure?') %}
-              <form action="{{ url_for('label.deletelabel', id=label['label_id']) }}" method="POST">
-                <button class="btn btn-sm btn-danger" type="submit" onclick="return confirm('{{ confirm_msg }}');">{{ _('Delete') }}</button>
-              </form>
-            </div>
-          </td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+<div class="list-group mb-4 shadow-sm">
+  {% for label in labels %}
+    <div class="list-group-item bg-transparent text-light border-secondary p-3">
+      <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+        <div class="d-flex align-items-center gap-2">
+          <h3 class="h5 mb-0 fw-bold">{{ label.label_name }}</h3>
+          {% if label.is_default %}
+            <span class="badge rounded-pill" style="background-color: var(--border-color); color: var(--text-secondary); font-size: 0.7rem;">🔒 {{ _('Default') }}</span>
+          {% endif %}
+        </div>
+        {% if not label.is_default %}
+        <div class="d-flex flex-wrap gap-2 justify-content-start justify-content-md-end mt-2 mt-md-0">
+          <form action="{{ url_for('label.editlabel', id=label['label_id']) }}" method="GET">
+            <button class="btn btn-sm btn-primary" type="submit">{{ _('Edit') }}</button>
+          </form>
+          {% set confirm_msg = _('Deleting this category will move all associated expenses to others. Are you sure?') %}
+          <form action="{{ url_for('label.deletelabel', id=label['label_id']) }}" method="POST">
+            <button class="btn btn-sm btn-danger" type="submit" onclick="return confirm('{{ confirm_msg }}');">{{ _('Delete') }}</button>
+          </form>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  {% else %}
+    <div class="list-group-item bg-transparent text-light border-secondary p-4 text-center text-secondary">
+      {{ _('No categories found.') }}
+    </div>
+  {% endfor %}
 </div>
 <div class="d-grid d-md-flex mt-4">
   <a class="btn btn-secondary" href="{{ url_for('index') }}" >{{ _('Back') }}</a>
 </div>
+
+<!-- Mobile Floating Action Button -->
+<a href="{{ url_for('label.createlabel') }}" class="btn btn-primary fab-btn" title="{{ _('New Category') }}" aria-label="{{ _('New Category') }}">
+  +
+</a>
 {% endblock %}

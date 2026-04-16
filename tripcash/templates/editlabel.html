@@ -5,27 +5,22 @@
 {% endblock %}
 
 {% block content %}
-  <form method="post">
-    <label for="label">{{ _('New Category Name') }}</label>
-    <input autocomplete="off" autofocus name="label" id="label" required type="text" value="{{ label.label_name }}">
-    
-    <input class="btn btn-secondary m-3" type="submit" value="{{ _('Save Changes') }}">
-  </form>
-  
-<h2>{{ _('Existing Categories') }}</h2>
-<table class="table table-sm table-striped table-hover table-responsive">
-  <thead>
-    <tr>
-      <th>{{ _('Category') }}</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for each in labels %}
-      <tr>
-        <td>{{ each.label_name }}</td>
-      </tr>
-    {% endfor %}
-  </tbody>
-</table>
-<a class="btn btn-secondary" href="{{ url_for('label.label') }}" >{{ _('Back') }}</a>
+  <div class="card shadow-sm mb-4" style="max-width: 500px">
+    <div class="card-body">
+      <form method="post">
+        <div class="form-group mb-3">
+          <label class="form-label fw-bold" for="label">{{ _('New Category Name') }}</label>
+          <input class="form-control" autocomplete="off" autofocus name="label" id="label" required type="text" value="{{ _(label.label_name) }}">
+        </div>
+        <div class="row g-2 justify-content-md-end">
+          <div class="col-6 col-md-auto d-grid">
+            <a class="btn btn-secondary" href="{{ url_for('label.label') }}">{{ _('Back') }}</a>
+          </div>
+          <div class="col-6 col-md-auto d-grid">
+            <button class="btn btn-primary" type="submit">{{ _('Save Changes') }}</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 {% endblock %}

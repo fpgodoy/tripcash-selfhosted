@@ -1,5 +1,4 @@
-from flask import (Blueprint, blueprints, flash, g, redirect, render_template,
-                   request, session, url_for)
+from flask import Blueprint, flash, g, redirect, render_template, request, url_for
 from flask_babel import _
 
 from tripcash.auth import login_required
@@ -16,39 +15,24 @@ def index():
         user = g.user['id']
 
         db.execute(
-            'SELECT trip_id, trip_name FROM trip WHERE user_id=%s',
-            (g.user['id'],),
+            '''SELECT t.trip_id, t.trip_name, t.is_group_trip FROM trip t
+               WHERE t.user_id=%s
+               UNION
+               SELECT t.trip_id, t.trip_name, t.is_group_trip FROM trip t
+               INNER JOIN trip_participant tp ON t.trip_id = tp.trip_id
+               WHERE tp.name=%s AND tp.is_user=TRUE''',
+            (g.user['id'], g.user['username']),
         )
         trip_list = db.fetchall()
 
-        # Save the trip selected in the dropdown to the user's profile.
-        if request.method == 'POST':
-            current_trip = request.form['trip_name']
-            error = None
-
-            if error is None:
-                db.execute(
-                    'UPDATE users SET current_trip=%s WHERE id=%s',
-                    (current_trip, g.user['id']),
-                )
-                g.db.commit()
-
-            else:
-                flash(error)
-
         db.execute(
-            'SELECT users.current_trip AS trip_id, trip.trip_name AS trip_name FROM users INNER JOIN trip on trip.trip_id=users.current_trip WHERE users.id=%s',
+            'SELECT trip.* FROM users INNER JOIN trip on trip.trip_id=users.current_trip WHERE users.id=%s',
             (user,),
         )
         g.trip = db.fetchone()
 
-        db.execute(
-            'SELECT EXISTS(SELECT 1 FROM trip WHERE user_id=%s)',
-            (g.user['id'],),
-        )
-        trip_count = db.fetchone()
-
-        if trip_count[0] != 0:
+        # Usa trip_list já buscado para evitar query EXISTS redundante (#14)
+        if trip_list:
             return render_template('index.html', trip_list=trip_list)
         else:
             return redirect(url_for('home.firsttime'))
@@ -56,25 +40,16 @@ def index():
     return render_template('index.html')
 
 
-# Resets the active trip so the user can switch to a different one.
-@bp.route('/change_trip')
-def change_trip():
-    db = get_db()
-    db.execute(
-        'UPDATE users SET current_trip=NULL WHERE id=%s', (g.user['id'],)
-    )
-    g.db.commit()
-    return redirect(url_for('index'))
-
-
 # First-time setup: shown when the user has no trips yet.
 @bp.route('/firsttime', methods=('GET', 'POST'))
+@login_required
 def firsttime():
     db = get_db()
 
     if request.method == 'POST':
-        author = session.get('user_id')
+        author = g.user['id']
         trip = request.form['trip_name'].strip()
+        is_group_trip = request.form.get('is_group_trip') == 'on'
         error = None
 
         if not trip:
@@ -82,15 +57,36 @@ def firsttime():
 
         if error is None:
             db.execute(
-                'INSERT INTO trip (user_id, trip_name) VALUES (%s, %s)',
-                (author, trip),
+                'INSERT INTO trip (user_id, trip_name, is_group_trip) VALUES (%s, %s, %s) RETURNING trip_id',
+                (author, trip, is_group_trip),
             )
+            new_trip_id = db.fetchone()['trip_id']
+
+            if is_group_trip:
+                db.execute(
+                    'INSERT INTO trip_participant (trip_id, name, is_user) VALUES (%s, %s, TRUE)',
+                    (new_trip_id, g.user['username'])
+                )
             g.db.commit()
+
+            # Since it's the first trip, set current_trip immediately so the user doesn't need to select it manually
+            db.execute('UPDATE users SET current_trip=%s WHERE id=%s', (new_trip_id, author))
+            g.db.commit()
+
+            if is_group_trip:
+                return redirect(url_for('trip.edittrip', id=new_trip_id))
+
             return redirect(url_for('index'))
         flash(error)
 
     db.execute(
-        'SELECT EXISTS(SELECT 1 FROM trip WHERE user_id=%s)', (g.user['id'],)
+        '''SELECT EXISTS(
+             SELECT 1 FROM trip t WHERE t.user_id=%s
+             UNION
+             SELECT 1 FROM trip t INNER JOIN trip_participant tp ON t.trip_id = tp.trip_id
+             WHERE tp.name=%s AND tp.is_user=TRUE
+           )''',
+        (g.user['id'], g.user['username']),
     )
     trip_count = db.fetchone()
 

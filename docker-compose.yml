@@ -1,8 +1,11 @@
-version: '3.8'
+
 
 services:
   web:
-    build: .
+    build:
+      context: .
+      args:
+        INSTALL_DEV: ${INSTALL_DEV:-false}
     ports:
       - "8000:8000"
     environment:
@@ -12,6 +15,8 @@ services:
       - DB_PASSWORD=${DB_PASSWORD:-trippassword}
       - DB_HOST=db
       - DB_NAME=${DB_NAME:-tripcashdb}
+      - ALLOW_REGISTRATION=${ALLOW_REGISTRATION:-true}
+      - GUNICORN_WORKERS=${GUNICORN_WORKERS:-1}
     depends_on:
       db:
         condition: service_healthy
