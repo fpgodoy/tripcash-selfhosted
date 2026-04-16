@@ -391,3 +391,7 @@ msgstr "Voltar ao Dashboard"
 
 msgid "The sum of split fractions must perfectly match the total expense amount."
 msgstr "A soma da divisão de despesas deve ser igual ao valor total da despesa."
+
+
+msgid "Track the financial balance of the trip. Green (positive) means the participant has credit to receive. Red (negative) means the participant owes money to the group."
+msgstr "Acompanhe o balanço financeiro da viagem. Verde (positivo) significa que o participante tem crédito a receber. Vermelho (negativo) significa que o participante deve pagar ao grupo."

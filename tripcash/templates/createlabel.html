@@ -12,9 +12,13 @@
         <label class="form-label fw-bold" for="label">{{ _('Category Name') }}</label>
         <input autocomplete="off" autofocus class="form-control" name="label" id="label" required type="text">
       </div>
-      <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <a class="btn btn-secondary" href="{{ url_for('label.label') }}">{{ _('Cancel') }}</a>
-        <button class="btn btn-success" type="submit">{{ _('Create') }}</button>
+      <div class="row g-2 mt-4 justify-content-md-end">
+        <div class="col-6 col-md-auto d-grid">
+          <a class="btn btn-secondary" href="{{ url_for('label.label') }}">{{ _('Cancel') }}</a>
+        </div>
+        <div class="col-6 col-md-auto d-grid">
+          <button class="btn btn-success" type="submit">{{ _('Create') }}</button>
+        </div>
       </div>
     </form>
   </div>

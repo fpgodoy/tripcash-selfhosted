@@ -40,9 +40,13 @@
         </table>
     </div>
 
-    <div class="d-grid gap-2 d-md-flex mt-4 mb-4">
-        <a class="btn btn-primary d-none d-md-inline-flex" href="{{ url_for('expense.expense') }}">{{ _('New Expense') }}</a>
-        <a class="btn btn-secondary" href="{{ url_for('index') }}" >{{ _('Back') }}</a>
+    <div class="row g-2 mt-4 mb-4 justify-content-md-end">
+        <div class="col-6 col-md-auto d-grid">
+            <a class="btn btn-secondary" href="{{ url_for('index') }}" >{{ _('Back') }}</a>
+        </div>
+        <div class="col-6 col-md-auto d-grid d-none d-md-block">
+            <a class="btn btn-primary w-100" href="{{ url_for('expense.expense') }}">{{ _('New Expense') }}</a>
+        </div>
     </div>
 
     <!-- Mobile Floating Action Button -->

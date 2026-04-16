@@ -6,7 +6,7 @@
 
 ### 🎨 Frontend, UI & UX
 - [x] **[Frontend/UI] Categoria padrão:** Definir a categoria "Comida" como a opção selecionada por padrão no formulário de nova despesa.
-- [ ] **[Frontend/CSS] Responsividade e UX Mobile/Desktop:** Ajustar classes CSS (ou framework) para que os botões de ação principal (ex: "Registrar", "Nova Despesa") ocupem 100% da largura em dispositivos móveis e fiquem agrupados/lado a lado no desktop. Ajustar padding para touch targets adequados.
+- [x] **[Frontend/CSS] Responsividade e UX Mobile/Desktop:** Ajustar classes CSS (ou framework) para que os botões de ação principal (ex: "Registrar", "Nova Despesa") ocupem 100% da largura em dispositivos móveis e fiquem agrupados/lado a lado no desktop. Ajustar padding para touch targets adequados.
 - [x] **[Frontend] Tradução do Empty State:** Localizar o template HTML da tela inicial e aplicar a tradução para português na mensagem exibida quando não há viagens ativas cadastradas.
 
 ---

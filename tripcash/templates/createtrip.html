@@ -16,9 +16,13 @@
         <input class="form-check-input" type="checkbox" role="switch" id="is_group_trip" name="is_group_trip">
         <label class="form-check-label" for="is_group_trip">{{ _('Is this a group trip?') }}</label>
       </div>
-      <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <a class="btn btn-secondary" href="{{ url_for('trip.trip') }}">{{ _('Cancel') }}</a>
-        <button class="btn btn-success" type="submit">{{ _('Create') }}</button>
+      <div class="row g-2 mt-4 justify-content-md-end">
+        <div class="col-6 col-md-auto d-grid">
+          <a class="btn btn-secondary" href="{{ url_for('trip.trip') }}">{{ _('Cancel') }}</a>
+        </div>
+        <div class="col-6 col-md-auto d-grid">
+          <button class="btn btn-success" type="submit">{{ _('Create') }}</button>
+        </div>
       </div>
     </form>
   </div>

@@ -13,7 +13,7 @@
                 <h5 class="mb-0">{{ _('Participant Balances') }}</h5>
             </div>
             <div class="card-body">
-                <p class="small text-secondary">{{ _('Positive balances mean the group owes them money. Negative balances mean they owe the group.') }}</p>
+                <p class="small text-secondary mb-3">{{ _('Track the financial balance of the trip. Green (positive) means the participant has credit to receive. Red (negative) means the participant owes money to the group.') }}</p>
                 <div class="list-group">
                     {% for p in balances %}
                         <div class="list-group-item d-flex justify-content-between align-items-center bg-transparent border-secondary">
@@ -37,7 +37,7 @@
     </div>
 </div>
 
-<div class="row g-2 justify-content-md-center mt-3">
+<div class="row g-2 mt-4 justify-content-md-end">
     <div class="col-6 col-md-auto d-grid">
         <a class="btn btn-secondary" href="{{ url_for('index') }}">{{ _('Back to Dashboard') }}</a>
     </div>
