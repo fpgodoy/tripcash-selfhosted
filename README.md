@@ -19,7 +19,7 @@ A forma recomendada de executar o Tripcash é através do **Docker Compose**.
 1. **Clone o repositório:**
    ```bash
    git clone https://github.com/fpgodoy/tripcash-selfhosted.git
-   cd tripcash-selfhosted-main
+   cd tripcash-selfhosted
    ```
 
 2. **Configure as variáveis de ambiente:**
@@ -41,10 +41,8 @@ A forma recomendada de executar o Tripcash é através do **Docker Compose**.
    docker-compose up -d
    ```
 
-4. **Inicialize o Banco de Dados (apenas na primeira vez):**
-   ```bash
-   docker-compose exec web flask init-db
-   ```
+4. **Inicialização Automática:**
+   O contêiner da aplicação (`entrypoint.sh`) criará e aplicará as migrações do banco de dados automaticamente através do *Alembic*. Nenhuma inicialização manual é necessária!
 
 5. **Acesse a aplicação:**
    A aplicação estará disponível na porta **8000** do servidor onde os containers estão rodando.
@@ -98,51 +96,20 @@ No menu **List**, você pode ver todos os gastos lançados, editá-los ou exclu�
 
 ## ✨ Funcionalidades Principais
 * **Autenticação Segura:** Seus dados protegidos por login.
-* **Múltiplas Viagens:** Gerencie diferentes destinos separadamente.
+* **Múltiplas Viagens & Modos:** Gerencie viagens individuais ou **Viagens em Grupo**.
+* **Divisão de Gastos (Splits):** Em viagens de grupo, registre quem pagou, quem deve e gerencie a liquidação de contas (Acertos/Settlements) automaticamente.
+* **Internacionalização (i18n):** Suporte nativo e totalmente traduzido para Português (PT-BR) e Inglês.
+* **Mobile-First UX:** Interface moderna, condensada e ergométrica projetada fofamente para telas de toque com navegação acelerada.
 * **Categorias Personalizáveis:** Crie etiquetas que façam sentido para você.
-* **Interface Low-JS:** Focada em velocidade e compatibilidade, com visual limpo via Bootstrap.
-* **Docker Ready:** Deploy em segundos em qualquer servidor.
+* **Docker Ready:** Deploy robusto em produção com Gunicorn e migrations automáticas.
 
 ---
 
 ## 🛠️ Tecnologias Utilizadas
 - **Python 3.11** + **Flask 3.1.3**
 - **PostgreSQL 15** (Banco de dados relacional)
-- **Gunicorn** (Servidor de produção)
-- **Bootstrap** (Interface responsiva)
-- **Docker & Docker Compose** (Containerização)
-- **Flask-Babel** (Internacionalização PT/EN)
-
----
-
-## 📋 Monitoramento de Logs
-
-A aplicação está configurada para registrar logs de acesso e erros via Gunicorn, capturados pelo Docker com rotação automática (máx. 5 arquivos × 10 MB para web, 3 × 10 MB para o banco).
-
-### Comandos úteis
-
-```bash
-# Ver logs em tempo real
-docker-compose logs -f web
-
-# Ver últimas 50 linhas
-docker-compose logs --tail=50 web
-
-# Filtrar por período
-docker-compose logs --since 1h web
-
-# Logs do banco de dados
-docker-compose logs --tail=30 db
-
-# Buscar um endpoint específico
-docker-compose logs web | grep "POST /auth/login"
-```
-
-### Exemplo de saída
-```
-web-1 | [INFO] Starting gunicorn 25.1.0
-web-1 | 192.168.1.5 - - [13/Mar/2026] "GET / HTTP/1.1" 200 2345
-web-1 | 192.168.1.5 - - [13/Mar/2026] "POST /auth/login HTTP/1.1" 302 -
-```
-
-> O serviço `web` reinicia automaticamente em caso de falha (`restart: unless-stopped`).
+- **Alembic / Flask-Migrate** (Migrações e versionamento de esquema de banco de dados)
+- **Gunicorn** (Servidor HTTP WSGI de produção)
+- **Bootstrap 5** (Design System e Grid responsivo)
+- **Flask-Babel** (Motor de internacionalização nativa)
+- **Docker & Docker Compose** (Containerização e Orquestração)
