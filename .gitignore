@@ -7,6 +7,8 @@ tripcashenv/
 __pycache__/
 
 instance/
+*.sqlite
+*.db
 
 .pytest_cache/
 .coverage
@@ -20,8 +22,10 @@ build/
 .env
 *.env.local
 
-# Babel — arquivos compilados (gerados automaticamente no build Docker)
+# Babel — arquivos compilados e templates temporários (gerados automaticamente no build)
 *.mo
+messages.pot
+*.pot
 
 # Logs locais
 *.log

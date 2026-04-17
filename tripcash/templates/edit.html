@@ -8,13 +8,19 @@
   <div class="card shadow-sm mx-auto" style="max-width: 500px;">
     <div class="card-body">
       <form method="post" class="d-flex flex-column gap-3">
-        <div class="form-group">
-            <label class="form-label" for="date">{{ _('Date') }}</label>
-            <input autocomplete="off" class="form-control" name="date" id="date" value="{{ expense.post_date }}" required type="date">
-        </div>
-        <div class="form-group">
-            <label class="form-label" for="amount">{{ _('Amount') }}</label>
-            <input autocomplete="off" class="form-control money" name="amount" id="amount" value="{{ expense.amount }}" required step="0.01" type="number">
+        <div class="row g-2 mb-3">
+            <div class="col-6">
+                <div class="form-group">
+                    <label class="form-label" for="date">{{ _('Date') }}</label>
+                    <input autocomplete="off" class="form-control" name="date" id="date" value="{{ expense.post_date }}" required type="date">
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-group">
+                    <label class="form-label" for="amount">{{ _('Amount') }}</label>
+                    <input autocomplete="off" class="form-control money" name="amount" id="amount" value="{{ expense.amount }}" required step="0.01" type="number">
+                </div>
+            </div>
         </div>
         <div class="form-group">
             <label class="form-label" for="title">{{ _('Title') }}</label>

@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tripcash 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-03-12 00:00+0000\n"
+"POT-Creation-Date: 2026-04-16 20:07-0400\n"
 "PO-Revision-Date: 2026-03-12 00:00+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: pt\n"
@@ -12,386 +12,674 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.16.0\n"
+"Generated-By: Babel 2.18.0\n"
 
-msgid "Home"
-msgstr "Início"
-
-msgid "Trip"
-msgstr "Viagem"
-
-msgid "Change"
-msgstr "Alterar"
-
-msgid "User"
-msgstr "Usuário"
-
-msgid "Log Out"
-msgstr "Sair"
-
-msgid "Change Password"
-msgstr "Alterar Senha"
-
-msgid "Register"
-msgstr "Registrar"
-
-msgid "Log In"
-msgstr "Entrar"
-
-msgid "Getting Started"
-msgstr "Primeiros Passos"
-
-msgid "With Tripcash, you can easily manage your travel expenses with just a few clicks. Organize your spending by categories and stay on top of your budget more effectively."
-msgstr "Com o Tripcash, você pode gerenciar seus gastos de viagem com apenas alguns cliques. Organize suas despesas por categorias e controle seu orçamento de forma mais eficaz."
-
-msgid "Tripcash comes with default categories, but you can easily edit, delete, or create your own custom ones to suit your needs."
-msgstr "O Tripcash vem com categorias padrão, mas você pode editá-las, excluí-las ou criar as suas próprias para melhor se adequar às suas necessidades."
-
-msgid "To get started, simply create your first trip by giving it a name. Choose a unique name to help you identify it later."
-msgstr "Para começar, crie sua primeira viagem dando um nome a ela. Escolha um nome único para identificá-la facilmente depois."
-
-msgid "Create Trip"
-msgstr "Criar Viagem"
-
-msgid "Select your trip:"
-msgstr "Selecione sua viagem:"
-
-msgid "Select"
-msgstr "Selecionar"
-
-msgid "Expenses"
-msgstr "Despesas"
-
-msgid "Register new expenses or view all records for this trip in the list section. You can also see a summary of expenses grouped by category and filtered by date."
-msgstr "Registre novas despesas ou visualize todos os registros desta viagem na seção de lista. Você também pode ver um resumo das despesas agrupadas por categoria e filtradas por data."
-
-msgid "New"
-msgstr "Nova"
-
-msgid "List"
-msgstr "Lista"
-
-msgid "Total"
-msgstr "Total"
-
-msgid "Management"
-msgstr "Gerenciamento"
-
-msgid "Organize and keep track of your trips and categories. You can reuse the same categories across different trips. Click below to view, edit, or delete them."
-msgstr "Organize e gerencie suas viagens e categorias. Você pode reutilizar as mesmas categorias em viagens diferentes. Clique abaixo para visualizar, editar ou excluir."
-
-msgid "Trips"
-msgstr "Viagens"
-
-msgid "Labels"
-msgstr "Categorias"
-
-msgid "Simplify your trip expenses."
-msgstr "Simplifique os gastos da sua viagem."
-
-msgid "Username"
-msgstr "Usuário"
-
-msgid "Password"
-msgstr "Senha"
-
-msgid "Confirm the password"
-msgstr "Confirme a senha"
-
-msgid "Current Password"
-msgstr "Senha Atual"
-
-msgid "New Password"
-msgstr "Nova Senha"
-
-msgid "Confirm the new password"
-msgstr "Confirme a nova senha"
-
-msgid "Register a new expense"
-msgstr "Registrar nova despesa"
-
-msgid "Date"
-msgstr "Data"
-
-msgid "Amount"
-msgstr "Valor"
-
-msgid "Title"
-msgstr "Título"
-
-msgid "Category"
-msgstr "Categoria"
-
-msgid "Back"
-msgstr "Voltar"
-
-msgid "Edit"
-msgstr "Editar"
-
-msgid "Save Changes"
-msgstr "Salvar Alterações"
-
-msgid "Welcome to category management. You can create new categories, view current ones, or edit and delete them as needed."
-msgstr "Bem-vindo ao gerenciamento de categorias. Você pode criar novas categorias, visualizar as existentes ou editá-las e excluí-las conforme necessário."
-
-msgid "Note:"
-msgstr "Nota:"
-
-msgid "If you delete a category, all associated expenses will be automatically reassigned to \"Others\"."
-msgstr "Se você excluir uma categoria, todas as despesas associadas serão automaticamente reatribuídas para \"Outros\"."
-
-msgid "New Category"
-msgstr "Nova Categoria"
-
-msgid "Create Category"
-msgstr "Criar Categoria"
-
-msgid "Existing Categories"
-msgstr "Categorias Existentes"
-
-msgid "Actions"
-msgstr "Ações"
-
-msgid "Delete"
-msgstr "Excluir"
-
-msgid "Deleting this category will move all associated expenses to others. Are you sure?"
-msgstr "Excluir esta categoria moverá todas as despesas associadas para \"Outros\". Tem certeza?"
-
-msgid "Manage your trips here. Create new ones, or view, edit, and delete existing trips from the list below."
-msgstr "Gerencie suas viagens aqui. Crie novas viagens ou visualize, edite e exclua as existentes na lista abaixo."
-
-msgid "Warning:"
-msgstr "Atenção:"
-
-msgid "Deleting a trip will also remove all expenses registered under it."
-msgstr "Excluir uma viagem também removerá todas as despesas registradas nela."
-
-msgid "Trip Name"
-msgstr "Nome da Viagem"
-
-msgid "Existing Trips"
-msgstr "Viagens Existentes"
-
-msgid "This will permanently delete the trip and all its expenses. Are you sure?"
-msgstr "Isso excluirá permanentemente a viagem e todas as suas despesas. Tem certeza?"
-
-msgid "New Expense"
-msgstr "Nova Despesa"
-
-msgid "Are you sure?"
-msgstr "Tem certeza?"
-
-msgid "Select a date to filter the total expenses:"
-msgstr "Selecione uma data para filtrar o total de despesas:"
-
-msgid "All dates"
-msgstr "Todas as datas"
-
-msgid "Filter"
-msgstr "Filtrar"
-
-msgid "Edit Category"
-msgstr "Editar Categoria"
-
-msgid "New Category Name"
-msgstr "Novo Nome da Categoria"
-
-msgid "Edit Trip"
-msgstr "Editar Viagem"
-
-msgid "Incorrect username."
-msgstr "Nome de usuário incorreto."
-
-msgid "Incorrect password."
-msgstr "Senha incorreta."
-
+#: tripcash/auth.py:28
 msgid "Username is required."
 msgstr "O nome de usuário é obrigatório."
 
+#: tripcash/auth.py:30
 msgid "Password is required."
 msgstr "A senha é obrigatória."
 
+#: tripcash/auth.py:32 tripcash/auth.py:139
 msgid "Passwords do not match. Please try again."
 msgstr "As senhas não coincidem. Por favor, tente novamente."
 
-msgid "All fields are required."
-msgstr "Todos os campos são obrigatórios."
-
-msgid "Trip name is required."
-msgstr "O nome da viagem é obrigatório."
-
-msgid "Incorrect current password."
-msgstr "Senha atual incorreta."
-
-msgid "New password and current password are the same."
-msgstr "A nova senha é igual à senha atual."
-
 # System default category names
+#: tripcash/auth.py:42 tripcash/templates/expense.html:33
 msgid "Food"
 msgstr "Alimentação"
 
+#: tripcash/auth.py:43
 msgid "Transport"
 msgstr "Transporte"
 
+#: tripcash/auth.py:44
 msgid "Tickets"
 msgstr "Ingressos"
 
+#: tripcash/auth.py:45
 msgid "Accommodation"
 msgstr "Hospedagem"
 
-
-
-msgid "Group Expenses"
-msgstr "Gastos do Grupo"
-
-# --- Botões renomeados da tela inicial ---
-msgid "New Expense"
-msgstr "Nova Despesa"
-
-msgid "View List"
-msgstr "Ver Lista"
-
-msgid "Summary"
-msgstr "Resumo"
-
-msgid "Settlement"
-msgstr "Acerto de Contas"
-
-msgid "Manage Trips"
-msgstr "Gerenciar Viagens"
-
-msgid "Manage Categories"
-msgstr "Gerenciar Categorias"
-
-# --- Indicador de viagem ativa ---
-msgid "Active trip"
-msgstr "Viagem ativa"
-
-msgid "Active"
-msgstr "Ativa"
-
 # --- Categoria padrão 'Others' e badge ---
+#: tripcash/auth.py:46
 msgid "Others"
 msgstr "Outros"
 
-msgid "Default"
-msgstr "Padrão"
+#: tripcash/auth.py:75
+msgid "Incorrect username."
+msgstr "Nome de usuário incorreto."
 
-# --- Aviso de categorias em viagens em grupo ---
-msgid "In group trips, only default categories are available."
-msgstr "Em viagens em grupo, apenas as categorias padrão estão disponíveis."
+#: tripcash/auth.py:77
+msgid "Incorrect password."
+msgstr "Senha incorreta."
 
-# --- Tela de seleção de viagem (No trip selected) ---
-msgid "No trip selected"
-msgstr "Nenhuma viagem selecionada"
+#: tripcash/auth.py:135
+msgid "All fields are required."
+msgstr "Todos os campos são obrigatórios."
 
-msgid "Please select an active trip from your list of created trips to start managing expenses."
-msgstr "Selecione uma viagem ativa na sua lista de viagens para começar a gerenciar as despesas."
+#: tripcash/auth.py:137
+msgid "Incorrect current password."
+msgstr "Senha atual incorreta."
 
-msgid "Go to My Trips"
-msgstr "Ir para Minhas Viagens"
+#: tripcash/auth.py:141
+msgid "New password and current password are the same."
+msgstr "A nova senha é igual à senha atual."
 
-# --- Botão Select na tela de viagens ---
-msgid "Select"
-msgstr "Selecionar"
-
-msgid "Paid for"
-msgstr "Pagou por"
-
-msgid "Owes part of"
-msgstr "Parte em"
-
-msgid "Payment to"
-msgstr "Pagamento para"
-
-msgid "Payment from"
-msgstr "Recebimento de"
-
-msgid "Personal Expense"
-msgstr "Gasto Pessoal"
-
-msgid "Net Balance"
-msgstr "Saldo Final"
-
-msgid "Ledger Entry"
-msgstr "Registro"
-
-msgid "No group expenses recorded yet."
-msgstr "Nenhum gasto do grupo registrado ainda."
-
-msgid "Who Paid?"
-msgstr "Quem Pagou?"
-
-msgid "You"
-msgstr "Você"
-
-msgid "Split this expense directly"
-msgstr "Dividir esta despesa"
-
-msgid "Enter the total amount owed by each participant. If they owe nothing on this specific transaction, leave 0."
-msgstr "Insira o total devido por cada integrante. Caso alguém não tenha consumido nada, deixe zerado."
-
-msgid "Trip Details"
-msgstr "Detalhes da Viagem"
-
-msgid "Group Trip"
-msgstr "Viagem em Grupo"
-
-msgid "Participants"
-msgstr "Participantes"
-
-msgid "New participant name"
-msgstr "Nome do novo participante"
-
-msgid "Add"
-msgstr "Adicionar"
-
-msgid "Remove this participant?"
-msgstr "Remover este participante?"
-
-msgid "No additional participants."
-msgstr "Nenhum participante adicional."
-
-msgid "Search"
-msgstr "Buscar"
-
-msgid "Search existing user"
-msgstr "Buscar usuário existente"
-
-msgid "No users found."
-msgstr "Nenhum usuário encontrado."
-
-msgid "Trip Settlements"
-msgstr "Acertos da Viagem"
-
-msgid "Participant Balances"
-msgstr "Saldos dos Participantes"
-
-msgid "Positive balances mean the group owes them money. Negative balances mean they owe the group."
-msgstr "Saldos positivos indicam que o grupo lhes deve. Saldos negativos indicam que devem ao grupo."
-
-msgid "Register a Settlement"
-msgstr "Registrar um Acerto"
-
-msgid "Select Payer"
-msgstr "Selecionar Pagador"
-
-msgid "Who Received?"
-msgstr "Quem Recebeu?"
-
-msgid "Select Receiver"
-msgstr "Selecionar Recebedor"
-
-msgid "Register Payment"
-msgstr "Registrar Pagamento"
-
-msgid "Back to Dashboard"
-msgstr "Voltar ao Dashboard"
-
+#: tripcash/expense.py:90 tripcash/list.py:319 tripcash/templates/edit.html:107
+#: tripcash/templates/expense.html:91
 msgid "The sum of split fractions must perfectly match the total expense amount."
 msgstr "A soma da divisão de despesas deve ser igual ao valor total da despesa."
 
+#: tripcash/home.py:56
+msgid "Trip name is required."
+msgstr "O nome da viagem é obrigatório."
 
-msgid "Track the financial balance of the trip. Green (positive) means the participant has credit to receive. Red (negative) means the participant owes money to the group."
-msgstr "Acompanhe o balanço financeiro da viagem. Verde (positivo) significa que o participante tem crédito a receber. Vermelho (negativo) significa que o participante deve pagar ao grupo."
+#: tripcash/label.py:28
+#, fuzzy
+msgid "label_name"
+msgstr "Categorias"
+
+#: tripcash/list.py:66 tripcash/list.py:141 tripcash/list.py:167
+#: tripcash/list.py:192
+#, fuzzy
+msgid "label"
+msgstr "Categorias"
+
+#: tripcash/settlement.py:166
+msgid "Paid for"
+msgstr "Pagou por"
+
+#: tripcash/settlement.py:183
+msgid "Owes part of"
+msgstr "Parte em"
+
+#: tripcash/settlement.py:200
+msgid "Payment to"
+msgstr "Pagamento para"
+
+#: tripcash/settlement.py:217
+msgid "Payment from"
+msgstr "Recebimento de"
+
+#: tripcash/templates/base.html:149
+msgid "Home"
+msgstr "Início"
+
+#: tripcash/templates/base.html:153 tripcash/templates/edit.html:47
+#: tripcash/templates/firsttime.html:17
+msgid "Trip"
+msgstr "Viagem"
+
+#: tripcash/templates/base.html:157
+msgid "User"
+msgstr "Usuário"
+
+#: tripcash/templates/base.html:159
+msgid "Log Out"
+msgstr "Sair"
+
+#: tripcash/templates/base.html:160
+msgid "Change Password"
+msgstr "Alterar Senha"
+
+#: tripcash/templates/auth/login.html:26
+#: tripcash/templates/auth/register.html:4
+#: tripcash/templates/auth/register.html:24 tripcash/templates/base.html:165
+#: tripcash/templates/expense.html:103 tripcash/templates/index.html:64
+msgid "Register"
+msgstr "Registrar"
+
+#: tripcash/templates/auth/login.html:4 tripcash/templates/auth/login.html:20
+#: tripcash/templates/base.html:167 tripcash/templates/index.html:62
+msgid "Log In"
+msgstr "Entrar"
+
+#: tripcash/templates/create_settlement.html:4
+#: tripcash/templates/settlement.html:45
+msgid "Register a Settlement"
+msgstr "Registrar um Acerto"
+
+#: tripcash/templates/create_settlement.html:14 tripcash/templates/edit.html:63
+#: tripcash/templates/expense.html:47
+msgid "Who Paid?"
+msgstr "Quem Pagou?"
+
+#: tripcash/templates/create_settlement.html:16
+msgid "Select Payer"
+msgstr "Selecionar Pagador"
+
+#: tripcash/templates/create_settlement.html:18
+#: tripcash/templates/create_settlement.html:29 tripcash/templates/edit.html:66
+#: tripcash/templates/edittrip.html:66 tripcash/templates/expense.html:50
+#: tripcash/templates/settlement.html:24
+msgid "You"
+msgstr "Você"
+
+#: tripcash/templates/create_settlement.html:25
+msgid "Who Received?"
+msgstr "Quem Recebeu?"
+
+#: tripcash/templates/create_settlement.html:27
+msgid "Select Receiver"
+msgstr "Selecionar Recebedor"
+
+#: tripcash/templates/create_settlement.html:39 tripcash/templates/edit.html:14
+#: tripcash/templates/expense.html:14 tripcash/templates/list.html:12
+#: tripcash/templates/settlement_detail.html:23
+#: tripcash/templates/settlement_detail.html:31
+#: tripcash/templates/total.html:36
+msgid "Date"
+msgstr "Data"
+
+#: tripcash/templates/create_settlement.html:45 tripcash/templates/edit.html:20
+#: tripcash/templates/expense.html:20 tripcash/templates/list.html:14
+#: tripcash/templates/settlement_detail.html:25
+#: tripcash/templates/settlement_detail.html:37
+#: tripcash/templates/total.html:15
+msgid "Amount"
+msgstr "Valor"
+
+#: tripcash/templates/create_settlement.html:56
+#: tripcash/templates/edit.html:115 tripcash/templates/editlabel.html:17
+#: tripcash/templates/edittrip.html:27 tripcash/templates/expense.html:100
+#: tripcash/templates/label.html:49 tripcash/templates/list.html:82
+#: tripcash/templates/settlement_detail.html:57
+#: tripcash/templates/total.html:53 tripcash/templates/trip.html:56
+msgid "Back"
+msgstr "Voltar"
+
+#: tripcash/templates/create_settlement.html:59
+msgid "Register Payment"
+msgstr "Registrar Pagamento"
+
+#: tripcash/templates/createlabel.html:4 tripcash/templates/label.html:12
+#: tripcash/templates/label.html:54
+msgid "New Category"
+msgstr "Nova Categoria"
+
+#: tripcash/templates/createlabel.html:12
+#, fuzzy
+msgid "Category Name"
+msgstr "Novo Nome da Categoria"
+
+#: tripcash/templates/createlabel.html:17 tripcash/templates/createtrip.html:21
+#, fuzzy
+msgid "Cancel"
+msgstr "Alterar"
+
+#: tripcash/templates/createlabel.html:20 tripcash/templates/createtrip.html:24
+#, fuzzy
+msgid "Create"
+msgstr "Criar Viagem"
+
+#: tripcash/templates/createtrip.html:4 tripcash/templates/firsttime.html:27
+msgid "Create Trip"
+msgstr "Criar Viagem"
+
+#: tripcash/templates/createtrip.html:12 tripcash/templates/edittrip.html:17
+msgid "Trip Name"
+msgstr "Nome da Viagem"
+
+#: tripcash/templates/createtrip.html:17 tripcash/templates/firsttime.html:22
+#, fuzzy
+msgid "Is this a group trip?"
+msgstr "Viagem em Grupo"
+
+#: tripcash/templates/edit.html:4 tripcash/templates/label.html:31
+#: tripcash/templates/list.html:29 tripcash/templates/list.html:59
+#: tripcash/templates/trip.html:38
+msgid "Edit"
+msgstr "Editar"
+
+#: tripcash/templates/edit.html:26 tripcash/templates/expense.html:26
+#: tripcash/templates/list.html:13
+msgid "Title"
+msgstr "Título"
+
+#: tripcash/templates/edit.html:30 tripcash/templates/expense.html:30
+#: tripcash/templates/list.html:15 tripcash/templates/total.html:14
+msgid "Category"
+msgstr "Categoria"
+
+# --- Aviso de categorias em viagens em grupo ---
+#: tripcash/templates/edit.html:42 tripcash/templates/expense.html:38
+msgid "In group trips, only default categories are available."
+msgstr "Em viagens em grupo, apenas as categorias padrão estão disponíveis."
+
+#: tripcash/templates/edit.html:73 tripcash/templates/expense.html:57
+msgid "Split this expense directly"
+msgstr "Dividir esta despesa"
+
+#: tripcash/templates/edit.html:77 tripcash/templates/expense.html:61
+msgid ""
+"Enter the total amount owed by each participant. If they owe nothing on "
+"this specific transaction, leave 0."
+msgstr ""
+"Insira o total devido por cada integrante. Caso alguém não tenha "
+"consumido nada, deixe zerado."
+
+#: tripcash/templates/edit.html:118 tripcash/templates/editlabel.html:20
+#: tripcash/templates/edittrip.html:30
+msgid "Save Changes"
+msgstr "Salvar Alterações"
+
+#: tripcash/templates/editlabel.html:4
+msgid "Edit Category"
+msgstr "Editar Categoria"
+
+#: tripcash/templates/editlabel.html:12
+msgid "New Category Name"
+msgstr "Novo Nome da Categoria"
+
+#: tripcash/templates/edittrip.html:4
+msgid "Edit Trip"
+msgstr "Editar Viagem"
+
+#: tripcash/templates/edittrip.html:12
+msgid "Trip Details"
+msgstr "Detalhes da Viagem"
+
+#: tripcash/templates/edittrip.html:22
+msgid "Group Trip"
+msgstr "Viagem em Grupo"
+
+#: tripcash/templates/edittrip.html:42
+msgid "Participants"
+msgstr "Participantes"
+
+#: tripcash/templates/edittrip.html:48
+msgid "New participant name"
+msgstr "Nome do novo participante"
+
+#: tripcash/templates/edittrip.html:49
+msgid "Search existing user"
+msgstr "Buscar usuário existente"
+
+#: tripcash/templates/edittrip.html:53
+msgid "Search"
+msgstr "Buscar"
+
+#: tripcash/templates/edittrip.html:55
+msgid "Add"
+msgstr "Adicionar"
+
+#: tripcash/templates/edittrip.html:70
+msgid "Remove this participant?"
+msgstr "Remover este participante?"
+
+#: tripcash/templates/edittrip.html:77
+msgid "No additional participants."
+msgstr "Nenhum participante adicional."
+
+#: tripcash/templates/edittrip.html:95
+msgid "No users found."
+msgstr "Nenhum usuário encontrado."
+
+#: tripcash/templates/expense.html:4
+msgid "Register a new expense"
+msgstr "Registrar nova despesa"
+
+#: tripcash/templates/firsttime.html:4
+msgid "Getting Started"
+msgstr "Primeiros Passos"
+
+#: tripcash/templates/firsttime.html:10
+msgid ""
+"With Tripcash, you can easily manage your travel expenses with just a few"
+" clicks. Organize your spending by categories and stay on top of your "
+"budget more effectively."
+msgstr ""
+"Com o Tripcash, você pode gerenciar seus gastos de viagem com apenas "
+"alguns cliques. Organize suas despesas por categorias e controle seu "
+"orçamento de forma mais eficaz."
+
+#: tripcash/templates/firsttime.html:11
+msgid ""
+"Tripcash comes with default categories, but you can easily edit, delete, "
+"or create your own custom ones to suit your needs."
+msgstr ""
+"O Tripcash vem com categorias padrão, mas você pode editá-las, excluí-las"
+" ou criar as suas próprias para melhor se adequar às suas necessidades."
+
+#: tripcash/templates/firsttime.html:12
+msgid ""
+"To get started, simply create your first trip by giving it a name. Choose"
+" a unique name to help you identify it later."
+msgstr ""
+"Para começar, crie sua primeira viagem dando um nome a ela. Escolha um "
+"nome único para identificá-la facilmente depois."
+
+#: tripcash/templates/firsttime.html:18
+#, fuzzy
+msgid "Trip name"
+msgstr "Nome da Viagem"
+
+# --- Tela de seleção de viagem (No trip selected) ---
+#: tripcash/templates/index.html:12
+msgid "No trip selected"
+msgstr "Nenhuma viagem selecionada"
+
+#: tripcash/templates/index.html:13
+msgid ""
+"Please select an active trip from your list of created trips to start "
+"managing expenses."
+msgstr ""
+"Selecione uma viagem ativa na sua lista de viagens para começar a "
+"gerenciar as despesas."
+
+#: tripcash/templates/index.html:14
+msgid "Go to My Trips"
+msgstr "Ir para Minhas Viagens"
+
+#: tripcash/templates/index.html:20 tripcash/templates/list.html:4
+msgid "Expenses"
+msgstr "Despesas"
+
+#: tripcash/templates/index.html:21
+msgid ""
+"Register new expenses or view all records for this trip in the list "
+"section. You can also see a summary of expenses grouped by category and "
+"filtered by date."
+msgstr ""
+"Registre novas despesas ou visualize todos os registros desta viagem na "
+"seção de lista. Você também pode ver um resumo das despesas agrupadas por"
+" categoria e filtradas por data."
+
+# --- Botões renomeados da tela inicial ---
+#: tripcash/templates/index.html:24 tripcash/templates/list.html:85
+#: tripcash/templates/list.html:90
+msgid "New Expense"
+msgstr "Nova Despesa"
+
+#: tripcash/templates/index.html:27
+msgid "View List"
+msgstr "Ver Lista"
+
+#: tripcash/templates/index.html:30
+msgid "Summary"
+msgstr "Resumo"
+
+#: tripcash/templates/index.html:34
+msgid "Settlement"
+msgstr "Acerto de Contas"
+
+#: tripcash/templates/index.html:44
+msgid "Management"
+msgstr "Gerenciamento"
+
+#: tripcash/templates/index.html:45
+msgid ""
+"Organize and keep track of your trips and categories. You can reuse the "
+"same categories across different trips. Click below to view, edit, or "
+"delete them."
+msgstr ""
+"Organize e gerencie suas viagens e categorias. Você pode reutilizar as "
+"mesmas categorias em viagens diferentes. Clique abaixo para visualizar, "
+"editar ou excluir."
+
+#: tripcash/templates/index.html:48
+msgid "Manage Trips"
+msgstr "Gerenciar Viagens"
+
+#: tripcash/templates/index.html:51
+msgid "Manage Categories"
+msgstr "Gerenciar Categorias"
+
+#: tripcash/templates/index.html:60
+msgid "Simplify your trip expenses."
+msgstr "Simplifique os gastos da sua viagem."
+
+#: tripcash/templates/label.html:4
+#, fuzzy
+msgid "Categories"
+msgstr "Categoria"
+
+#: tripcash/templates/label.html:8
+msgid ""
+"Welcome to category management. You can create new categories, view "
+"current ones, or edit and delete them as needed."
+msgstr ""
+"Bem-vindo ao gerenciamento de categorias. Você pode criar novas "
+"categorias, visualizar as existentes ou editá-las e excluí-las conforme "
+"necessário."
+
+#: tripcash/templates/label.html:11
+msgid "Existing Categories"
+msgstr "Categorias Existentes"
+
+#: tripcash/templates/label.html:15
+msgid "Note:"
+msgstr "Nota:"
+
+#: tripcash/templates/label.html:15
+msgid ""
+"If you delete a category, all associated expenses will be automatically "
+"reassigned to \"Others\"."
+msgstr ""
+"Se você excluir uma categoria, todas as despesas associadas serão "
+"automaticamente reatribuídas para \"Outros\"."
+
+#: tripcash/templates/label.html:25
+msgid "Default"
+msgstr "Padrão"
+
+#: tripcash/templates/label.html:33
+msgid ""
+"Deleting this category will move all associated expenses to others. Are "
+"you sure?"
+msgstr ""
+"Excluir esta categoria moverá todas as despesas associadas para "
+"\"Outros\". Tem certeza?"
+
+#: tripcash/templates/label.html:35 tripcash/templates/list.html:33
+#: tripcash/templates/list.html:63 tripcash/templates/trip.html:42
+msgid "Delete"
+msgstr "Excluir"
+
+#: tripcash/templates/label.html:43
+#, fuzzy
+msgid "No categories found."
+msgstr "Nenhum usuário encontrado."
+
+#: tripcash/templates/list.html:16
+msgid "Actions"
+msgstr "Ações"
+
+#: tripcash/templates/list.html:31 tripcash/templates/list.html:61
+msgid "Are you sure?"
+msgstr "Tem certeza?"
+
+#: tripcash/templates/list.html:75
+#, fuzzy
+msgid "No expenses found."
+msgstr "Nenhum usuário encontrado."
+
+#: tripcash/templates/settlement.html:4
+msgid "Trip Settlements"
+msgstr "Acertos da Viagem"
+
+#: tripcash/templates/settlement.html:13
+msgid "Participant Balances"
+msgstr "Saldos dos Participantes"
+
+#: tripcash/templates/settlement.html:16
+msgid ""
+"Track the financial balance of the trip. Green (positive) means the "
+"participant has credit to receive. Red (negative) means the participant "
+"owes money to the group."
+msgstr ""
+"Acompanhe o balanço financeiro da viagem. Verde (positivo) significa que "
+"o participante tem crédito a receber. Vermelho (negativo) significa que o"
+" participante deve pagar ao grupo."
+
+#: tripcash/templates/settlement.html:42
+msgid "Back to Dashboard"
+msgstr "Voltar ao Dashboard"
+
+#: tripcash/templates/settlement_detail.html:4
+msgid "Group Expenses"
+msgstr "Gastos do Grupo"
+
+#: tripcash/templates/settlement_detail.html:12
+msgid "Net Balance"
+msgstr "Saldo Final"
+
+#: tripcash/templates/settlement_detail.html:24
+#: tripcash/templates/settlement_detail.html:34
+msgid "Ledger Entry"
+msgstr "Registro"
+
+#: tripcash/templates/settlement_detail.html:44
+msgid "No group expenses recorded yet."
+msgstr "Nenhum gasto do grupo registrado ainda."
+
+#: tripcash/templates/total.html:4
+msgid "Total"
+msgstr "Total"
+
+#: tripcash/templates/total.html:33
+msgid "Select a date to filter the total expenses:"
+msgstr "Selecione uma data para filtrar o total de despesas:"
+
+#: tripcash/templates/total.html:38
+msgid "All dates"
+msgstr "Todas as datas"
+
+#: tripcash/templates/total.html:45
+msgid "Filter"
+msgstr "Filtrar"
+
+#: tripcash/templates/trip.html:4
+msgid "Trips"
+msgstr "Viagens"
+
+#: tripcash/templates/trip.html:9
+msgid ""
+"Manage your trips here. Create new ones, or view, edit, and delete "
+"existing trips from the list below."
+msgstr ""
+"Gerencie suas viagens aqui. Crie novas viagens ou visualize, edite e "
+"exclua as existentes na lista abaixo."
+
+#: tripcash/templates/trip.html:12
+msgid "Existing Trips"
+msgstr "Viagens Existentes"
+
+#: tripcash/templates/trip.html:13 tripcash/templates/trip.html:61
+#, fuzzy
+msgid "New Trip"
+msgstr "Editar Viagem"
+
+#: tripcash/templates/trip.html:16
+msgid "Warning:"
+msgstr "Atenção:"
+
+#: tripcash/templates/trip.html:16
+msgid "Deleting a trip will also remove all expenses registered under it."
+msgstr "Excluir uma viagem também removerá todas as despesas registradas nela."
+
+#: tripcash/templates/trip.html:27
+msgid "Active"
+msgstr "Ativa"
+
+# --- Botão Select na tela de viagens ---
+#: tripcash/templates/trip.html:33
+msgid "Select"
+msgstr "Selecionar"
+
+#: tripcash/templates/trip.html:40
+msgid "This will permanently delete the trip and all its expenses. Are you sure?"
+msgstr ""
+"Isso excluirá permanentemente a viagem e todas as suas despesas. Tem "
+"certeza?"
+
+#: tripcash/templates/trip.html:50
+#, fuzzy
+msgid "No trips found."
+msgstr "Nenhum usuário encontrado."
+
+#: tripcash/templates/auth/changepass.html:4
+#, fuzzy
+msgid "Change your password"
+msgstr "Alterar Senha"
+
+#: tripcash/templates/auth/changepass.html:12
+msgid "Current Password"
+msgstr "Senha Atual"
+
+#: tripcash/templates/auth/changepass.html:16
+msgid "New Password"
+msgstr "Nova Senha"
+
+#: tripcash/templates/auth/changepass.html:20
+msgid "Confirm the new password"
+msgstr "Confirme a nova senha"
+
+#: tripcash/templates/auth/changepass.html:24
+msgid "Change"
+msgstr "Alterar"
+
+#: tripcash/templates/auth/login.html:12
+#: tripcash/templates/auth/register.html:12
+msgid "Username"
+msgstr "Usuário"
+
+#: tripcash/templates/auth/login.html:16
+#: tripcash/templates/auth/register.html:16
+msgid "Password"
+msgstr "Senha"
+
+#: tripcash/templates/auth/login.html:26
+msgid "Don't have an account?"
+msgstr "Não tem uma conta?"
+
+#: tripcash/templates/auth/register.html:20
+msgid "Confirm the password"
+msgstr "Confirme a senha"
+
+# --- Indicador de viagem ativa ---
+msgid "Is this a group trip?"
+msgstr "Esta é uma viagem em grupo?"
+
+
+msgid "Cancel"
+msgstr "Cancelar"
+
+msgid "Create"
+msgstr "Criar"
+
+msgid "Category Name"
+msgstr "Nome da Categoria"
+
+
+#~ msgid "Select your trip:"
+#~ msgstr "Selecione sua viagem:"
+
+#~ msgid "New"
+#~ msgstr "Nova"
+
+#~ msgid "List"
+#~ msgstr "Lista"
+
+#~ msgid "Create Category"
+#~ msgstr "Criar Categoria"
+
+#~ msgid "Active trip"
+#~ msgstr "Viagem ativa"
+
+#~ msgid "Personal Expense"
+#~ msgstr "Gasto Pessoal"
+
+#~ msgid ""
+#~ "Positive balances mean the group owes"
+#~ " them money. Negative balances mean "
+#~ "they owe the group."
+#~ msgstr ""
+#~ "Saldos positivos indicam que o grupo "
+#~ "lhes deve. Saldos negativos indicam que"
+#~ " devem ao grupo."
+
+
