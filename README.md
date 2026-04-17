@@ -78,14 +78,14 @@ Para uso exclusivo em **rede local interna**, o acesso direto à porta 8000 é s
 O uso do Tripcash segue um fluxo lógico simples:
 
 ### 1. Registro e Login
-Ao acessar a aplicação pela primeira vez, clique em **Register** para criar seu usuário. Após o registro, faça o login para acessar seu painel pessoal.
+Ao acessar a aplicação pela primeira vez, clique em **Registrar** para criar seu usuário. Após o registro, faça o login para acessar seu painel pessoal.
 
 ### 2. Criando sua primeira Viagem
 Logo após o primeiro login, você será redirecionado para criar uma viagem (ex: "Eurotrip 2024"). As despesas são sempre vinculadas a uma viagem específica.
 
-### 3. Gerenciando Categorias (Labels)
-A aplicação vem com 4 categorias padrão: **Food**, **Transport**, **Tickets** e **Accommodation**. 
-Você pode criar novas categorias ou editar as existentes no menu de **Labels** para melhor se adaptar ao seu estilo de viagem.
+### 3. Gerenciando Categorias
+A aplicação vem com categorias padrão (como **Comida**, **Transporte**, **Ingressos** e **Hospedagem**). 
+Você pode criar novas categorias ou editar as existentes no menu de **Categorias** para melhor se adaptar ao seu estilo de viagem.
 
 ### 4. Lançando Gastos
 No painel principal da sua viagem atual, você pode clicar para adicionar um novo gasto:
@@ -95,7 +95,7 @@ No painel principal da sua viagem atual, você pode clicar para adicionar um nov
 - Insira o **Valor**.
 
 ### 5. Visualização e Resumo
-No menu **List**, você pode ver todos os gastos lançados, editá-los ou excluí-los. Há também uma funcionalidade de resumo que soma os gastos por categoria e data, ajudando você a entender para onde seu dinheiro está indo.
+Na listagem da tela principal, você pode ver todos os gastos lançados, editá-los ou excluí-los. Há também a aba de **Resumo**, que soma os gastos por categoria e os exibe graficamente ou de forma condensada, ajudando você a entender para onde seu dinheiro está indo. Em casos de viagem em grupo, a aba **Acertos** exibirá quem deve pagar quem.
 
 ---
 
