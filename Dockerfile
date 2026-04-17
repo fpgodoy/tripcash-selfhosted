@@ -2,7 +2,7 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-# System dependencies required to build psycopg2 from source.
+# System dependencies required to build psycopg2 from source (suporte a Raspberry Pi/ARM)
 RUN apt-get update && \
     apt-get install -y --no-install-recommends libpq-dev gcc build-essential && \
     rm -rf /var/lib/apt/lists/*

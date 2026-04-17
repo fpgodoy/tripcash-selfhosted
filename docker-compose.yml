@@ -7,7 +7,7 @@ services:
       args:
         INSTALL_DEV: ${INSTALL_DEV:-false}
     ports:
-      - "8000:8000"
+      - "${APP_PORT:-8000}:8000"
     environment:
       - FLASK_APP=tripcash
       - SECRET_KEY=${SECRET_KEY:-dev_key_super_secret_para_producao}

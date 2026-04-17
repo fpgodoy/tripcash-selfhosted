@@ -32,6 +32,7 @@ A forma recomendada de executar o Tripcash é através do **Docker Compose**.
    DB_NAME=tripcashdb
    
    # Configurações Avançadas
+   APP_PORT=8000               # Mude se a porta 8000 já estiver em uso no servidor
    ALLOW_REGISTRATION=true     # Mude para false para impedir novos cadastros após criar sua conta
    GUNICORN_WORKERS=2          # Aumente se houver acesso simultâneo alto
    ```
