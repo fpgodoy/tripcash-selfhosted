@@ -25,10 +25,15 @@ A forma recomendada de executar o Tripcash é através do **Docker Compose**.
 2. **Configure as variáveis de ambiente:**
    Crie um arquivo `.env` na raiz do projeto. O `docker-compose.yml` já possui valores padrão para facilitar testes locais, mas **nunca use os valores padrão em produção**.
    ```env
+   # Credenciais do Banco e App
    SECRET_KEY=uma_string_longa_e_aleatoria_aqui
    DB_USER=tripuser
    DB_PASSWORD=sua_senha_forte_aqui
    DB_NAME=tripcashdb
+   
+   # Configurações Avançadas
+   ALLOW_REGISTRATION=true     # Mude para false para impedir novos cadastros após criar sua conta
+   GUNICORN_WORKERS=2          # Aumente se houver acesso simultâneo alto
    ```
 
    > **Dica:** para gerar um `SECRET_KEY` seguro, use:
