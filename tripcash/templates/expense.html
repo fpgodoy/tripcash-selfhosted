@@ -71,21 +71,58 @@
         </div>
         
         <script>
-            document.getElementById('is_split').addEventListener('change', function() {
-                document.getElementById('split_section').style.display = this.checked ? 'block' : 'none';
+            var isSplit = document.getElementById('is_split');
+            var splitSection = document.getElementById('split_section');
+            var amountInput = document.getElementById('amount');
+            var splitInputs = document.querySelectorAll('#split_section input[type="number"]');
+            var manualSplit = false;
+
+            splitInputs.forEach(function(input) {
+                input.addEventListener('input', function() {
+                    manualSplit = true;
+                });
+            });
+
+            function autoSplit() {
+                if (!isSplit.checked || manualSplit) return;
+                var totalAmount = parseFloat(amountInput.value) || 0;
+                var num = splitInputs.length;
+                if (num === 0 || totalAmount <= 0) return;
+                
+                var baseAmount = Math.floor((totalAmount / num) * 100) / 100;
+                var remainder = totalAmount - (baseAmount * num);
+                
+                splitInputs.forEach(function(input, index) {
+                    var val = baseAmount;
+                    if (index === num - 1) {
+                        val += remainder;
+                    }
+                    input.value = val.toFixed(2);
+                });
+            }
+
+            isSplit.addEventListener('change', function() {
+                splitSection.style.display = this.checked ? 'block' : 'none';
+                if (this.checked) {
+                    manualSplit = false;
+                    autoSplit();
+                }
+            });
+
+            amountInput.addEventListener('input', function() {
+                autoSplit();
             });
             
             document.querySelector('form').addEventListener('submit', function(e) {
-                var isSplit = document.getElementById('is_split');
                 if (isSplit && isSplit.checked) {
-                    var totalAmount = parseFloat(document.getElementById('amount').value) || 0;
-                    var splitInputs = document.querySelectorAll('#split_section input[type="number"]');
+                    var totalAmount = parseFloat(amountInput.value) || 0;
                     var sumFractions = 0.0;
                     
                     splitInputs.forEach(function(input) {
                         sumFractions += parseFloat(input.value) || 0;
                     });
                     
+                    // Round to avoid floating point issues
                     if (Math.abs(sumFractions - totalAmount) >= 0.01) {
                         e.preventDefault();
                         alert("{{ _('The sum of split fractions must perfectly match the total expense amount.') }}");
