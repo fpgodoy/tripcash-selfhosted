@@ -9,13 +9,13 @@ bp = Blueprint('list', __name__)
 
 
 # List all the registered expenses
-@bp.route('/list')
+@bp.route('/list', methods=('GET', 'POST'))
 @login_required
 def list():
     # Access DB data
     db = get_db()
     db.execute(
-        '''SELECT users.current_trip AS trip_id, trip.trip_name AS trip_name, trip.user_id AS trip_owner_id
+        '''SELECT users.current_trip AS trip_id, trip.trip_name AS trip_name, trip.user_id AS trip_owner_id, trip.is_group_trip AS is_group_trip
            FROM users INNER JOIN trip on trip.trip_id=users.current_trip WHERE users.id=%s''',
         (g.user['id'],),
     )
@@ -29,43 +29,92 @@ def list():
     is_owner = (g.trip['trip_owner_id'] == g.user['id'])
 
     user_participant_id = None
-    if g.trip['trip_id']:
-        db.execute('SELECT is_group_trip FROM trip WHERE trip_id = %s', (g.trip['trip_id'],))
-        if db.fetchone()['is_group_trip']:
-            db.execute(  # noqa: E501
-                'SELECT id FROM trip_participant WHERE trip_id = %s AND is_user = TRUE AND name = %s',
-                (g.trip['trip_id'], g.user['username'])
-            )
-            user_part = db.fetchone()
-            if user_part:
-                user_participant_id = user_part[0]
+    participants = []
+    if g.trip['is_group_trip']:
+        db.execute('SELECT id, name, is_user FROM trip_participant WHERE trip_id = %s ORDER BY id', (g.trip['trip_id'],))
+        all_p = db.fetchall()
+        user_p = None
+        for p in all_p:
+            if p['is_user'] and p['name'] == g.user['username']:
+                user_p = p
+                user_participant_id = p['id']
+            else:
+                participants.append(p)
+        if user_p:
+            participants.append(user_p)
 
     # Participantes não-donos só visualizam despesas com "Dividir" ativo (is_split = TRUE)
     # Donos da viagem visualizam todas as despesas, incluindo as individuais
     split_filter = '' if is_owner else 'AND post.is_split = TRUE'
 
-    # Get the list of expenses from the current user and trip
+    # Get the dates with registered expenses
     db.execute(
-        f'''SELECT post.id, post.post_date AS date,
-           CASE
-               WHEN trip.is_group_trip = FALSE THEN post.amount
-               WHEN post.is_split = TRUE THEN COALESCE(es.amount_owed, 0)
-               WHEN post.payer_participant_id = %s THEN post.amount
-               ELSE 0
-           END AS amount,
-           post.title, labels.label_name AS label
-           FROM post
-           INNER JOIN labels ON post.label=labels.label_id
-           INNER JOIN trip ON post.trip = trip.trip_id
-           LEFT JOIN expense_split es ON es.expense_id = post.id AND es.participant_id = %s
-           WHERE post.trip = %s {split_filter} ORDER BY date''',
-        (user_participant_id, user_participant_id, g.trip['trip_id']),
+        f'SELECT DISTINCT post_date FROM post WHERE trip = %s {split_filter} ORDER BY post_date',
+        (g.trip['trip_id'],),
     )
-    expenses = db.fetchall()
-    # Translate the label names for system default categories
-    expenses = [dict(row) | {'label': _(row['label'])} for row in expenses]
+    dates = db.fetchall()
 
-    return render_template('list.html', list=expenses)
+    selected_date = 'all'
+    date_filter = ''
+    if request.method == 'POST':
+        form_date = request.form.get('date', '').strip()
+        if not form_date or form_date == 'all':
+            selected_date = 'all'
+        else:
+            selected_date = form_date
+            date_filter = 'AND post.post_date = %s'
+
+    query_params = [g.trip['trip_id']]
+    if date_filter:
+        query_params.append(selected_date)
+
+    if g.trip['is_group_trip']:
+        db.execute(
+            f'''SELECT post.id, post.post_date AS date, post.amount AS total_amount,
+               post.title, labels.label_name AS label, post.is_split,
+               payer.name AS payer_name
+               FROM post
+               INNER JOIN labels ON post.label=labels.label_id
+               LEFT JOIN trip_participant payer ON post.payer_participant_id = payer.id
+               WHERE post.trip = %s {split_filter} {date_filter} ORDER BY date''',
+            tuple(query_params),
+        )
+        expenses = db.fetchall()
+        
+        # Fetch all splits
+        db.execute('SELECT expense_id, participant_id, amount_owed FROM expense_split WHERE expense_id IN (SELECT id FROM post WHERE trip = %s)', (g.trip['trip_id'],))
+        splits_data = db.fetchall()
+        splits_by_expense = {}
+        for row in splits_data:
+            if row['expense_id'] not in splits_by_expense:
+                splits_by_expense[row['expense_id']] = {}
+            splits_by_expense[row['expense_id']][row['participant_id']] = row['amount_owed']
+            
+        final_expenses = []
+        for row in expenses:
+            exp = dict(row)
+            exp['label'] = _(exp['label'])
+            exp['splits'] = splits_by_expense.get(exp['id'], {})
+            exp['amount'] = exp['splits'].get(user_participant_id, 0)
+            if not exp['is_split'] and is_owner:
+                exp['amount'] = exp['total_amount']
+            final_expenses.append(exp)
+        expenses = final_expenses
+
+    else:
+        # Get the list of expenses from the current user and trip (Non-group)
+        db.execute(
+            f'''SELECT post.id, post.post_date AS date, post.amount AS amount, post.amount AS total_amount,
+               post.title, labels.label_name AS label
+               FROM post
+               INNER JOIN labels ON post.label=labels.label_id
+               WHERE post.trip = %s {date_filter} ORDER BY date''',
+            tuple(query_params),
+        )
+        expenses = db.fetchall()
+        expenses = [dict(row) | {'label': _(row['label'])} for row in expenses]
+
+    return render_template('list.html', list=expenses, dates_list=dates, date=selected_date, participants=participants)
 
 
 # List the sum of expenses by label
@@ -93,7 +142,7 @@ def total():
     # Participantes não-donos só visualizam totais de despesas com "Dividir" ativo
     split_filter = '' if is_owner else 'AND post.is_split = TRUE'
 
-    # Get the dates with registered expenses
+    # Get the dates with registered expenses (still useful for UI context if needed, but not required for validation)
     db.execute(
         f'SELECT DISTINCT post_date FROM post WHERE trip = %s {split_filter} ORDER BY post_date',
         (g.trip['trip_id'],),
@@ -114,13 +163,10 @@ def total():
 
     if request.method == 'POST':
         # Get the selected date to filter data
-        date = request.form['date']
-        error = None
-
-        checkdates = [str(row[0]) for row in dates]
+        date = request.form.get('date', '').strip()
 
         # Get the unfiltered data showing all the totals
-        if date == 'all':
+        if not date or date == 'all':
             db.execute(
                 f'''SELECT SUM(
                    CASE
@@ -139,59 +185,53 @@ def total():
             )
             totals = db.fetchall()
             totals = [dict(row) | {'label': _(row['label'])} for row in totals]
-            return render_template('total.html', totals=totals, dates_list=dates, date='Trip')
+            return render_template('total.html', totals=totals, dates_list=dates, date='all')
 
-        # Check the submitted value
-        if not date or (str(date) not in checkdates):
-            error = 'Invalid date.'
+        # Get the filtered data from DB
+        db.execute(
+            f'''SELECT SUM(
+               CASE
+                   WHEN trip.is_group_trip = FALSE THEN post.amount
+                   WHEN post.is_split = TRUE THEN COALESCE(es.amount_owed, 0)
+                   WHEN post.payer_participant_id = %s THEN post.amount
+                   ELSE 0
+               END
+               ) AS amount, labels.label_name AS label
+               FROM post
+               INNER JOIN labels ON post.label=labels.label_id
+               INNER JOIN trip ON post.trip = trip.trip_id
+               LEFT JOIN expense_split es ON es.expense_id = post.id AND es.participant_id = %s
+               WHERE post.trip = %s AND post.post_date = %s {split_filter} GROUP BY labels.label_name''',
+            (user_participant_id, user_participant_id, g.trip['trip_id'], date),
+        )
+        totals = db.fetchall()
+        totals = [dict(row) | {'label': _(row['label'])} for row in totals]
 
-        if error is None:
-            # Get the filtered data from DB
-            db.execute(
-                f'''SELECT SUM(
-                   CASE
-                       WHEN trip.is_group_trip = FALSE THEN post.amount
-                       WHEN post.is_split = TRUE THEN COALESCE(es.amount_owed, 0)
-                       WHEN post.payer_participant_id = %s THEN post.amount
-                       ELSE 0
-                   END
-                   ) AS amount, labels.label_name AS label
-                   FROM post
-                   INNER JOIN labels ON post.label=labels.label_id
-                   INNER JOIN trip ON post.trip = trip.trip_id
-                   LEFT JOIN expense_split es ON es.expense_id = post.id AND es.participant_id = %s
-                   WHERE post.trip = %s AND post.post_date = %s {split_filter} GROUP BY labels.label_name''',
-                (user_participant_id, user_participant_id, g.trip['trip_id'], date),
-            )
-            totals = db.fetchall()
-            totals = [dict(row) | {'label': _(row['label'])} for row in totals]
+        return render_template('total.html', totals=totals, dates_list=dates, date=date)
 
-            return render_template('total.html', totals=totals, dates_list=dates, date=date)
+    else:
+        # Default fallback for GET request
+        db.execute(
+            f'''SELECT SUM(
+               CASE
+                   WHEN trip.is_group_trip = FALSE THEN post.amount
+                   WHEN post.is_split = TRUE THEN COALESCE(es.amount_owed, 0)
+                   WHEN post.payer_participant_id = %s THEN post.amount
+                   ELSE 0
+               END
+               ) AS amount, labels.label_name AS label
+               FROM post
+               INNER JOIN labels ON post.label=labels.label_id
+               INNER JOIN trip ON post.trip = trip.trip_id
+               LEFT JOIN expense_split es ON es.expense_id = post.id AND es.participant_id = %s
+               WHERE post.trip = %s {split_filter} GROUP BY labels.label_name''',
+            (user_participant_id, user_participant_id, g.trip['trip_id']),
+        )
+        totals = db.fetchall()
+        totals = [dict(row) | {'label': _(row['label'])} for row in totals]
+        return render_template('total.html', totals=totals, dates_list=dates, date='all')
 
-        else:
-            flash(error)
 
-    # Get the unfiltered data showing all the totals
-    db.execute(
-        f'''SELECT SUM(
-           CASE
-               WHEN trip.is_group_trip = FALSE THEN post.amount
-               WHEN post.is_split = TRUE THEN COALESCE(es.amount_owed, 0)
-               WHEN post.payer_participant_id = %s THEN post.amount
-               ELSE 0
-           END
-           ) AS amount, labels.label_name AS label
-           FROM post
-           INNER JOIN labels ON post.label=labels.label_id
-           INNER JOIN trip ON post.trip = trip.trip_id
-           LEFT JOIN expense_split es ON es.expense_id = post.id AND es.participant_id = %s
-           WHERE post.trip = %s {split_filter} GROUP BY labels.label_name''',
-        (user_participant_id, user_participant_id, g.trip['trip_id']),
-    )
-    totals = db.fetchall()
-    totals = [dict(row) | {'label': _(row['label'])} for row in totals]
-
-    return render_template('total.html', totals=totals, dates_list=dates, date='Trip')
 
 
 # Get the clicked button expense ID to edit

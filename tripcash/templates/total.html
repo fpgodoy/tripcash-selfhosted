@@ -32,14 +32,9 @@
         <div class="card-body">
             <p class="mb-3 text-secondary">{{ _('Select a date to filter the total expenses:') }}</p>
             <form method="post" class="d-flex flex-column flex-md-row gap-3">
-                <div class="form-group flex-grow-1">
+                <div class="form-group" style="max-width: 250px;">
                     <label class="form-label visually-hidden" for="date">{{ _('Date') }}</label>
-                    <select class="form-select" name="date" id="date">
-                        <option value="all">{{ _('All dates') }}</option>
-                        {% for date in dates_list %}
-                            <option value={{ date[0] }}>{{ date[0] }}</option>
-                        {% endfor %}
-                    </select>
+                    <input class="form-control" name="date" id="date" type="date" value="{{ date if date != 'all' else '' }}">
                 </div>
                 <div>
                     <button class="btn btn-primary w-100" type="submit">{{ _('Filter') }}</button>

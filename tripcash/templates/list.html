@@ -5,14 +5,47 @@
 {% endblock %}
 
 {% block content %}
+    <style>
+        .user-col {
+            background-color: rgba(3, 218, 198, 0.08) !important;
+            color: var(--success-color) !important;
+        }
+        .clickable-card {
+            cursor: pointer;
+        }
+    </style>
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <p class="mb-3 text-secondary">{{ _('Select a date to filter the expenses:') }}</p>
+            <form method="post" class="d-flex flex-column flex-md-row gap-3">
+                <div class="form-group" style="max-width: 250px;">
+                    <label class="form-label visually-hidden" for="date">{{ _('Date') }}</label>
+                    <input class="form-control" name="date" id="date" type="date" value="{{ date if date != 'all' else '' }}">
+                </div>
+                <div>
+                    <button class="btn btn-primary w-100" type="submit">{{ _('Filter') }}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <div class="table-responsive d-none d-md-block">
         <table class="table table-striped table-hover">
             <thead>
                 <tr>
                     <th>{{ _('Date') }}</th>
                     <th>{{ _('Title') }}</th>
-                    <th>{{ _('Amount') }}</th>
                     <th>{{ _('Category') }}</th>
+                    {% if g.trip and g.trip.is_group_trip %}
+                        <th>{{ _('Paid by') }}</th>
+                        <th>{{ _('Total Amount') }}</th>
+                        {% for p in participants %}
+                            <th {% if p.is_user and p.name == g.user.username %}class="user-col"{% endif %}>{{ p.name }}</th>
+                        {% endfor %}
+                    {% else %}
+                        <th>{{ _('Amount') }}</th>
+                    {% endif %}
                     <th class="text-end">{{ _('Actions') }}</th>
                 </tr>
             </thead>
@@ -21,8 +54,18 @@
                     <tr>
                         <td>{{ post.date }}</td>
                         <td>{{ post.title }}</td>
-                        <td class="money fw-bold text-success">{{ post.amount | currency_format }}</td>
                         <td>{{ _(post.label) }}</td>
+                        {% if g.trip and g.trip.is_group_trip %}
+                            <td>{{ post.payer_name if post.payer_name else _('Unknown') }}</td>
+                            <td class="money fw-bold text-success">{{ post.total_amount | currency_format }}</td>
+                            {% for p in participants %}
+                                <td class="money {% if p.is_user and p.name == g.user.username %}user-col fw-bold{% endif %}">
+                                    {{ post.splits.get(p.id, 0) | currency_format }}
+                                </td>
+                            {% endfor %}
+                        {% else %}
+                            <td class="money fw-bold text-success">{{ post.amount | currency_format }}</td>
+                        {% endif %}
                         <td>
                             <div class="d-flex gap-2 justify-content-end w-100">
                                 <form action="{{ url_for('list.edit', id=post['id']) }}" method="GET">
@@ -44,9 +87,16 @@
     <div class="list-group d-md-none mb-4 mt-2">
         {% for post in list %}
             <div class="list-group-item bg-transparent border-secondary p-3">
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                    <strong class="text-light">{{ post.title }}</strong>
-                    <span class="money fw-bold text-success fs-5">{{ post.amount | currency_format }}</span>
+                <div class="d-flex justify-content-between align-items-center mb-2 {% if g.trip and g.trip.is_group_trip %}clickable-card{% endif %}" 
+                     {% if g.trip and g.trip.is_group_trip %}data-bs-toggle="collapse" href="#collapseExpense{{ post.id }}" role="button" aria-expanded="false" aria-controls="collapseExpense{{ post.id }}"{% endif %}>
+                    <strong class="text-light">{{ post.title }} {% if g.trip and g.trip.is_group_trip %}<small class="text-secondary opacity-50 ms-1">▼</small>{% endif %}</strong>
+                    <span class="money fw-bold text-success fs-5">
+                        {% if g.trip and g.trip.is_group_trip %}
+                            {{ post.total_amount | currency_format }}
+                        {% else %}
+                            {{ post.amount | currency_format }}
+                        {% endif %}
+                    </span>
                 </div>
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="text-secondary small">
@@ -69,6 +119,21 @@
                         </form>
                     </div>
                 </div>
+                
+                {% if g.trip and g.trip.is_group_trip %}
+                <div class="collapse mt-3" id="collapseExpense{{ post.id }}">
+                    <div class="p-3 rounded border border-secondary text-light" style="background-color: rgba(255, 255, 255, 0.05);">
+                        <div class="small mb-2"><strong>{{ _('Paid by') }}:</strong> <span class="fw-bold" style="color: var(--success-color);">{{ post.payer_name if post.payer_name else _('Unknown') }}</span></div>
+                        <div class="small text-secondary mb-2 border-top border-secondary pt-2 mt-2">{{ _('Division') }}:</div>
+                        {% for p in participants %}
+                            <div class="d-flex justify-content-between small text-light {% if p.is_user and p.name == g.user.username %}fw-bold{% endif %}" {% if p.is_user and p.name == g.user.username %}style="color: var(--success-color) !important;"{% endif %}>
+                                <span>{{ p.name }}</span>
+                                <span class="money">{{ post.splits.get(p.id, 0) | currency_format }}</span>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
             </div>
         {% else %}
             <div class="list-group-item bg-transparent border-secondary text-secondary text-center p-4">

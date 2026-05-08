@@ -714,3 +714,24 @@ msgstr "Dica: Deixe os campos vazios para o sistema dividir a diferença automat
 
 msgid "Please leave at least one field empty to receive the remaining amount."
 msgstr "Por favor, deixe pelo menos um campo vazio para poder receber o restante do valor."
+
+msgid "Select a date to filter the expenses:"
+msgstr "Selecione uma data para filtrar as despesas:"
+
+msgid "Select a date to filter the total expenses:"
+msgstr "Selecione uma data para filtrar o total das despesas:"
+
+msgid "Date"
+msgstr "Data"
+
+msgid "All dates"
+msgstr "Todas as datas"
+
+msgid "Filter"
+msgstr "Filtrar"
+
+msgid "Paid by"
+msgstr "Pago por"
+
+msgid "Division"
+msgstr "Divisão"

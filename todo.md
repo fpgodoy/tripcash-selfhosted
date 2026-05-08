@@ -38,3 +38,9 @@
 - [x] **[Frontend/JS] Divisão Automática de Contas (Auto-split):** Implementada lógica JS para dividir em partes iguais o total da conta entre os participantes ao criar ou editar uma despesa, com alocação automática da dízima de 1 centavo.
 - [x] **[Frontend/JS] Distribuir o Restante:** Adicionado botão para recalcular e distribuir automaticamente o saldo faltante apenas entre as pessoas que não tiveram o valor fixado/editado manualmente.
 - [x] **[Frontend/CSS] UX e Sinalização Visual:** Estilização com a cor principal (teal) nos campos que estão aptos a receber a divisão automática (vazios), bem como padronização dos botões da tela de Acertos (100% largura no mobile).
+
+### Transparência e Listagem de Despesas
+- [x] **[Backend/Frontend] Detalhamento de Participantes na Listagem:** Atualizada a tela `/list` para exibir quem pagou a despesa, o valor total e o valor individual de cada participante da viagem.
+- [x] **[Frontend/UX] Destaque do Usuário Logado:** O usuário logado é exibido sempre na última coluna da listagem de participantes, com destaque visual sutil em verde-água (teal).
+- [x] **[Frontend/UI] Cards Mobile Expansíveis:** Implementada funcionalidade de clique para expandir detalhes (pagador e divisão) nos cards de despesas em dispositivos móveis, mantendo a visualização principal limpa e legível.
+- [x] **[Backend/Frontend] Filtro de Datas Modernizado:** Substituído o dropdown de datas pré-existentes por uma ferramenta de calendário nativa (`<input type="date">`) tanto na tela de listagem quanto na de totais, permitindo filtragem livre por qualquer data.
