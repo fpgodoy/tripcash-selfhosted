@@ -682,4 +682,25 @@ msgstr "Nome da Categoria"
 #~ "lhes deve. Saldos negativos indicam que"
 #~ " devem ao grupo."
 
+msgid "Export Report"
+msgstr "Exportar Relatório"
+
+msgid "Description"
+msgstr "Descrição"
+
+msgid "Total Amount"
+msgstr "Valor Total"
+
+msgid "This is not a group trip. You cannot export settlements."
+msgstr "Esta não é uma viagem em grupo. Você não pode exportar os acertos."
+
+msgid "No participants in this trip."
+msgstr "Nenhum participante nesta viagem."
+
+msgid "Participant"
+msgstr "Participante"
+
+msgid "Unknown"
+msgstr "Desconhecido"
+
 

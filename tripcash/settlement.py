@@ -1,5 +1,7 @@
 from datetime import datetime
-from flask import Blueprint, flash, g, redirect, render_template, request, url_for
+import csv
+import io
+from flask import Blueprint, flash, g, redirect, render_template, request, url_for, Response
 from werkzeug.exceptions import abort
 from flask_babel import _
 from tripcash.auth import login_required
@@ -226,3 +228,119 @@ def detail(participant_id):
     net_balance = sum([item['amount'] if item['type'] == 'credit' else -item['amount'] for item in ledger])
 
     return render_template('settlement_detail.html', participant=participant, ledger=ledger, net_balance=net_balance)
+
+
+@bp.route('/settlement/export', methods=['GET'])
+@login_required
+def export():
+    db = get_db()
+
+    # Get current trip
+    db.execute(
+        'SELECT * FROM users INNER JOIN trip on trip.trip_id=users.current_trip WHERE users.id=%s',
+        (g.user['id'],)
+    )
+    g.trip = db.fetchone()
+
+    if not g.trip or not g.trip['is_group_trip']:
+        flash(_("This is not a group trip. You cannot export settlements."))
+        return redirect(url_for('list.list'))
+
+    # Get all participants
+    db.execute('SELECT id, name FROM trip_participant WHERE trip_id = %s ORDER BY id', (g.trip['trip_id'],))
+    participants = db.fetchall()
+    
+    if not participants:
+        flash(_("No participants in this trip."))
+        return redirect(url_for('settlement.show'))
+
+    participant_dict = {p['id']: p['name'] for p in participants}
+    balances = {p['id']: {'name': p['name'], 'net': 0.0} for p in participants}
+
+    # Get all expenses for the trip
+    db.execute(
+        'SELECT id, post_date, title, amount, is_split, payer_participant_id FROM post WHERE trip = %s ORDER BY post_date',
+        (g.trip['trip_id'],)
+    )
+    expenses = db.fetchall()
+
+    # Get all splits for the trip
+    db.execute(
+        '''SELECT es.expense_id, es.participant_id, es.amount_owed
+        FROM expense_split es
+        JOIN post p ON es.expense_id = p.id
+        WHERE p.trip = %s''',
+        (g.trip['trip_id'],)
+    )
+    all_splits = db.fetchall()
+    splits_by_expense = {}
+    for s in all_splits:
+        splits_by_expense.setdefault(s['expense_id'], {})[s['participant_id']] = float(s['amount_owed'])
+
+    output = io.StringIO()
+    writer = csv.writer(output, delimiter=';')
+    
+    header = [_('Date'), _('Description'), _('Who Paid?')] + [p['name'] for p in participants] + [_('Total Amount')]
+    writer.writerow(header)
+
+    for exp in expenses:
+        payer_name = participant_dict.get(exp['payer_participant_id'], _("Unknown"))
+        
+        row = [
+            exp['post_date'].strftime('%d/%m/%Y'),
+            exp['title'],
+            payer_name
+        ]
+        
+        splits = splits_by_expense.get(exp['id'], {})
+        for p in participants:
+            if exp['is_split']:
+                amount_owed = splits.get(p['id'], 0.0)
+                row.append(f"{amount_owed:.2f}".replace('.', ','))
+            else:
+                # If not split, the payer consumed it fully
+                if p['id'] == exp['payer_participant_id']:
+                    row.append(f"{float(exp['amount']):.2f}".replace('.', ','))
+                else:
+                    row.append("0,00")
+        
+        row.append(f"{float(exp['amount']):.2f}".replace('.', ','))
+        writer.writerow(row)
+
+        # Update net balances based on expense logic
+        if exp['payer_participant_id'] in balances:
+            balances[exp['payer_participant_id']]['net'] += float(exp['amount'])
+        
+        if exp['is_split']:
+            for pid, amount_owed in splits.items():
+                if pid in balances:
+                    balances[pid]['net'] -= amount_owed
+        else:
+            if exp['payer_participant_id'] in balances:
+                balances[exp['payer_participant_id']]['net'] -= float(exp['amount'])
+
+    # Process Manual Settlements
+    db.execute(
+        'SELECT payer_participant_id, receiver_participant_id, amount FROM participant_payment WHERE trip_id = %s',
+        (g.trip['trip_id'],)
+    )
+    payments = db.fetchall()
+    for pay in payments:
+        if pay['payer_participant_id'] in balances:
+            balances[pay['payer_participant_id']]['net'] += float(pay['amount'])
+        if pay['receiver_participant_id'] in balances:
+            balances[pay['receiver_participant_id']]['net'] -= float(pay['amount'])
+
+    # Append Participant Balances table
+    writer.writerow([])
+    writer.writerow([_('Participant Balances')])
+    writer.writerow([_('Participant'), _('Net Balance')])
+    for p in balances.values():
+        net_str = f"{p['net']:.2f}".replace('.', ',')
+        writer.writerow([p['name'], net_str])
+        
+    output.seek(0)
+    response = Response(output.getvalue().encode('utf-8-sig'), mimetype='text/csv')
+    filename = f"relatorio_gastos_{g.trip['trip_name']}.csv".replace(' ', '_').lower()
+    response.headers['Content-Disposition'] = f'attachment; filename="{filename}"'
+    return response

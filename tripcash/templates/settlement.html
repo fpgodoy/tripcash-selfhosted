@@ -38,10 +38,13 @@
 </div>
 
 <div class="row g-2 mt-4 justify-content-md-end">
-    <div class="col-6 col-md-auto d-grid">
+    <div class="col-12 col-md-auto d-grid">
         <a class="btn btn-secondary" href="{{ url_for('index') }}">{{ _('Back to Dashboard') }}</a>
     </div>
-    <div class="col-6 col-md-auto d-grid">
+    <div class="col-12 col-md-auto d-grid">
+        <a class="btn btn-success" href="{{ url_for('settlement.export') }}">{{ _('Export Report') }}</a>
+    </div>
+    <div class="col-12 col-md-auto d-grid">
         <a class="btn btn-primary" href="{{ url_for('settlement.create') }}">{{ _('Register a Settlement') }}</a>
     </div>
 </div>
