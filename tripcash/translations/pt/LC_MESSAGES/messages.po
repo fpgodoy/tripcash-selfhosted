@@ -703,4 +703,14 @@ msgstr "Participante"
 msgid "Unknown"
 msgstr "Desconhecido"
 
+msgid "Distribute Remaining"
+msgstr "Distribuir Restante"
 
+msgid "Enter the exact amount for each person. If someone shouldn't pay, enter 0."
+msgstr "Insira o valor exato de cada pessoa. Se alguém não for pagar, informe 0."
+
+msgid "Tip: Leave fields empty to automatically distribute the remaining amount between them."
+msgstr "Dica: Deixe os campos vazios para o sistema dividir a diferença automaticamente entre eles."
+
+msgid "Please leave at least one field empty to receive the remaining amount."
+msgstr "Por favor, deixe pelo menos um campo vazio para poder receber o restante do valor."

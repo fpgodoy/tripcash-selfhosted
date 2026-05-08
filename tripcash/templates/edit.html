@@ -74,13 +74,17 @@
         </div>
         
         <div id="split_section" class="p-3 bg-transparent border border-info rounded mb-3" {% if expense.is_split %}style="display: block;"{% else %}style="display: none;"{% endif %}>
-            <p class="small text-info mb-3">{{ _('Enter the total amount owed by each participant. If they owe nothing on this specific transaction, leave 0.') }}</p>
+            <p class="small text-info mb-2">{{ _('Enter the exact amount for each person. If someone shouldn\'t pay, enter 0.') }}</p>
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-3 gap-2">
+                <small class="text-secondary">{{ _('Tip: Leave fields empty to automatically distribute the remaining amount between them.') }}</small>
+                <button type="button" class="btn btn-sm btn-outline-info" id="distribute_remainder_btn">{{ _('Distribute Remaining') }}</button>
+            </div>
             {% for p in participants %}
             <div class="form-group mb-2 d-flex justify-content-between align-items-center">
                 <label class="form-label mb-0" for="split_amount_{{ p.id }}">{{ p.name }}</label>
                 <div class="input-group" style="width: 150px;">
                     <span class="input-group-text">$</span>
-                    <input class="form-control" type="number" step="0.01" name="split_amount_{{ p.id }}" placeholder="0.00" value="{{ splits_dict.get(p.id, '') }}">
+                    <input class="form-control" type="number" step="0.01" name="split_amount_{{ p.id }}" placeholder="0.00" value="{{ splits_dict.get(p.id, '') }}" {% if expense.is_split %}data-manual="true"{% else %}data-manual="false"{% endif %}>
                 </div>
             </div>
             {% endfor %}
@@ -96,6 +100,7 @@
             splitInputs.forEach(function(input) {
                 input.addEventListener('input', function() {
                     manualSplit = true;
+                    this.dataset.manual = "true";
                 });
             });
 
@@ -114,6 +119,52 @@
                         val += remainder;
                     }
                     input.value = val.toFixed(2);
+                    input.dataset.manual = "false";
+                });
+            }
+
+            var distributeBtn = document.getElementById('distribute_remainder_btn');
+            if (distributeBtn) {
+                distributeBtn.addEventListener('click', function() {
+                    var totalAmount = parseFloat(amountInput.value) || 0;
+                    if (totalAmount <= 0) return;
+                    
+                    var manualInputs = [];
+                    var autoInputs = [];
+                    var filledSum = 0;
+                    
+                    splitInputs.forEach(function(input) {
+                        if (input.value.trim() === '') {
+                            input.dataset.manual = "false";
+                        }
+
+                        if (input.dataset.manual === "true") {
+                            manualInputs.push(input);
+                            filledSum += parseFloat(input.value) || 0;
+                        } else {
+                            autoInputs.push(input);
+                        }
+                    });
+                    
+                    if (autoInputs.length === 0) {
+                        alert("{{ _('Please leave at least one field empty to receive the remaining amount.') }}");
+                        return;
+                    }
+                    
+                    var remainder = totalAmount - filledSum;
+                    if (remainder < 0) remainder = 0;
+                    
+                    var num = autoInputs.length;
+                    var baseAmount = Math.floor((remainder / num) * 100) / 100;
+                    var fractionRemainder = remainder - (baseAmount * num);
+                    
+                    autoInputs.forEach(function(input, index) {
+                        var val = baseAmount;
+                        if (index === num - 1) {
+                            val += fractionRemainder;
+                        }
+                        input.value = val.toFixed(2);
+                    });
                 });
             }
 

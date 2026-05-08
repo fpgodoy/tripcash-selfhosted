@@ -32,3 +32,9 @@
 - [x] **[Frontend/UI] Indicador de Viagem Ativa:** Nome da viagem fixado no topo (mobile) e estado ativo destacado no card da viagem na tela de gerenciamento.
 - [x] **[Frontend/CSS] Padronização de Cores:** Variáveis CSS consolidadas (`--primary`, `--background`); uso de cores vibrantes restrito a ações principais.
 - [x] **[Frontend] Renomear Botões da Tela Inicial:** Labels atualizados ("Nova despesa", "Ver lista", "Resumo", "Acerto de Contas", "Gerenciar Viagens", "Gerenciar Categorias").
+
+### Exportação e Acerto de Contas
+- [x] **[Backend/Frontend] Exportação de Relatório (CSV):** Criado endpoint `/settlement/export` para gerar um relatório estruturado de gastos contendo Data, Descrição, Quem Pagou, Divisão Individual, Valor Total e o Balanço de Saldos de cada membro.
+- [x] **[Frontend/JS] Divisão Automática de Contas (Auto-split):** Implementada lógica JS para dividir em partes iguais o total da conta entre os participantes ao criar ou editar uma despesa, com alocação automática da dízima de 1 centavo.
+- [x] **[Frontend/JS] Distribuir o Restante:** Adicionado botão para recalcular e distribuir automaticamente o saldo faltante apenas entre as pessoas que não tiveram o valor fixado/editado manualmente.
+- [x] **[Frontend/CSS] UX e Sinalização Visual:** Estilização com a cor principal (teal) nos campos que estão aptos a receber a divisão automática (vazios), bem como padronização dos botões da tela de Acertos (100% largura no mobile).
